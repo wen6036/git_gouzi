@@ -1,3 +1,5 @@
 runtime/
 config/database.php 
 public/Runtime
+.user.ini
+public/.user.ini
