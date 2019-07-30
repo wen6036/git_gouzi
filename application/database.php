@@ -13,7 +13,7 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => 'localhost',
+    'hostname'        => '111.230.11.122',
     // 数据库名
     'database'        => 'www.51dewen.wang',
     // 用户名
