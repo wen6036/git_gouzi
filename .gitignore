@@ -1,5 +1,6 @@
-runtime/
-config/database.php 
-public/Runtime
-.user.ini
-public/.user.ini
+.idea
+runtime
+thinkphp
+vendor
+backup
+.DS_Store
