@@ -41,20 +41,22 @@
             data: {
                 content:content
             },
-            dataType: 'json',
+            // dataType: 'json',
             cache: false,
             async:false,
             success: function (result) {
                 console.log(result);
+                // alert(132)
+                return false;
                 if(result.code==1){
                     $("#result").attr('src',result.data.qrcode+"?"+img_name_random());
                 }else {
                     toastr.error(result.msg);
                 }
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                toastr.error("系统异常，请稍后重试");
-            }
+            // error: function (XMLHttpRequest, textStatus, errorThrown) {
+            //     toastr.error("系统异常，请稍后重试");
+            // }
         });
 
         return false;
