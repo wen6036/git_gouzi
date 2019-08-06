@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>订阅管理</title>
+
+    <!-- Bootstrap -->
+    <link href="./public/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./public/static/index/css/style.css" rel="stylesheet">
+    <!-- <link href="./public/static/index/css/media.css" rel="stylesheet"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="./public/static/index/js/jq.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="./public/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  	<body>
+  		<header>
+			<div class="container">
+				<div class="web_logo">
+					<div class="title">投资界</div>
+					<div class="web_url">www.baidi.com</div>
+				</div>
+				<div class="descript">
+					<p>领先的金融智库服务商</p>
+					<p>市场数据学习研究平台</p>
+				</div>
+				<div class="nav">
+					<ul>
+						<li>首页</li>
+						<li>数据排名订阅区</li>
+						<li>数据排名展示区</li>
+						<li>服务内容</li>
+						<li>学研中心</li>
+						<li>新手指南</li>
+					</ul>
+				</div>
+
+				<div class="login-user">
+					<span>昵称</span> ,你好
+					<button class="btn btn-xs">退出登录</button>
+				</div>
+			</div>
+  		</header>
+		<div class="subscribe-pay">
+			<div class="container">
+				<div class="spay-item">
+					<div class="coupon-time">订阅时间</div>
+					<div class="pay-time">
+						<ul>
+							<li><button class="active">一个月</button></li>
+							<li><button>两个月</button></li>
+							<li><button>三个月</button></li>
+							<li><button>六个月</button></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="spay-item">
+					<div class="coupon-time">订阅费用</div>
+					<div class="pay-time">
+						<ul>
+							<li>400.00元</li>
+							<li>800.00元</li>
+							<li>1200.00元</li>
+							<li>1600.00元</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="spay-item">
+					<div class="coupon-time">支付方式</div>
+					<div class="pay-time">
+						<ul>
+							<li>
+								<div class="check"><img src="./public/static/index/images/no-check.png"></div>
+								<div class="pay-icon">
+									<img src="./public/static/index/images/wx-icon.png">
+									<p>微信支付</p>
+								</div>
+							</li>
+
+							<li>
+								<div class="check"><img src="./public/static/index/images/no-check.png"></div>
+								<div class="pay-icon">
+									<img src="./public/static/index/images/al-cion.png">
+									<p>支付宝支付</p>
+								</div>
+							</li>
+							<li>
+								<div class="check"><img src="./public/static/index/images/check.png"></div>
+								<div class="pay-icon">
+									<img src="./public/static/index/images/ty-cion.png">
+									<p>体验券</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+
+
+				<div class="spay-item coupon-agreement pp">
+					<img src="./public/static/index/images/check.png">
+					<div class="agreement">我已阅读并同意<span>《用户订阅支付协议》</span></div>
+				</div>
+
+
+				<div class="pay-button">
+					<button class="btn">支付</button>
+				</div>
+
+
+				<script>
+
+					var paytype;
+					$('.check img').click(function(){
+						var src = $(this).attr('src');
+						if(src.indexOf("no-check.png") >= 0 ) { 
+							paytype = $(this).parents('li').index()+1;
+						    var newsrc =  src.replace('/no-check.png','/check.png')
+						    $(this).attr('src',newsrc);
+						    console.log(paytype)
+						    $(this).parents('li').siblings().find('.check img').attr('src',src);
+						} else{
+						    var newsrc = src.replace('/check.png','/no-check.png')
+						    $(this).attr('src',newsrc);
+						}
+
+					})
+
+					$('.coupon-agreement img').click(function(){
+						var src = $(this).attr('src');
+						if(src.indexOf("no-check.png") >= 0 ) { 
+						    var newsrc =  src.replace('/no-check.png','/check.png')
+						    $(this).attr('src',newsrc);
+						} else{
+							
+						    var newsrc = src.replace('/check.png','/no-check.png')
+						    $(this).attr('src',newsrc);
+						}
+
+					})
+
+				</script>
+			</div>
+		</div>
+  
+		
+		<footer>
+			<div class="container">
+				<div class="footer-main">
+					<div class="footer-item">
+						<div class="title">
+							投资界
+						</div>
+						<div class="footer-descript">
+							<p>Investment</p>
+							<p>community</p>
+						</div>
+					</div>
+					<div class="footer-item">
+						<div class="kfzx">客服中心</div>
+						<div class="kfzx-item">
+							<ul>
+								<li>新人指南</li>
+								<li>使用手册</li>
+								<li>常见问题</li>
+								<li>用户中心</li>
+								<li>投诉建议</li>
+							</ul>
+						</div>
+					</div>
+					<div class="footer-item">
+						<div class="kfzx">关于</div>
+						<div class="kfzx-item">
+							<ul>
+								<li>关于我们</li>
+								<li>合作伙伴</li>
+								<li>招贤纳才</li>
+								<li>联系方式</li>
+								<li>法律声明</li>
+								<li>免责条款</li>
+								<li>用户须知</li>
+								<li>加盟合作</li>
+							</ul>
+						</div>
+					</div>
+					<div class="footer-item">
+						<div class="kfzx">客户服务热线</div>
+
+						<div class="lianxi">
+							<div class="lx-item">
+								<img src="./public/static/index/images/tel.png">
+								<div>400-12312312</div>
+							</div>
+							<div class="lx-item">
+								<img src="./public/static/index/images/wx.png">
+								<div>weixinID</div>
+							</div>
+							<div class="lx-item">
+								<img src="./public/static/index/images/time.png">
+								<div>周一至周五 8:30-17:00</div>
+							</div>
+							<div class="lx-item">
+								<img src="./public/static/index/images/address.png">
+								<div>上海市徐汇区</div>
+							</div>
+						</div>
+					</div>
+					<div class="footer-item">
+						<div class="kfzx">关注我们</div>
+						<div class="qrcode">
+							<img src="./public/static/index/images/qrcode.png">
+						</div>
+					</div>
+				</div>
+
+				<div class="banquan">Copyright©2019-2025投资界版权所有|苏ICP备15016032号-1</div>
+			</div>
+		</footer>
+
+  	</body>
+</html>
