@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>订阅管理</title>
+
+    <!-- Bootstrap -->
+    <link href="./public/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="./public/static/index/css/media.css" rel="stylesheet"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="./public/static/index/js/jq.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="./public/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+    <link rel="stylesheet" type="text/css" href="public/static/zhexiantu/docs/assets/css/normalize.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="public/static/zhexiantu/docs/assets/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="public/static/zhexiantu/docs/assets/css/frappe_theme.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="public/static/zhexiantu/docs/assets/css/index.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="public/static/zhexiantu/docs/assets/css/default.css" media="screen">
+    <script src="public/static/zhexiantu/docs/assets/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <link href="./public/static/index/css/public.css" rel="stylesheet">
+    <link href="./public/static/index/css/style.css" rel="stylesheet">
+
+  </head>
+  	<body>
+  		<header>
+			<div class="container">
+				<div class="web_logo">
+					<div class="title">投资界</div>
+					<div class="web_url">www.baidi.com</div>
+				</div>
+				<div class="descript">
+					<p>领先的金融智库服务商</p>
+					<p>市场数据学习研究平台</p>
+				</div>
+				<div class="nav">
+					<ul>
+						<li>首页</li>
+						<li>数据排名订阅区</li>
+						<li>数据排名展示区</li>
+						<li>服务内容</li>
+						<li>学研中心</li>
+						<li>新手指南</li>
+					</ul>
+				</div>
+
+				<div class="login-user">
+					<span>昵称</span> ,你好
+					<button class="btn btn-xs">退出登录</button>
+				</div>
+			</div>
+  		</header>
+		<div class="studio_introduct">
+			<div class="container">
+				<div class="si-header">
+					<div class="studio-info">
+						<div class="headimg">
+							<img src="./public/static/index/images/headimg.png">
+						</div>
+						<div class="head-info">
+							<p>XXX工作室</p>
+							<p>UID:123456789 <img src="./public/static/index/images/point.png"></p>
+						</div>
+					</div>
+
+					<div class="studio-tyoe">
+						<div class="type-info">
+							账户性质：<img src="./public/static/index/images/check.png">实盘
+						</div>
+
+						<div class="type-info">
+							交易策略：<img src="./public/static/index/images/check.png">趋势
+							<img src="./public/static/index/images/no-check.png">趋势
+						</div>
+
+						<div class="type-info">
+							交易方式：<img src="./public/static/index/images/check.png">主观
+							<img src="./public/static/index/images/check.png">量化
+						</div>
+
+						<div class="type-info">
+							交易周期：中短线
+						</div>
+					</div>
+
+
+					<div class="studio-collect">
+						<button class="btn">收藏</button>
+						<p>订阅人数：256人</p>
+					</div>
+
+					<div class="studio-dingyue">
+						<button class="btn">订阅</button>
+						<p>订阅费:5200.00元/月</p>
+						<p class="studio-status">该账户几个月未交易，请谨慎订阅</p>
+					</div>
+
+				</div>
+
+				<div class="studio-type">
+					<ul>
+						<li>
+							<div class="studion-main">
+								<img src="./public/static/index/images/z1.png">
+								<p>账户分析</p>
+							</div>
+						</li>
+
+						<li>
+							<div class="studion-main">
+								<img src="./public/static/index/images/z2.png">
+								<p>实时记录</p>
+							</div>
+						</li>
+
+						<li>
+							<div class="studion-main">
+								<img src="./public/static/index/images/z3.png">
+								<p>实时持仓</p>
+							</div>
+						</li>
+
+						<li>
+							<div class="studion-main">
+								<img src="./public/static/index/images/z4.png">
+								<p>历史记录</p>
+							</div>
+						</li>
+
+						<li>
+							<div class="studion-main">
+								<img src="./public/static/index/images/z5.png">
+								<p>工作室简介</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div class="studion-jiaoyifenxi">
+					<button class="btn jyfx-title">
+						账户概况
+					</button>
+				</div>
+
+				<div class="jy-type">
+					<ul>
+						<li>综合积分：1250</li>
+						<li>净值(图)：1250</li>
+						<li>累计收益率(图)：1250</li>
+						<li>综合积分:1250分 </li>
+						<li>每日权益(图)：1250</li>
+						<li>净利润(图)：1250</li>
+						<li>累计出入金：1250</li>
+						<li>总手续费：1250</li>
+						<li>盈亏效率(图)：1250</li>
+						<li>胜率(图)：1250</li>
+						<li>盈亏比(图)：1250</li>
+						<li>风报比(图)：1250</li>
+						<li>最大回撤率(图)：1250</li>
+						<li>夏普比率(图)：1250</li>
+						<li>卡玛比率(图)：1250</li>
+						<li>品种成交偏好(图)</li>
+						<li>品种净利润(图)：1250</li>
+						<li>品种胜率(图)：1250</li>
+						<li>总交易天数(图)：1250</li>
+						<li>总交易次数(图)：1250</li>
+						<li>交易频率(图)：1250</li>
+					</ul>
+				</div>
+
+				<div class="js-content">
+					<div class="js-shaixuan">
+						<span class="pp">筛选:</span>
+						<select>
+							<option>全部</option>
+							<option>一年</option>
+							<option>六个月</option>
+							<option>三个月</option>
+						</select>
+					</div>
+
+					<div class="zhexiantu">
+			          <div id="chart-composite-1"><svg height=225></svg></div>
+
+					</div>
+
+					<div class="zhexiantu">
+						<div id="chart-trends"></div>
+					</div>
+
+					<div class="zhexiantu">
+						<div id="chart-events"></div>
+					</div>
+				</div>
+
+				<div class="jy-fb">
+					<div>
+						<button class="btn">盈利能力</button>
+						<button class="btn">风控能力</button>
+						<button class="btn">稳定性</button>
+						<button class="btn">盈亏分析</button>
+						<button class="btn">交易分析</button>
+						<button class="btn">品种分析</button>
+						<button class="btn">其他分析</button>
+						<button class="btn">原始数据</button>
+					</div>
+
+					<div>
+						<span>日内/隔夜分布饼状图</span>
+						<span>每日仓位(曲线图)</span>
+						<span>交易频率</span>
+						<span>盈亏效率(曲线图)</span>
+					</div>
+				</div>
+			
+
+				<div class="js-content">
+					<div class="js-shaixuan">
+						<span class="pp">筛选:</span>
+						<select>
+							<option>全部</option>
+							<option>一年</option>
+							<option>六个月</option>
+							<option>三个月</option>
+						</select>
+					</div>
+
+					<div class="zhexiantu">
+			              <div id="chart-aggr"></div>
+					</div>
+				</div>
+
+
+				<div class="js-content">
+					<div class="nomsg">
+						<img src="./public/static/index/images/nomsg.png">
+					</div>
+				</div>
+
+
+
+				<script type="text/javascript">
+
+					$('.studio-type ul li .studion-main').mouseover(function(){
+						var index = $(this).parent('li').index()+1;
+
+						var src = $(this).find('img').attr('src');
+
+						var z = "z"+index+".png";
+						var nz = "zs"+index+".png";
+						if(src.indexOf(z) >= 0 ) { 
+						    var newsrc =  src.replace(z,nz)
+						    $(this).find('img').attr('src',newsrc);
+						   
+						}
+					})
+					$('.studio-type ul li .studion-main').mouseout(function(){
+						var index = $(this).parent('li').index()+1;
+
+						var src = $(this).find('img').attr('src');
+
+						var nz = "zs"+index+".png";
+						var z = "z"+index+".png";
+						if(src.indexOf(nz) >= 0 ) { 
+						    var newsrc =  src.replace(nz,z)
+						    $(this).find('img').attr('src',newsrc);
+						   
+						}
+					})
+				</script>
+			</div>
+		</div>
+  
+		
+		<footer>
+			<div class="container">
+				<div class="footer-main">
+					<div class="footer-item">
+						<div class="title">
+							投资界
+						</div>
+						<div class="footer-descript">
+							<p>Investment</p>
+							<p>community</p>
+						</div>
+					</div>
+					<div class="footer-item">
+						<div class="kfzx">客服中心</div>
+						<div class="kfzx-item">
+							<ul>
+								<li>新人指南</li>
+								<li>使用手册</li>
+								<li>常见问题</li>
+								<li>用户中心</li>
+								<li>投诉建议</li>
+							</ul>
+						</div>
+					</div>
+					<div class="footer-item">
+						<div class="kfzx">关于</div>
+						<div class="kfzx-item">
+							<ul>
+								<li>关于我们</li>
+								<li>合作伙伴</li>
+								<li>招贤纳才</li>
+								<li>联系方式</li>
+								<li>法律声明</li>
+								<li>免责条款</li>
+								<li>用户须知</li>
+								<li>加盟合作</li>
+							</ul>
+						</div>
+					</div>
+					<div class="footer-item">
+						<div class="kfzx">客户服务热线</div>
+
+						<div class="lianxi">
+							<div class="lx-item">
+								<img src="./public/static/index/images/tel.png">
+								<div>400-12312312</div>
+							</div>
+							<div class="lx-item">
+								<img src="./public/static/index/images/wx.png">
+								<div>weixinID</div>
+							</div>
+							<div class="lx-item">
+								<img src="./public/static/index/images/time.png">
+								<div>周一至周五 8:30-17:00</div>
+							</div>
+							<div class="lx-item">
+								<img src="./public/static/index/images/address.png">
+								<div>上海市徐汇区</div>
+							</div>
+						</div>
+					</div>
+					<div class="footer-item">
+						<div class="kfzx">关注我们</div>
+						<div class="qrcode">
+							<img src="./public/static/index/images/qrcode.png">
+						</div>
+					</div>
+				</div>
+
+				<div class="banquan">Copyright©2019-2025投资界版权所有|苏ICP备15016032号-1</div>
+			</div>
+		</footer>
+    <script src="public/static/zhexiantu/docs/assets/js/frappe-charts.min.js"></script>
+    <!-- <script src="public/static/zhexiantu/docs/assets/js/index.js"></script> -->
+
+    <script type="text/javascript">
+
+			let x = ["2007", "2008", "2009", "2010", "2011", "2012","2013", "2014", "2015", "2016", "2017"];
+			let y = [152, 222, 199, 287, 534, 709,1179, 1256, 1632, 1856, 1850];
+
+			let titlename = 'Events';
+
+			zhexiantu("#chart-composite-1",x,y,titlename);
+
+			function zhexiantu(element,x,y,titlename){
+				let lineCompositeData = {
+				  labels: x,
+				  datasets: [{
+				    "name": titlename,
+				    "values": y
+				  }]
+				};
+
+				let c1 = document.querySelector(element);
+
+				let lineCompositeChart = new Chart (c1, {
+					// title: "Fireball/Bolide Events - Yearly (reported)",
+					data: lineCompositeData,
+					type: 'line',
+					height: 190,
+					colors: ['green'],
+					isNavigable: 1,
+					// valuesOverPoints: 1,
+
+					lineOptions: {
+						dotSize: 5
+					},
+					// yAxisMode: 'tick',
+					// regionFill: 1
+				});
+			}
+
+			bingzhuangtu("#chart-aggr",x,y)
+			function bingzhuangtu(element,x,y){
+				let typeData = {
+					labels: x,
+					datasets: [
+						{
+							values: y,
+						},
+					]
+				};
+				let args = {
+					data: typeData,
+					type: 'pie',
+					height: 250,
+					colors: ['purple', 'magenta', 'light-blue'],
+
+					maxLegendPoints: x.length,
+					maxSlices: x.length,
+
+					tooltipOptions: {
+						formatTooltipX: d => (d + '').toUpperCase(),
+						formatTooltipY: d => d + ' pts',
+					}
+				}
+				// pie 三种状态
+				//  percentage
+				//  axis-mixed
+				let newChart = new Chart(element, args);
+			}
+
+
+			xiaozhexian("#chart-trends",x,y);
+
+			function xiaozhexian(element,x,y){
+// hideLine
+// heatline
+// regionFill
+// hideDots
+				let trends_data = {
+					labels: x,
+					datasets: [
+						{
+							values: y
+						}
+					]
+				};
+
+						let plotChartArgs = {
+							// title: "Mean Total Sunspot Count - Yearly",
+							data: trends_data,
+							type: 'line',
+							height: 250,
+							colors: ['#238e38'],
+							lineOptions: {
+								hideDots: 1,
+								heatline: 1,
+							},
+							axisOptions: {
+								xAxisMode: 'tick',
+								yAxisMode: 'span',
+								xIsSeries: 1
+							}
+						};
+
+						let type = 'regionFill';
+						let config = {};
+						config[type] = 1;
+
+						if(['regionFill', 'heatline'].includes(type)) {
+							config.hideDots = 1;
+						}
+
+						plotChartArgs.init = false;
+						plotChartArgs.lineOptions = config;
+						new Chart(element, plotChartArgs);
+
+			}
+
+
+
+
+
+// // let moon_names = ["Ganymede", "Callisto", "Io", "Europa"];
+// // let distances = [1070.412, 1882.709, 421.700, 671.034];
+
+	zhuzhuangtu("#chart-events",x,y);
+		function zhuzhuangtu(element,x,y){
+
+		let events_data = {
+			labels:x,
+			datasets: [
+				{
+					"values": y,
+				}
+			]
+		};
+
+		let events_chart = new Chart(element, {
+			// title: "Jupiter's Moons: Semi-major Axis (1000 km)",
+			data: events_data,
+			type: 'bar',
+			height: 250,
+			colors: ['grey'],
+			// isNavigable: 1,
+		});
+
+		}
+
+
+    </script>
+  	</body>
+</html>

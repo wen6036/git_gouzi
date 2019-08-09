@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>数据排名订阅区</title>
+
+    <!-- Bootstrap -->
+    <link href="./public/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="./public/static/index/js/jq.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="./public/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="public/static/zhexiantu/docs/assets/css/normalize.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="public/static/zhexiantu/docs/assets/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="public/static/zhexiantu/docs/assets/css/frappe_theme.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="public/static/zhexiantu/docs/assets/css/index.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="public/static/zhexiantu/docs/assets/css/default.css" media="screen">
+    <script src="public/static/zhexiantu/docs/assets/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="public/static/zhexiantu/docs/assets/js/frappe-charts.min.js"></script>
+
+
+    <link href="./public/static/index/css/public.css" rel="stylesheet">
+    <link href="./public/static/index/css/style.css" rel="stylesheet">
+    <link href="./public/static/index/css/media.css" rel="stylesheet">
+  </head>
+  	<body>
+  		<header>
+			<div class="container">
+				<div class="web_logo">
+					<div class="title">投资界</div>
+					<div class="web_url">www.baidi.com</div>
+				</div>
+				<div class="descript">
+					<p>领先的金融智库服务商</p>
+					<p>市场数据学习研究平台</p>
+				</div>
+				<div class="nav">
+					<ul>
+						<li>首页</li>
+						<li>数据排名订阅区</li>
+						<li>数据排名展示区</li>
+						<li>服务内容</li>
+						<li>学研中心</li>
+						<li>新手指南</li>
+					</ul>
+				</div>
+
+
+				<div class="login-user">
+					<span>昵称</span> ,你好
+					<button class="btn btn-xs">退出登录</button>
+				</div>
+
+			</div>
+  		</header>
+		<div class="index-banner">
+			<img src="./public/static/index/images/banner.png">
+		</div>
+  		
+  		<div class="sjdyq-des">
+			<div class="container">
+				统计：交易界当前用户量xx，交易总成交额xx亿，跟随xx位导师做交易，前二十位导师平均累积收益率xx%
+			</div>
+  		</div>
+
+  		<div class="sjdyq-title">
+			<div class="container">
+				<div class="button btn">期货实盘排行榜</div>
+	  		</div>
+  		</div>
+
+  		<div class="sjdyq-item">
+			<div class="container">
+				<span>排序方式:</span>
+				<ul>
+					<li>综合积分</li>
+					<li>净值</li>
+					<li>累计收益率</li>
+					<li>年化收益率</li>
+					<li>胜率</li>
+					<li>最大回撤率</li>
+					<li>盈亏率</li>
+					<li>夏普比率</li>
+					<li>夏普比率规模</li>
+					<li>规模</li>
+					<li>净利润</li>
+					<li>盈亏效率</li>
+					<li>品种盈利额</li>
+					<li>品种胜率</li>
+				</ul>
+	  		</div>
+  		</div>
+
+<style type="text/css">
+.line-chart .x{display: none}
+.line-chart .y{display: none}
+.graph-stats-container{display: none !important;}
+.chart-container .graphics{padding:0;margin:0;}
+.chart-container .title{display: none}
+.graph-svg-tip{display: none}
+.uppercase{display: none}
+</style>
+		<div class="sjdyq">
+			<div class="container" style="width: 1200px;max-width: 1200px">
+				<table class="table table-striped">
+					<tr>
+						<td style="width: 50px;text-align: center;">
+							<span class="sjdyq-number">1</span>
+						</td>
+						<td class="user-info">
+							<span class="user-name">张三</span>
+							<span class="user-uid">UID：123456</span>
+						</td>
+						<td style="width: 200px;position: relative;padding: 0; height: 100px">
+							<div id="chart-trends" style="position:absolute;left: -68px;width:280px ;height: 100px;"></div>
+						</td>
+						<td style="width: 620px">
+							<div class="sjdyq-td-item active">
+								<span>综合积分</span>
+								<span>净值</span>
+								<span>年化收益率</span>
+								<span>胜率</span>
+								<span>最大回撤率</span>
+								<span>盈亏比</span>
+								<span>夏普比率</span>
+								<span>盈亏效率</span>
+								
+							</div>
+							<div  class="sjdyq-td-item">
+								<span>51</span>
+								<span>1</span>
+								<span>1</span>
+								<span>1</span>
+								<span>1</span>
+								<span>1</span>
+								<span>1</span>
+								<span>1</span>
+
+							</div>
+							<div class="sjdyq-td-des">
+								<span>累计收益率：168.22% </span>
+								<span>净利润：59873.25</span>
+								<span>资金规模：598730</span>
+							</div>
+						</td>
+						<td class="sjdyq-dynum">
+							<p class="num">订阅人数</p>
+								<p>1</p>
+								<p>
+									<a href="">详情</a>
+								</p>
+						</td>
+						<td class="sjdyq-dingyue">
+							<p class="sjdyq-money">订阅费</p>
+							<p>400元/月</p>
+							<p><button class="btn">订阅</button></p>
+						</td>
+					</tr>
+
+
+				</table>
+
+<script>
+
+			let x = ["2007", "2008", "2009", "2010", "2011", "2012","2013", "2014", "2015", "2016", "2017"];
+			let y = [152, 222, 199, 287, 534, 709,1179, 1256, 1632, 1856, 1850];
+
+			xiaozhexian("#chart-trends",x,y);
+
+			function xiaozhexian(element,x,y){
+// hideLine
+// heatline
+// regionFill
+// hideDots
+				let trends_data = {
+					labels: x,
+					datasets: [
+						{
+							values: y
+						}
+					]
+				};
+
+						let plotChartArgs = {
+							// title: "Mean Total Sunspot Count - Yearly",
+							data: trends_data,
+							type: 'line',
+							height: 100,
+							colors: ['#238e38'],
+							lineOptions: {
+								hideDots: 1,
+								heatline: 1,
+							},
+							axisOptions: {
+								xAxisMode: 'tick',
+								yAxisMode: 'span',
+								xIsSeries: 1
+							}
+						};
+
+						let type = 'regionFill';
+						let config = {};
+						config[type] = 1;
+
+						if(['regionFill', 'heatline'].includes(type)) {
+							config.hideDots = 1;
+						}
+
+						plotChartArgs.init = false;
+						plotChartArgs.lineOptions = config;
+						new Chart(element, plotChartArgs);
+
+			}
+
+</script>
+			</div>
+		</div>
+  
+
+		<footer>
+			<div class="container">
+				<div class="footer-main">
+					<div class="footer-item">
+						<div class="title">
+							投资界
+						</div>
+						<div class="footer-descript">
+							<p>Investment</p>
+							<p>community</p>
+						</div>
+					</div>
+					<div class="footer-item">
+						<div class="kfzx">客服中心</div>
+						<div class="kfzx-item">
+							<ul>
+								<li>新人指南</li>
+								<li>使用手册</li>
+								<li>常见问题</li>
+								<li>用户中心</li>
+								<li>投诉建议</li>
+							</ul>
+						</div>
+					</div>
+					<div class="footer-item">
+						<div class="kfzx">关于</div>
+						<div class="kfzx-item">
+							<ul>
+								<li>关于我们</li>
+								<li>合作伙伴</li>
+								<li>招贤纳才</li>
+								<li>联系方式</li>
+								<li>法律声明</li>
+								<li>免责条款</li>
+								<li>用户须知</li>
+								<li>加盟合作</li>
+							</ul>
+						</div>
+					</div>
+					<div class="footer-item">
+						<div class="kfzx">客户服务热线</div>
+
+						<div class="lianxi">
+							<div class="lx-item">
+								<img src="./public/static/index/images/tel.png">
+								<div>400-12312312</div>
+							</div>
+							<div class="lx-item">
+								<img src="./public/static/index/images/wx.png">
+								<div>weixinID</div>
+							</div>
+							<div class="lx-item">
+								<img src="./public/static/index/images/time.png">
+								<div>周一至周五 8:30-17:00</div>
+							</div>
+							<div class="lx-item">
+								<img src="./public/static/index/images/address.png">
+								<div>上海市徐汇区</div>
+							</div>
+						</div>
+					</div>
+					<div class="footer-item">
+						<div class="kfzx">关注我们</div>
+						<div class="qrcode">
+							<img src="./public/static/index/images/qrcode.png">
+						</div>
+					</div>
+				</div>
+
+				<div class="banquan">Copyright©2019-2025投资界版权所有|苏ICP备15016032号-1</div>
+			</div>
+		</footer>
+
+  	</body>
+</html>

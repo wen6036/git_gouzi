@@ -1,0 +1,189 @@
+		{include file="public/header" /}
+
+		<div class="register-login">
+			<div class="container">
+				<div class="content">
+					<div class="content-left">
+						<h1>投资界</h1>
+						<div class="des">
+							<p>Investment</p> 
+							<p>community</p>
+						</div>
+					</div>
+					<div class="content-right">
+						<div class="title">用户注册</div>
+						<form id="formdata">
+							<div class="reg-text-input">
+								<div class="reg-input-icon">
+									<i>*</i>用户名称
+								</div>
+								<div class="input">
+									<input type="text" name="username" placeholder="请输入您的名称">
+									<div class="name-error error"></div>
+								</div>
+							</div>
+
+							<div class="reg-text-input">
+								<div class="reg-input-icon">
+									<i>*</i>手机号码
+								</div>
+								<div class="input">
+									<input type="text" name="usertel" placeholder="请输入手机号码">
+								</div>
+							</div>
+
+
+							<div class="reg-text-input">
+								<div class="reg-input-icon">
+									<i>*</i>验证码
+								</div>
+								<div class="yzm">
+									<input type="text" name="yzm" placeholder="请输入验证码">
+								</div>
+
+								
+								<div class="yzmtext">
+									看不清，换一张
+								</div>
+
+							</div>
+							<div class="reg-text-input">
+								<div class="reg-input-icon">
+								</div>
+								<div>
+									<div class="yzmnum" style="width: 50%;float: left;"><img src="{:captcha_src()}" alt="captcha" onclick="this.src='{:captcha_src()}?'+Math.random();" style="width: 100%;" /></div>
+								</div>
+							</div>
+
+							<div class="reg-text-input">
+								<div class="reg-input-icon">
+									<i>*</i>短信验证码
+								</div>
+								<div class="sjyzm">
+									<input type="text" name="smyzm" placeholder="请输入短信验证码">
+								</div>
+								<div class="yzm-time">
+						
+									<a class="btn btn-xs button" id="gSMS" onclick="get_sms_captcha()">获取验证码</a>
+								</div>
+							</div>
+
+
+							<div class="reg-text-input">
+								<div class="reg-input-icon">
+									<i>*</i>设置登录密码
+								</div>
+								<div class="input">
+									<input type="text" name="password" placeholder="请输入您的登录密码">
+								</div>
+							</div>
+							<input type="hidden" name="yzmtoken">
+							<div class="agreement-check" style="text-align: center;margin-top: 30px"><img src="__STATIC__/index/images/no-check.png"> 我已阅读并同意<span>投资界用户服务协议</span></div>
+							<div class="register"><button>注册</button></div>
+						</form>
+								<script>
+									let agreement = 0;
+									$('.yzmtext').click(function(){
+										$('.yzmnum img').attr('src','{:captcha_src()}?'+Math.random());
+
+									})
+
+
+
+									var countDownT = 10;
+									function get_sms_captcha(type){
+									    //下方写业务
+									    let tel = $('input[name=usertel]').val();
+									    if(tel.length!=11){
+									    	layer.msg('手机号不正确');
+									    	return false;
+									    }
+									    countDownT = 10;
+									    setTime();
+									    $.ajax({
+									    	url:"{:url('index/login/verify')}",
+									    	data:{tel:tel},
+									    	success:function(res){
+									    		console.log(res)
+
+									    		if(res.code==0){
+													layer.msg('error',{
+							                            time:1000,
+							                            end:function () {
+							                             	window.location.reload();
+							                            }
+							                        })
+									    		}else{
+									    			$('input[name=yzmtoken]').val(res.msg)
+									    		}
+									    	}
+									    })
+									}
+
+									function  setTime(){
+									    if (countDownT == 0){
+									        $("#gSMS").attr("onclick","get_sms_captcha()");
+									        $("#gSMS").attr("disabled",false);
+									        $("#gSMS").text("获取短信验证码");
+									    } else{
+									        $("#gSMS").attr("onclick","");
+									        $("#gSMS").attr("disabled","disabled");
+									        $("#gSMS").text("重新发送("+countDownT+")");
+									        countDownT--;
+									        setTimeout(function () {
+									            setTime();
+									        },1000)
+									    }
+									}
+
+
+
+
+									$('.agreement-check img').click(function(){
+											var src = $(this).attr('src');
+											if(src.indexOf("no-check.png") >= 0 ) { 
+											    var newsrc =  src.replace('/no-check.png','/check.png')
+											    $(this).attr('src',newsrc);
+											    $(this).parents('li').siblings().find('.check img').attr('src',src);
+											    agreement = 1;
+											} else{
+											    var newsrc = src.replace('/check.png','/no-check.png')
+											    agreement = 0;
+											     $(this).attr('src',newsrc);
+										    }
+									})
+
+									$('.register').click(function(){
+										if(!agreement){
+											layer.msg('请确定投资协议 ！');
+											return false;
+										}
+										let username = $('input[name=username]').val()
+										let usertel = $('input[name=usertel]').val()
+										let yzm = $('input[name=yzm]').val()
+										let smyzm = $('input[name=smyzm]').val()
+										let password = $('input[name=password]').val()
+
+										if(!username || !usertel ||!yzm ||!smyzm ||!password){
+											layer.msg('请确定信息完整 ！');
+											return false;
+										}
+										$.ajax({
+											url:"",
+											data:$('form').serialize(),
+											type:'post',
+											success:function(res){
+												console.log(res)
+											}
+										})
+										return false;
+
+									})
+
+								</script>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		{include file="public/footer" /}

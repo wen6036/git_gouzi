@@ -1,146 +1,5 @@
-*{
-	padding: 0;
-	margin:0;
-	list-style: none;
-	text-decoration-style: none;
-}
-.container{
-	min-width: 1200px;
-}
-header{
-	width: 100%;
-	min-width: 1350px;
-	height: 100px;
-	background: #4679bd;
-	color: #fff;
-}
-header .container{
-	min-width: 1350px;
-}
-.web_logo{
-	height: 100px;
-	float: left;
-	text-align: center;
-    margin-left: 50px
-}
-.title{
-	margin-top: 15px;
-	padding: 0;
-	font-size: 40px;
-	text-align: center;
-}
-.web_url{
-	margin-top: -10px;
-}
-.descript{
-	margin-left: 15px;
-	height: 100px;
-	float: left;
-	text-align:center;
-	padding-top: 45px;
-	font-size: 12px;
-}
-.descript p{
-	margin: 0;
-}
-.nav{
-	min-width: 628px;
-	float: left;
-	margin-left: 65px;
-}
-.nav ul li{
-	height: 100px;
-	float: left;
-	padding: 0 15px;
-	line-height: 100px;
-	font-size: 16px
-}
-.login-user{
-	width: 200px;
-	float: left;
-	height: 100px;
-	text-align: center;
-	padding:40px 0;
-	margin-left: 30px;
-}
-.login-user button{
-	margin-left: 21px;
-	background: #f39800
-}
-footer{
-	width: 100%;
-	min-width: 1350px;
-	height: 280px;
-	background: #1b335f;
-	color: #fff;
-}
-footer .container{
-	min-width: 1350px;
-}
-.footer-main{
-	height: 230px;
-	/*width: 100%;*/
-}
-footer .container .footer-item{
-	width: 20%;
-	float: left;
-	height: 230px;
-}
-footer .container .footer-item .title{
-	    font-size: 36px;
-	    margin-top: 60px;
-	    letter-spacing:3px
-}
-footer .container .footer-item .footer-descript{
-	margin-top: 20px;
-	width: 100%;
-}
-footer .container .footer-item .footer-descript p{
-	text-align: center;
-	margin-top: -15px;
-	letter-spacing:5px
-}
-footer .container .footer-item .kfzx{
-	text-align: center;
-	font-size: 16px;
-	margin-top: 32px
-}
-footer .container .footer-item .kfzx-item{
-	width: 80%;
-	margin: 0 auto;
-	margin-top: 12px;
-}
-footer .container .footer-item .kfzx-item ul li{
-	width: 48%;
-	text-align: center;
-	display: inline-block;
-	margin-top: 8px
-}
-footer .container .footer-item .lianxi{
-	width: 85%;
-    margin: 0 auto;
-    margin-top: 20px;
-}
-footer .container .footer-item .lianxi .lx-item{
-	margin-top: 8px;
-	text-indent: 10px;
-}
-footer .container .footer-item .lianxi .lx-item div{
-	display: inline;
-	height: 16px;
-	line-height: 16px;
-	letter-spacing: 1px;
-	margin-left: 10px;
-	font-size: 12px;
-}
-footer .container .footer-item .qrcode{
-	text-align: center;
-	margin-top: 20px;
-}
-.banquan{
-	text-align: center;
-	letter-spacing:1px
-}
+.index .container{width: 1350px;}
+.index-link .container{width: 1350px;}
 
 
 /*edit-pwd*/
@@ -157,7 +16,7 @@ footer .container .footer-item .qrcode{
 	padding: 0;
 }
 .content{
-	min-width: 1200px;
+	/*min-width: 1200px;*/
 	margin: 0 auto;
 	margin-top: 60px;
 	height: 580px;
@@ -169,9 +28,7 @@ footer .container .footer-item .qrcode{
 	float: left;
 	background:linear-gradient(#2f76d4, #6ca1ed);
 }
-.web_url{
-	font-size: 13px;
-}
+
 .content-left h1{
 	font-size: 80px;
 	margin-top: 165px;
@@ -212,10 +69,28 @@ footer .container .footer-item .qrcode{
 	margin-top: 20px;
 	height: 36px;
 }
+.reg-text-input{
+	width: 60%;
+	margin:0 auto;
+	margin-top: 20px;
+	height: 36px;
+}
 .text-input .input-icon{
 	width: 20%;
 	float: left;
 	height: 100%;
+}
+.reg-text-input .reg-input-icon{
+	width: 30%;
+	float: left;
+	height: 100%;
+	line-height: 36px
+}
+.reg-text-input .reg-input-icon i{
+	color:red;
+	font-weight: bold;
+	padding: 10px 5px;
+	font-size: 20px
 }
 
 .text-input .input-icon img{
@@ -229,16 +104,42 @@ footer .container .footer-item .qrcode{
 	border-radius: 4px;
 	margin-top: 1px
 }
+.reg-text-input .input{
+	width: 68%;
+	float: left;
+	height: 35px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	margin-top: 1px
+}
 .text-input .input input{
 	border: none;
 	width: 100%;
-	height: 100%;
+	height: 95%;
 	text-indent: 5px;
 	border-radius: 2px;
+	margin-top: 1px;
+
+}
+.reg-text-input .input input{
+	border: none;
+	width: 100%;
+	height: 95%;
+	text-indent: 5px;
+	border-radius: 2px;
+	margin-top: 1px;
+
 }
 
 .text-input .yzm{
-	width: 28%;
+	width: 32%;
+	float: left;
+	height: 35px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+.reg-text-input .yzm{
+	width: 32%;
 	float: left;
 	height: 35px;
 	border: 1px solid #ccc;
@@ -251,13 +152,29 @@ footer .container .footer-item .qrcode{
 	border: 1px solid #ccc;
 	border-radius: 4px;
 }
+.reg-text-input .sjyzm{
+	width: 50%;
+	float: left;
+	height: 35px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
 .text-input .yzm input{
 	border: none;
 	width: 100%;
-	height: 100%;
+	height: 98%;
 	text-indent: 5px;
 	border-radius: 2px;
 	font-size: 12px;
+}
+.reg-text-input .yzm input{
+	border: none;
+	width: 100%;
+	height: 98%;
+	text-indent: 5px;
+	border-radius: 2px;
+	font-size: 12px;
+	margin-top: 1px
 }
 .text-input .sjyzm input{
 	border: none;
@@ -267,8 +184,16 @@ footer .container .footer-item .qrcode{
 	border-radius: 2px;
 	font-size: 12px;
 }
+.reg-text-input .sjyzm input{
+	border: none;
+	width: 100%;
+	height: 98%;
+	text-indent: 5px;
+	border-radius: 2px;
+	font-size: 12px;
+}
 .yzmtext{
-	width: 30%;
+	width: 35%;
 	float: left;
 	font-size: 12px;
 	color: #ccc;
@@ -281,6 +206,21 @@ footer .container .footer-item .qrcode{
 	margin: 0 auto;
 }
 .mkpwd button{
+	width: 100%;
+	background: #4679bd;
+	color: #fff;
+	height: 38px;
+	border: none;
+	margin-top: 25px;
+	border-radius: 5px;
+
+}
+
+.register{
+	width: 54%;
+	margin: 0 auto;
+}
+.register button{
 	width: 100%;
 	background: #4679bd;
 	color: #fff;
@@ -512,6 +452,13 @@ footer .container .footer-item .qrcode{
 	margin-top: 50px;
 	text-align: center;
 }
+.xyzx-content ul li{
+	width: 20%;
+	float: left;
+	margin-top: 50px;
+	text-align: center;
+}
+
 .fw-content ul li p{
 	line-height: 45px;
 }
@@ -641,11 +588,14 @@ footer .container .footer-item .qrcode{
 	height: 100px;
 	margin-left: 60px;
 }
+
+/*工作室管理 studio_manage*/
 .create-notice{
 	border: 1px solid #ccc;
 	padding: 15px;
 	margin:20px;
 	width: 600px;
+	margin-left: 48px;
 }
 .create-notice h5{
 	font-size: 16px;
@@ -659,6 +609,7 @@ footer .container .footer-item .qrcode{
 }
 .sub-info{
 	margin-bottom: 80px;
+	padding-left: 20px;
 }
 .sub-info .sub-title{
 	font-weight: bold;
@@ -680,7 +631,7 @@ footer .container .footer-item .qrcode{
 }
 .sub-info .form-group .sub-money{
 	display: inline-block;;
-	padding-left: 30px;
+	padding-left: 10px;
 }
 .sub-info .form-group .sub-notice{
 	display: block;
@@ -726,4 +677,257 @@ footer .container .footer-item .qrcode{
 	width: 300px;
 	background: #4679bd;
 	color: #fff;
+}
+
+/*已建的工作室*/
+.have-sub-info{
+	margin-bottom: 80px;
+	padding-left: 20px;
+	background: #fff;
+}
+.have-sub-info .sub-title{
+	font-weight: bold;
+	font-size: 17px;
+	padding: 20px;
+	margin-top:20px;
+}
+.have-sub-info .sub-title button{
+	background: #4679bd;
+	color: #fff;
+	margin-left: 50px;
+}
+.have-sub-info .form-group{
+	padding-left: 20px;
+	margin-top: 20px;
+	color: #666;
+}
+.have-sub-info .form-group span{
+	display: inline-block;
+	width: 120px;
+}
+.have-sub-info .form-group img{
+	margin-left: 10px;
+	margin-right: 7px;
+}
+.have-sub-info .form-group .sub-money{
+	display: inline-block;;
+}
+.have-sub-info .form-group .sub-notice{
+	display: block;
+	width: 400px;
+	font-size: 12px;
+	color: #999999;
+	margin-left: 122px;
+}
+.have-sub-info .form-group .sub-des{
+	margin-left: 122px;
+	margin-top: -20px;
+}
+.have-sub-info .form-group textarea{
+	width: 220px;
+	height: 80px
+}
+.have-sub-info .form-group .sub-pwd{
+	margin-left: 120px;
+	margin-top: -20px;
+}
+
+.have-sub-info .form-group .sub-zhanghao{
+	margin-left: 120px;
+	margin-top: -20px;
+}
+.have-sub-info .form-group .selected{
+	margin-left: 120px;
+	margin-top: -20px;
+}
+.have-sub-info .form-group .selected select{
+	width: 175px;
+	height: 25px;
+}
+.have-sub-info .sub-agreement{
+	padding-left: 20px;
+}
+.have-sub-info .sub-button{
+	width: 300px;
+	margin-top: 30px;
+	padding-left: 20px;
+}
+.have-sub-info .sub-button button{
+	width: 300px;
+	background: #4679bd;
+	color: #fff;
+}
+
+/*studion-jiaoyifenxi*/
+.studion-jiaoyifenxi{
+	width: 100%;
+	height: 40px;
+	border-bottom: 2px solid #4679bd;
+}
+.jyfx-title{
+	height: 40px;
+	float: left;
+	background: #4679bd;
+	color: #fff;
+	width: 150px;
+}
+.jy-type{
+	padding: 20px 0;
+}
+.jy-type ul li{
+	width: 13.8%;
+	font-size: 13px;
+	/*float: left;*/
+	display: inline-block;
+	line-height: 26px;
+	height: 26px;
+}
+.js-shaixuan span{ 
+	font-weight: bold;
+	font-size: 17px;
+	padding: 0px 10px;
+}
+.js-content{
+	border: 2px solid #e0e0e0;
+	padding: 20px;
+	margin-top: 10px;
+}
+.js-content .nomsg{
+	text-align: center;
+	padding: 30px 0;
+}
+.js-shaixuan select{ 
+	width: 100px;
+	border-radius: 3px;
+	/*color: #ccc;*/
+	padding: 5px;
+
+}
+
+.jy-fb{padding: 15px 0px;margin-top: 20px}
+.jy-fb div button{margin-right: 20px;border: 1px solid #4679bd;background: #fff}
+.jy-fb div button:hover{background: #4679bd;color: #fff}
+.jy-fb div span{margin-right: 20px;line-height: 60px;}
+
+/*工作室历史*/
+.studion-history table{width: 100%;}
+.studion-history table th{line-height: 32px;background: #ddd;text-align: center;}
+.studion-history table tr{line-height: 35px;}
+.studion-history table td{text-align: center;}
+
+.index-banner{
+	width: 100%;
+}
+.index-banner img {width: 100%;}
+.index .container{padding: 40px;}
+.index .container ul li{width: 25%;float: left;text-align: center;}
+.index .container ul li hr{width: 40px;display: inline-block;color: #ccc;    border-top: 1px solid #ccc;margin-top: 1px;margin-bottom: 4px;}
+.index .container ul li .index-main{width: 85%;float: left;text-align: center;	padding: 20px 30px;
+   box-shadow: #c8cace 0px 0px 15px;}
+.index .container ul li .index-main:hover{background: #4679bd;color: #fff;cursor: pointer;}
+.index .container ul li .index-main p{font-size: 17px;font-weight: bold;margin-top: 5px;margin-bottom: -3px;}
+
+.index-link{height: 120px;background: #f5f5f5;width: 100%;}
+.index-link .link-title{width: 120px;float: left;height: 120px;text-align: center;padding-top: 30px;}
+.index-link .link-item{width: 850px;float: left;height: 120px;padding-top: 10px}
+.index-link .link-item div{width: 100%;padding: 20px}
+.index-link .link-item span{display: inline-block;; float: left;margin-right: 30px;}
+
+
+.sjdyq-des{
+	line-height: 60px;font-size: 15px;color: #1b335f;font-weight: 600;text-align: center;
+}
+.sjdyq-title .container{border-bottom: 2px solid #4679bd;padding: 0;}
+.sjdyq-title .container .button{background: #4679bd;color: #fff}
+.sjdyq-item{padding: 20px 0px;}
+.sjdyq-item ul{display: inline-block;float: left;margin-left: 15px;}
+.sjdyq-item span{font-weight: bold;font-size:15px;display: inline-block;float: left;}
+.sjdyq-item ul li{padding: 2px 6px;display: inline-block;margin-right: 3px;border-radius: 2px;}
+.sjdyq-item ul li:hover{background: #4679bd;color: #fff;}
+.sjdyq  .container table{width: 100%;}
+.sjdyq  .container table tr{height: 100px;}
+.sjdyq  .container table td{padding:0;border-top: none}
+/*.sjdyq  .container table tr td {display: inline-block;height: 100px;}*/
+.sjdyq  .container table tr td .sjdyq-number{padding:2px 5px;color: #4679bd;border: 2px solid #4679bd;font-weight: bold;margin-top:30px;display: inline-block;}
+/*.user-info{padding-left: 20px;display: inline-block;width: 120px}*/
+.sjdyq  .container table tr td .user-name{display: block;margin-top: 30px;padding-left: 10px}
+.sjdyq  .container table tr td .user-uid{display: block;padding-left: 10px}
+.sjdyq  .container table .active{margin-top: 10px}
+.sjdyq  .container table .sjdyq-td-item span{display: inline-block; width: 72px;line-height: 28px;text-align: center;font-size: 13px;}
+.sjdyq  .container table .sjdyq-td-des{color: #4679bd;font-weight: bold;font-size: 15px}
+.sjdyq  .container table .sjdyq-td-des span{display: inline-block;margin-right: 20px;line-height: 35px}
+.sjdyq  .container table .sjdyq-dynum{display: block;text-align: center;  line-height: 28px}
+.sjdyq  .container table .sjdyq-dingyue{text-align: center;  line-height: 28px}
+.sjdyq  .container table .sjdyq-dynum .num{margin-top: 10px;}
+.sjdyq  .container table .sjdyq-dynum p{margin: 0;line-height: 28px}
+.sjdyq  .container table p{text-align: center;}
+.sjdyq  .container  table tr .sjdyq-money{margin-top:10px}
+.sjdyq  .container table p{padding:0;margin: 0; line-height: 28px}
+.sjdyq  .container table .sjdyq-dingyue button{padding:5px 15px;margin: 0;background: #4679bd;color: #fff;font-size: 14px;margin-top: 4px;margin-bottom: 6px;}
+
+.sjdyq-pzyl .table th{font-size: 12px;text-align: center;background: #ddd}
+
+/*shujuzhanshiqu*/
+.sjzsq-des{
+	line-height: 60px;font-size: 15px;color: #1b335f;font-weight: 600;text-align: center;
+}
+.sjzsq-title .container{border-bottom: 2px solid #4679bd;padding: 0;}
+.sjzsq-title .container .button{background: #4679bd;color: #fff}
+.sjzsq-item{padding: 20px 0px;}
+.sjzsq-item ul{display: inline-block;float: left;margin-left: 15px;}
+.sjzsq-item span{font-weight: bold;font-size:15px;display: inline-block;float: left;}
+.sjzsq-item ul li{padding: 2px 6px;display: inline-block;margin-right: 3px;border-radius: 2px;}
+.sjzsq-item ul li:hover{background: #4679bd;color: #fff;}
+.sjzsq  .container table{width: 100%;}
+.sjzsq  .container table tr{height: 100px;}
+.sjzsq  .container table td{padding:0;float: left;}
+/*.sjzsq  .container table tr td {display: inline-block;height: 100px;}*/
+.sjzsq  .container table tr td .sjzsq-number{padding:2px 5px;color: #4679bd;border: 2px solid #4679bd;font-weight: bold;margin-top:30px;display: inline-block;}
+.user-info{padding-left: 20px;display: inline-block;width: 120px}
+.sjzsq  .container table tr td .user-name{display: block;margin-top: 30px;padding-left: 10px}
+.sjzsq  .container table tr td .user-uid{display: block;padding-left: 10px}
+.sjzsq  .container table .active{margin-top: 10px}
+.sjzsq  .container table .sjzsq-td-item span{display: inline-block; width: 95px;line-height: 28px;text-align: center;font-size: 13px;}
+.sjzsq  .container table .sjzsq-td-des{color: #4679bd;font-weight: bold;font-size: 15px}
+.sjzsq  .container table .sjzsq-td-des span{display: inline-block;margin-right: 40px;line-height: 35px}
+.sjzsq  .container table .sjzsq-dynum{display: block;text-align: center;  line-height: 28px}
+.sjzsq  .container table .sjzsq-dynum .num{margin-top: 10px;}
+.sjzsq  .container table .sjzsq-dynum p{margin: 0;line-height: 28px}
+.sjzsq  .container table p{text-align: center;}
+.sjzsq  .container  table tr .sjzsq-money{margin-top:10px}
+.sjzsq  .container table p{padding:0;margin: 0; line-height: 28px}
+
+.sjzsq-pzyl .table th{font-size: 12px;text-align: center;background: #ddd}
+.sjzsq  .container table .sjzsq-td-des button{padding:5px 15px;margin: 0;background: #4679bd;color: #fff;font-size: 14px;margin-top: 4px;margin-bottom: 6px;float: right;margin-right: 28px}
+.sjzsq  .container table .shzsq-detail{display: inline-block;float: right;margin-right: 45px;}
+.user-edit-info{
+	margin-bottom: 150px
+}
+.user-edit-info .form-group{
+	padding-left: 20px;
+	margin-top: 20px;
+	color: #666;
+}
+.user-edit-info .form-group span{
+	display: inline-block;
+	width: 100px;
+}
+
+.user-edit-info .sub-button button{
+	width: 300px;
+	background: #4679bd;
+	color: #fff;
+	margin-left: 20px;
+}
+
+.user-edit-info .sub-title{
+	font-weight: bold;
+	font-size: 17px;
+	padding: 20px;
+	margin-top:20px;
+}
+.user-edit-info .sub-title button{
+	background: #4679bd;
+	color: #fff;
+	margin-left: 50px;
 }

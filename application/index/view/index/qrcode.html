@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <meta charset="UTF-8"> -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <title> Frappe Charts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="open source javascript js charts library svg zero-dependency interactive data visualization beautiful drag resize">
+    <meta name="description" content="A simple, responsive, modern charts library for the web.">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap-3.3.7-dist/css/bootstrap.min.css" media="screen">
+
+    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/normalize.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/frappe_theme.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/index.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/default.css" media="screen">
+    <script src="__STATIC__/zhexiantu/docs/assets/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row hero" style="padding-top: 30px; padding-bottom: 0px;">
+        <div class="col-sm-10 push-sm-1 later" style="font-size: 14px;">
+          <div id="chart-composite-1" class="border"><svg height=225></svg></div>
+          <p class="mt-1">Click or use arrow keys to navigate data points</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="make">
+      生成
+    </div>
+
+    <div class="qrcode">
+    <img src="">
+    </div>
+    <!-- <img src="{:url('index/auth/make_qrcode')}"> -->
+    <div class="content"></div>
+    <script src="__JS__/jq.js"></script>
+    <script src="__STATIC__/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="__STATIC__/zhexiantu/docs/assets/js/frappe-charts.min.js"></script>
+    <script src="__STATIC__/zhexiantu/docs/assets/js/index.js"></script>
+  </body>
+</html>
+
+
+<script type="text/javascript">
+
+        $('.make').click(function(){
+              var ordernum = 123;
+              var url = "{:url('index/auth/qrcode')}";
+              $('.qrcode img').attr("src",url+"?ordernum="+ordernum)
+
+        })
+
+           document.onreadystatechange = function () {      
+               if(document.readyState=="complete") {       
+               		console.log(1111)     
+                   // document.getElementById('divprogressbar').style.display='none';      
+               }     
+           } 
+</script>

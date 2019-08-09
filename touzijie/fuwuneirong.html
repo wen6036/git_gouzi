@@ -9,6 +9,8 @@
 
     <!-- Bootstrap -->
     <link href="./public/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="./public/static/index/css/public.css" rel="stylesheet">
     <link href="./public/static/index/css/style.css" rel="stylesheet">
     <!-- <link href="./public/static/index/css/media.css" rel="stylesheet"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -107,7 +109,35 @@
 
 					</ul>
 				</div>
+<script type="text/javascript">
 
+					$('.fw-content ul li div').mouseover(function(){
+						var index = $(this).parent('li').index()+1;
+
+						var src = $(this).find('img').attr('src');
+
+						var z = "fu"+index+".png";
+						var nz = "fuzx"+index+".png";
+						if(src.indexOf(z) >= 0 ) { 
+						    var newsrc =  src.replace(z,nz)
+						    $(this).find('img').attr('src',newsrc);
+						   
+						}
+					})
+					$('.fw-content ul li div').mouseout(function(){
+						var index = $(this).parent('li').index()+1;
+
+						var src = $(this).find('img').attr('src');
+
+						var nz = "fuzx"+index+".png";
+						var z = "fu"+index+".png";
+						if(src.indexOf(nz) >= 0 ) { 
+						    var newsrc =  src.replace(nz,z)
+						    $(this).find('img').attr('src',newsrc);
+						   
+						}
+					})
+</script>
 			</div>
 		</div>
   

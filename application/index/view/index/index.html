@@ -1,63 +1,120 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <!-- <meta charset="UTF-8"> -->
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-    <title> Frappe Charts</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="open source javascript js charts library svg zero-dependency interactive data visualization beautiful drag resize">
-    <meta name="description" content="A simple, responsive, modern charts library for the web.">
-    <link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap-3.3.7-dist/css/bootstrap.min.css" media="screen">
+        {include file="public/header" /}
 
-    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/normalize.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/bootstrap.min.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/frappe_theme.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/index.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/default.css" media="screen">
-    <script src="__STATIC__/zhexiantu/docs/assets/js/highlight.pack.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-  </head>
 
-  <body>
-    <div class="container">
-      <div class="row hero" style="padding-top: 30px; padding-bottom: 0px;">
-        <div class="col-sm-10 push-sm-1 later" style="font-size: 14px;">
-          <div id="chart-composite-1" class="border"><svg height=225></svg></div>
-          <p class="mt-1">Click or use arrow keys to navigate data points</p>
+        <div class="index-banner">
+            <img src="__STATIC__/index/images/banner.png">
         </div>
-      </div>
-    </div>
+  
+        <div class="index">
+            <div class="container">
+    
+                    <ul>
+                        <li>
+                            <div class="index-main">
+                                <img src="__STATIC__/index/images/index-1.png">
+                                <p>强大的数据分析</p>
+                                <hr>
+                                <div>
+                                    真实账户、原始数据、 <br>客观立体式巨量计算分析
+                                </div>
+                            </div>
+                        </li>
 
-    <div class="make">
-      生成
-    </div>
+                        <li>
+                            <div class="index-main">
+                                <img src="__STATIC__/index/images/index-2.png">
+                                <p>最新式科技手段</p>
+                                <hr>
+                                <div>
+                                    急速响应、多重安全 <br>防护、人性化助力、云科技
+                                </div>
+                            </div>
+                        </li>
 
-    <div class="qrcode">
-    <img src="">
-    </div>
-    <!-- <img src="{:url('index/auth/make_qrcode')}"> -->
-    <div class="content"></div>
-    <script src="__JS__/jq.js"></script>
-    <script src="__STATIC__/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-    <script src="__STATIC__/zhexiantu/docs/assets/js/frappe-charts.min.js"></script>
-    <script src="__STATIC__/zhexiantu/docs/assets/js/index.js"></script>
-  </body>
-</html>
+                        <li>
+                            <div class="index-main">
+                                <img src="__STATIC__/index/images/index-3.png">
+                                <p>创新学研平台</p>
+                                <hr>
+                                <div>
+                                    金融市场专业精研平台 <br>金融智库服务平台
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="index-main">
+                                <img src="__STATIC__/index/images/index-4.png">
+                                <p>发现人才 培养人才</p>
+                                <hr>
+                                <div>
+                                    分享智慧、共享技术  <br>助人助己、体现价值
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                <script type="text/javascript">
+
+                    $('.index  ul li .index-main').mouseover(function(){
+                        var index = $(this).parent('li').index()+1;
+
+                        var src = $(this).find('img').attr('src');
+
+                        var z = "index-"+index+".png";
+                        var nz = "index-s"+index+".png";
+                        if(src.indexOf(z) >= 0 ) { 
+                            var newsrc =  src.replace(z,nz)
+                            $(this).find('img').attr('src',newsrc);
+                           
+                        }
+                    })
+                    $('.index  ul li .index-main').mouseout(function(){
+                        var index = $(this).parent('li').index()+1;
+                        var src = $(this).find('img').attr('src');
+
+                        var nz = "index-s"+index+".png";
+                        var z = "index-"+index+".png";
+
+                        if(src.indexOf(nz) >= 0 ) { 
+                            var newsrc =  src.replace(nz,z)
+                            $(this).find('img').attr('src',newsrc);
+                           
+                        }
+                    })
+                </script>
 
 
-<script type="text/javascript">
+            </div>
+        </div>
+  
+        <div class="index-link">
+            <div class="container">
+                <div class="link-title">友情链接</div>
+                <div class="link-item">
+                    <div>
+                        <span>第一财经</span>
+                        <span>和讯网</span>
+                        <span>新浪期货</span>
+                        <span>证券时报</span>
+                        <span>大商所</span>
+                        <span>证交所</span>
+                        <span>深交所</span>
+                    </div>
 
-        $('.make').click(function(){
-              var ordernum = 123;
-              var url = "{:url('index/auth/qrcode')}";
-              $('.qrcode img').attr("src",url+"?ordernum="+ordernum)
-
-        })
-
-           document.onreadystatechange = function () {      
-               if(document.readyState=="complete") {       
-               		console.log(1111)     
-                   // document.getElementById('divprogressbar').style.display='none';      
-               }     
-           } 
-</script>
+                    <div>
+                        <span>中国期货保证金监控中心</span>
+                        <span>金融界</span>
+                        <span>期货日报</span>
+                        <span>上期所</span>
+                        <span>中金所</span>
+                        <span>能源所</span>
+                        <span>上交所</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {include file="public/header" /}
+        
+        

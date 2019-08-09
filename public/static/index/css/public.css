@@ -1,0 +1,167 @@
+*{
+	padding: 0;
+	margin:0;
+	list-style: none;
+	text-decoration-style: none;
+}
+
+header{
+	width: 100%;
+	height: 100px;
+	background: #4679bd;
+	color: #fff;
+}
+header .container{
+	width: 1350px
+}
+.web_logo{
+	height: 100px;
+	float: left;
+	text-align: center;
+    margin-left: 50px
+}
+.title{
+	margin-top: 15px;
+	padding: 0;
+	font-size: 40px;
+	text-align: center;
+	line-height:60px;
+}
+.web_url{
+	margin-top: -8px;
+	font-size: 13px;
+
+}
+.descript{
+	margin-left: 15px;
+	height: 100px;
+	float: left;
+	text-align:center;
+	padding-top: 45px;
+	font-size: 12px;
+}
+.descript p{
+	margin: 0;
+}
+.nav{
+	min-width: 628px;
+	float: left;
+	margin-left: 65px;
+}
+.nav ul li{
+	height: 100px;
+	float: left;
+	padding: 0 15px;
+	line-height: 100px;
+	font-size: 16px
+}
+.login-user{
+	width: 200px;
+	float: left;
+	height: 100px;
+	text-align: center;
+	padding:40px 0;
+	margin-left: 30px;
+}
+.login-reg{
+	width: 200px;
+	float: left;
+	height: 100px;
+	text-align: center;
+	padding:40px 0;
+	margin-left: 30px;
+	padding-left: 50px;
+}
+.login-reg .login{
+	padding: 5px 10px;
+	background: #fff;
+	color: #000	;
+	display: inline-block;
+	float: left;
+
+}
+.login-reg .reg{
+	padding: 5px 10px;
+	background: orange;
+	display: inline-block;
+	float: left;
+	color: #fff;
+
+}
+.login-user button{
+	margin-left: 21px;
+	background: #f39800
+}
+footer{
+	width: 100%;
+	height: 280px;
+	background: #1b335f;
+	color: #fff;
+	max-width: inherit;
+}
+
+.footer-main{
+	height: 230px;
+	/*width: 100%;*/
+}
+footer .container .footer-item{
+	width: 20%;
+	float: left;
+	height: 230px;
+}
+footer .container .footer-item .title{
+	    font-size: 36px;
+	    margin-top: 60px;
+	    letter-spacing:3px
+}
+footer .container .footer-item .footer-descript{
+	margin-top: 20px;
+	width: 100%;
+}
+footer .container .footer-item .footer-descript p{
+	text-align: center;
+	margin-top: -15px;
+	letter-spacing:5px
+}
+footer .container .footer-item .kfzx{
+	text-align: center;
+	font-size: 16px;
+	margin-top: 32px
+}
+footer .container .footer-item .kfzx-item{
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 12px;
+}
+footer .container .footer-item .kfzx-item ul li{
+	width: 48%;
+	text-align: center;
+	/*display: inline-block;*/
+	float: left;
+	margin-top: 8px
+}
+footer .container .footer-item .lianxi{
+	width: 85%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+footer .container .footer-item .lianxi .lx-item{
+	margin-top: 8px;
+	text-indent: 10px;
+}
+footer .container .footer-item .lianxi .lx-item div{
+	display: inline;
+	height: 16px;
+	line-height: 16px;
+	letter-spacing: 1px;
+	margin-left: 10px;
+	font-size: 12px;
+}
+footer .container .footer-item .qrcode{
+	text-align: center;
+	margin-top: 20px;
+}
+.banquan{
+	text-align: center;
+	letter-spacing:1px
+}
