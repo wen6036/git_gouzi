@@ -1,0 +1,75 @@
+	{include file="public/header" /}
+		<div class="fuwuneirong">
+			<div class="container">
+				<div class="fw-content">
+					<ul>
+						
+						<li>
+							<div>
+							<a href="{:url('index/webpage/guide_jysc')}">
+								<img src="__STATIC__/index/images/xs1.png">
+								<p>交易界用户使用手册</p>
+							</a>
+							</div>
+						</li>
+						<li>
+							<div>
+							<a href="{:url('index/webpage/guide_cpsc')}">
+								<img src="__STATIC__/index/images/xs2.png">
+								<p>操盘手使用手册</p>
+							</a>
+							</div>
+						</li>
+						<li>
+							<div>
+							<a href="{:url('index/webpage/guide_gnjj')}">
+								<img src="__STATIC__/index/images/xs3.png">
+								<p>工作室功能简介</p>
+							</a>
+							</div>
+						</li>
+						<li>
+							<div>
+							<a href="{:url('index/webpage/guide_yhzx')}">
+								<img src="__STATIC__/index/images/xs4.png">
+								<p>用户中心功能介绍</p>
+							</a>
+							</div>
+						</li>
+
+					</ul>
+				</div>
+
+				<script type="text/javascript">
+
+					$('.fw-content ul li div').mouseover(function(){
+						var index = $(this).parent('li').index()+1;
+
+						var src = $(this).find('img').attr('src');
+
+						var z = "xs"+index+".png";
+						var nz = "xszn"+index+".png";
+						if(src.indexOf(z) >= 0 ) { 
+						    var newsrc =  src.replace(z,nz)
+						    $(this).find('img').attr('src',newsrc);
+						   
+						}
+					})
+					$('.fw-content ul li div').mouseout(function(){
+						var index = $(this).parent('li').index()+1;
+
+						var src = $(this).find('img').attr('src');
+
+						var nz = "xszn"+index+".png";
+						var z = "xs"+index+".png";
+						if(src.indexOf(nz) >= 0 ) { 
+						    var newsrc =  src.replace(nz,z)
+						    $(this).find('img').attr('src',newsrc);
+						   
+						}
+					})
+				</script>
+
+			</div>
+		</div>
+		{include file="public/footer" /}

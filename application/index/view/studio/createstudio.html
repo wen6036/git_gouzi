@@ -1,0 +1,272 @@
+					<div class="create-notice">
+						<h5>创建须知 ：</h5>
+						<span>１．请确定您的期货账户已开通ＣＴＰ通道，否则请联系期货公司把交易通道切换至ＣＴＰ</span>
+						<span>２．创建工作室后请不要随意更改交易密码，否则会导致无法调取交易数据</span>
+						<span>３．订阅区可被订阅查看成交记录和持仓，展示区不可被订阅查看成交记录和持仓</span>
+					</div>
+
+					<div class="sub-info">
+					<form>
+
+						<div class="sub-title">工作室设置</div>
+
+						<div class="form-group">
+							<span>工作室名称：</span>
+							<input type="" name="studioname" value="{$info.studioname|default=''}">
+						 </div>
+
+						 <div class="form-group">
+							<span>账户性质：</span>
+							{if condition="$info.shipan eq 1"}
+							<img src="__STATIC__/index/images/check.png" class="shipan"> 
+							{else /}
+							<img src="__STATIC__/index/images/no-check.png" class="shipan">
+							{/if}
+							 期货实盘
+							<input type="hidden" name="shipan">
+						 </div>
+
+						 <div class="form-group">
+							<span>交易方式：</span>
+							<img src="__STATIC__/index/images/no-check.png" class="fangshi" data-id='1'> 主观
+							<img src="__STATIC__/index/images/no-check.png" class="fangshi" data-id='2'> 量化	
+							<input type="hidden" name="fangshi">		
+							<script type="text/javascript">
+								let fangshinum = {$info.fangshi|default='0'};
+								if(fangshinum){
+									$('.fangshi').eq(fangshinum-1).attr("src",'__STATIC__/index/images/check.png')
+								}
+							</script>				
+						 </div>
+						 <div class="form-group">
+							<span>交易策略：</span>
+							<img src="__STATIC__/index/images/no-check.png" class="celue" data-id='1'>趋势
+							<img src="__STATIC__/index/images/no-check.png" class="celue" data-id='2'>套利对冲
+							<input type="hidden" name="celue">	
+						 </div>
+
+
+							<script type="text/javascript">
+								let celueshinum = {$info.celue|default='0'};
+								if(celueshinum){
+									$('.celue').eq(celueshinum-1).attr("src",'__STATIC__/index/images/check.png')
+								}
+							</script>
+
+						 <div class="form-group">
+							<span>交易周期：</span>
+							<img src="__STATIC__/index/images/no-check.png" class="zhouqi" data-id='1'>日内短线
+							<img src="__STATIC__/index/images/no-check.png" class="zhouqi" data-id='2'>隔夜短线
+							<img src="__STATIC__/index/images/no-check.png" class="zhouqi" data-id='3'>中短线
+							<img src="__STATIC__/index/images/no-check.png" class="zhouqi" data-id='4'>中长线
+							<img src="__STATIC__/index/images/no-check.png" class="zhouqi" data-id='5'>长线
+							<input type="hidden" name="zhouqi">	
+						 </div>
+							<script type="text/javascript">
+								let zhouqinum = {$info.zhouqi|default='0'};
+								if(zhouqinum){
+									$('.zhouqi').eq(zhouqinum-1).attr("src",'__STATIC__/index/images/check.png')
+								}
+							</script>
+						<div class="form-group">
+							 <span>收费价格：</span>
+							 <div class="sub-money"><input type="number" name="price" value="{$info.price|default='0'}"> /30天</div>
+							 <span class="sub-notice">范围:100-5000元/30天，取100的整数倍，展示区不需要填写</span>
+						</div>
+
+						 <div class="form-group">
+							<span>工作室区分：</span>
+							<img src="__STATIC__/index/images/no-check.png" class="studiotype" data-id='1'>订阅区
+							<img src="__STATIC__/index/images/no-check.png" class="studiotype" data-id='2'>展示区
+							<input type="hidden" name="studiotype">	
+							<script type="text/javascript">
+								let studiotypenum = {$info.zhouqi|default='0'};
+								if(studiotypenum){
+									$('.studiotype').eq(studiotypenum-1).attr("src",'__STATIC__/index/images/check.png')
+								}
+							</script>
+
+						 </div>
+
+						 <div class="form-group">
+							<span>工作室简介：</span>
+							<div class="sub-des">
+								<textarea placeholder="100字以内" name="description">{$info.description|default='0'}</textarea>
+							</div>
+						 </div>
+
+						 <div class="sub-title">账户设置 ：</div>
+
+						 <div class="form-group">
+							 <span>期货账户 ：</span>
+							<div class="sub-pwd">
+								 <input type="text" name="futures_account" value="{$info.futures_account|default='futures_account'}">
+							</div>
+						</div>
+
+						<div class="form-group">
+							 <span>期货交易密码 ：</span>
+							<div class="sub-zhanghao">
+								<input type="text" name="futures_password">
+							</div>
+						</div>
+
+						<div class="form-group">
+							 <span>开户期货公司 ：</span>
+							<div class="selected">
+								<select name="futures_company">
+										<option>随风而行</option>
+										<option>随风而行1</option>
+										<option>随风而行2</option>
+								</select>
+							</div>
+						</div>
+						<div class="sub-agreement">
+							{if isset($info)}  
+							<img src="__STATIC__/index/images/check.png" class="agreement">
+							{else /}
+							<img src="__STATIC__/index/images/no-check.png" class="agreement">
+							{/if}
+							<span> &nbsp;我已阅读并同意《投资界工作室创建协议》</span>
+							<input type="hidden" name="agreement">	
+						</div>
+
+						<div class="sub-button">
+							{if isset($info)}  
+							<button class="btn savestudio" disabled="disabled">已创建</button>
+							{else /}
+							<button class="btn savestudio">提交</button>
+							{/if}
+						</div>
+					</form>
+					</div>
+<script type="text/javascript">
+
+		$('.agreement').click(function(){
+		 	var src = $(this).attr('src');
+			if(src.indexOf("no-check.png") >= 0 ) { 
+			    var newsrc =  src.replace('/no-check.png','/check.png')
+			    $(this).attr('src',newsrc);
+			    $(this).siblings('img').attr('src',src);
+			    $('input[name=agreement]').val(1)
+
+			}else{
+			    var newsrc =  src.replace('/check.png','/no-check.png')
+			    $(this).attr('src',newsrc);
+			    $(this).siblings('img').attr('src',src);
+			    $('input[name=agreement]').val(0)
+			}
+
+		})
+
+
+		$('.shipan').click(function(){
+		 	var src = $(this).attr('src');
+			if(src.indexOf("no-check.png") >= 0 ) { 
+			    var newsrc =  src.replace('/no-check.png','/check.png')
+			    $(this).attr('src',newsrc);
+			    $(this).siblings('img').attr('src',src);
+			    $('input[name=shipan]').val(1)
+
+			}else{
+			    var newsrc =  src.replace('/check.png','/no-check.png')
+			    $(this).attr('src',newsrc);
+			    $(this).siblings('img').attr('src',src);
+			    $('input[name=shipan]').val(0)
+			}
+
+		})
+
+		$('.fangshi').click(function(){
+		 	var src = $(this).attr('src');
+			if(src.indexOf("no-check.png") >= 0 ) { 
+			    var newsrc =  src.replace('/no-check.png','/check.png')
+			    $(this).attr('src',newsrc);
+			    $(this).siblings('img').attr('src',src);
+			    var fangshi = $(this).attr('data-id')
+			    $('input[name=fangshi]').val(fangshi)
+			}
+
+		})
+
+		$('.celue').click(function(){
+		 	var src = $(this).attr('src');
+			if(src.indexOf("no-check.png") >= 0 ) { 
+			    var newsrc =  src.replace('/no-check.png','/check.png')
+			    $(this).attr('src',newsrc);
+			    $(this).siblings('img').attr('src',src);
+			    var celue = $(this).attr('data-id')
+			    console.log(celue)
+			    $('input[name=celue]').val(celue)
+			}
+		})
+
+		$('.zhouqi').click(function(){
+		 	var src = $(this).attr('src');
+			if(src.indexOf("no-check.png") >= 0 ) { 
+			    var newsrc =  src.replace('/no-check.png','/check.png')
+			    $(this).attr('src',newsrc);
+			    $(this).siblings('img').attr('src',src);
+			    var zhouqi = $(this).attr('data-id')
+			    console.log(zhouqi)
+			    $('input[name=zhouqi]').val(zhouqi)
+			}
+		})
+
+		$('.studiotype').click(function(){
+		 	var src = $(this).attr('src');
+			if(src.indexOf("no-check.png") >= 0 ) { 
+			    var newsrc =  src.replace('/no-check.png','/check.png')
+			    $(this).attr('src',newsrc);
+			    $(this).siblings('img').attr('src',src);
+			    var studiotype = $(this).attr('data-id')
+			    console.log(studiotype)
+			    $('input[name=studiotype]').val(studiotype)
+			}
+		})
+
+		$('.savestudio').click(function(){
+			var price = $('input[name=price]').val();
+
+			var studioname = $('input[name=studioname]').val();
+			var shipan = $('input[name=shipan]').val();
+			var fangshi = $('input[name=fangshi]').val();
+			var celue = $('input[name=celue]').val();
+			var zhouqi = $('input[name=zhouqi]').val();
+			var studiotype = $('input[name=studiotype]').val();
+
+			var description = $('textarea[name=description]').val();
+
+			var futures_account = $('input[name=futures_account]').val();
+			var futures_password = $('input[name=futures_password]').val();
+			var futures_company = $('select[name=futures_company]').val();
+			console.log(studioname+'--'+shipan+'--'+fangshi+'--'+celue+'--'+zhouqi+'--'+studiotype+'--'+description+'--'+futures_account+'--'+futures_password+'--'+futures_company)
+			var agreement = $('input[name=agreement]').val()
+			console.log(agreement)
+			if(!agreement){
+				layer.msg('请先同意工作室创建协议');
+				return false;
+			}
+
+			if(!studioname || !shipan || !fangshi || !celue || !zhouqi || !studiotype || !description || !futures_account || !futures_password || !futures_company){
+				layer.msg('请确定信息是否完整');
+				return false;
+			}
+
+			$.ajax({
+				url:"{:url('index/studio/savestudio')}",
+				data:$('form').serialize(),
+				type:'post',
+				success:function(res){
+					layer.msg(res.msg)
+
+
+				}
+			})
+			return false;
+
+
+		})
+</script>
+
+

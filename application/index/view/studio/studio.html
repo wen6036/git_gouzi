@@ -1,0 +1,51 @@
+			<div class="sr-header">
+				<div class="sr-header-item active">创建期货的工作室</div>
+				<div class="sr-header-item">已建期货工作室</div>
+				<div class="sr-header-item">工作室订阅管理</div>
+			</div>
+
+			<div class="studio_content">
+
+
+			</div>
+			
+
+			<script type="text/javascript">
+				$.ajax({
+					url:"{:url('index/studio/createstudio')}",
+					success:function(res){
+						$('.studio_content').html(res)
+					}
+				})
+
+				$('.sr-header div').click(function(){
+					$(this).addClass('active').siblings().removeClass('active');
+					let index = $(this).index();
+					console.log(index)
+					if(index==0){
+						$.ajax({
+							url:"{:url('index/studio/createstudio')}",
+							success:function(res){
+								$('.studio_content').html(res)
+							}
+						})
+					}else if(index==1){
+						$.ajax({
+							url:"{:url('index/studio/hasstudio')}",
+							success:function(res){
+								$('.studio_content').html(res)
+							}
+						})
+					}else if(index==2){
+						$.ajax({
+							url:"{:url('index/studio/studiosub')}",
+							success:function(res){
+								$('.studio_content').html(res)
+							}
+						})
+					}
+
+				})
+
+		</script>
+

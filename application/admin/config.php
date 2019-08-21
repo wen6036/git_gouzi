@@ -7,6 +7,7 @@
 return [
     // 模板参数替换
     'view_replace_str' => [
+        '__PUBLIC__'  => '/static',
         '__STATIC__'  => '/static/admin',
         '__CSS__'     => '/static/admin/css',
         '__JS__'      => '/static/admin/js',

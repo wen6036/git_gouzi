@@ -1,0 +1,37 @@
+
+		<div class="subscribe">
+			<div class="container">
+				<div class="sub-left">
+					<div class="sub-headimg">
+						<img src="__STATIC__/index/images/qrcode.png">
+						<p>昵称</p>
+					</div>
+
+					<ul>
+						<a href="{:url('subscribe/index')}"><li>订阅管理</li></a>
+						<a href="{:url('studio/index')}"><li>工作室管理</li></a>
+						<a href="{:url('user/index')}"><li>用户管理</li></a>
+						<a href="{:url('login/loginout')}"><li>退出登录</li></a>
+					</ul>
+				</div>
+				<div class="sub-right">
+
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var href = window.location.href;
+			var length = $('.sub-left ul li').length;
+			// console.log(length)
+            for (var i = 0; i < length; i++) {
+            	console.log($('.sub-left ul a').eq(i).attr('href'))
+                if(href.indexOf($('.sub-left ul a').eq(i).attr('href')) != -1){
+                    $('.sub-left ul a').eq(i).find('li').addClass('active').siblings().removeClass('active');
+                }
+            }
+
+
+   	// $('.sub-left ul a').click(function(){
+   	// 	$(this).find('li').addClass('active').siblings().removeClass('active')
+   	// })
+		</script>

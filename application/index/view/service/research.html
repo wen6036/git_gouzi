@@ -1,0 +1,85 @@
+		
+		{include file="public/header" /}
+		<div class="fuwuneirong">
+			<div class="container">
+				<div class="fw-content xyzx-content">
+					<ul>
+						
+						<li>
+							<div>
+							<a href="{:url('index/webpage/research_sdwz')}">
+								<img src="__STATIC__/index/images/xy1.png">
+								<p>深度文章</p>
+							</a>
+							</div>
+						</li>
+						<li>
+							<div>
+							<a href="{:url('index/webpage/research_zbjs')}">
+								<img src="__STATIC__/index/images/xy2.png">
+								<p>指标解释</p>
+							</a>
+							</div>
+						</li>
+						<li>
+							<div>
+							<a href="{:url('index/webpage/research_yjbg')}">
+								<img src="__STATIC__/index/images/xy3.png">
+								<p>研究报告</p>
+							</a>
+							</div>
+						</li>
+						<li>
+							<div>
+							<a href="{:url('index/webpage/research_clym')}">
+								<img src="__STATIC__/index/images/xy4.png">
+								<p>策略源码</p>
+							</a>
+							</div>
+						</li>
+						<li>
+							<div>
+							<a href="{:url('index/webpage/research_pxhd')}">
+								<img src="__STATIC__/index/images/xy5.png">
+								<p>培训活动</p>
+							</a>
+							</div>
+						</li>
+
+
+					</ul>
+				</div>
+
+				<script type="text/javascript">
+
+					$('.fw-content ul li div').mouseover(function(){
+						var index = $(this).parent('li').index()+1;
+
+						var src = $(this).find('img').attr('src');
+
+						var z = "xy"+index+".png";
+						var nz = "xyzx"+index+".png";
+						if(src.indexOf(z) >= 0 ) { 
+						    var newsrc =  src.replace(z,nz)
+						    $(this).find('img').attr('src',newsrc);
+						   
+						}
+					})
+					$('.fw-content ul li div').mouseout(function(){
+						var index = $(this).parent('li').index()+1;
+
+						var src = $(this).find('img').attr('src');
+
+						var nz = "xyzx"+index+".png";
+						var z = "xy"+index+".png";
+						if(src.indexOf(nz) >= 0 ) { 
+						    var newsrc =  src.replace(nz,z)
+						    $(this).find('img').attr('src',newsrc);
+						   
+						}
+					})
+				</script>
+
+			</div>
+		</div>
+		{include file="public/footer" /}

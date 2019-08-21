@@ -1,0 +1,272 @@
+
+<script type="text/javascript" src="__STATIC__/common/imgupload.js"></script>
+<div class="user-edit-info">
+<form id="dataform">
+	<input type="hidden" name="userid" value="{$userinfo.id}">
+	<div class="form-group">
+		<span>头像：</span>
+		<b>
+	        <img style="width: 120px;height:120px;cursor: pointer;border-radius: 50%;" onclick="upload_pic(this)" src="{$info.headimg|default='__STATIC__/index/images/headimg.png'}"><em style="padding-left: 10px;display: inline-block;line-height: 34px;color: #a94442;font-style: normal;font-size: 12px;" class="help-block"></em>
+	        <input type="hidden" name="image_url" class="image_url" value="{$info.headimg|default=''}">
+	        <input type="file" id="file_image" style="display: none;">
+		</b>
+	 </div>
+
+
+
+
+	 <div class="form-group">
+		<span>昵称：</span>
+		<input type="text" name="nickname" value="{$info.nickname|default=''}">
+
+	 </div>
+
+	 <div class="form-group">
+		<span>用户名：</span>
+		{$userinfo.username}
+	 </div>
+
+
+	 <div class="form-group">
+		<span>用户UID：</span>
+		{$userinfo.id}
+	 </div>
+	<div class="form-group">
+		<span>手机号：</span>
+		{$userinfo.usertel}
+	 </div>
+
+	 <div class="form-group">
+		<span>邮箱：</span>
+		<input type="text" name="email" value="{$info.email|default=''}">
+	 </div>
+
+	 <div class="form-group">
+		<span>微信号：</span>
+		<input type="text" name="wx_num" value="{$info.wx_num|default=''}">
+	 </div>
+
+	<div class="form-group usersex" >
+		<span>性别：</span>
+		{if condition="$info.sex eq 1"}
+			<img src="__STATIC__/index/images/check.png">&nbsp;&nbsp;男 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		{else /}
+			<img src="__STATIC__/index/images/no-check.png">&nbsp;&nbsp;男 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		{/if}
+
+		{if condition="$info.sex eq 2"}
+			<img src="__STATIC__/index/images/check.png">&nbsp;&nbsp;女 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		{else /}
+			<img src="__STATIC__/index/images/no-check.png">&nbsp;&nbsp;女 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		{/if}
+
+		<input type="hidden" name="sex" value="1">
+	 </div>
+
+	 <script type="text/javascript">
+		$('.usersex img').click(function(){
+		 	var sex = $(this).index()
+		 	var src = $(this).attr('src');
+
+			if(src.indexOf("no-check.png") >= 0 ) { 
+			    var newsrc =  src.replace('/no-check.png','/check.png')
+			    $(this).attr('src',newsrc);
+			    $(this).siblings('img').attr('src',src);
+			    if(sex==1){
+			    	$('input[name=sex]').val(1)
+			    }else{
+			    	$('input[name=sex]').val(2)
+			    }
+			}
+
+		})
+
+	 </script>
+
+	 <div class="form-group">
+		<span>地区：</span>
+		<select name="province_id" id="province_id">
+		<option>请选择</option>
+		{volist name="listprovince" id="province"}
+		    <option  value="{$province.id}" data-name="{$province.name}" {if condition="$province.id eq $address_id[0]"}selected="selected"{/if}>{$province.name}</option>
+		{/volist}                                                  
+		</select>
+		<select name="city_id"  id="city_id" >
+			<option value="0">请选择</option>
+		    <!-- <option value="" selected="selected"></option> -->
+		</select>
+		<select name="district_id"  id="district_id" >
+		    <option value="0">请选择</option>
+		    <!-- <option value="" selected="selected"></option> -->
+		</select>  
+		<input type="text" name="address_detail" value="{$info.address_detail|default=''}">
+	 </div>
+		<div class="sub-button">
+		<button class="btn">修改</button>
+	</div>
+</form>
+
+</div>
+
+
+
+<script type="text/javascript">
+$('.sub-button button').click(function(){
+	$.ajax({
+		url:"{:url('index/user/ajax_userinfo')}",
+		data:$('form').serialize(),
+		type:'post',
+		success:function(res){
+			layer.msg(res.msg)
+		}
+	})
+
+	console.log($('form').serialize())
+	return false;
+})
+
+    // <!-- 图片上传 -->
+    function upload_pic(obj) {
+        // 触发上传按钮
+        $("#file_image").click();
+        $('#file_image').basePic({maxWidth: 2000, maxHeight: 2000}, function (e) {
+            if (e.status) {
+                $(".image_url").val(e.src);
+                $(obj).attr('src', e.src);
+                $('.help-block').html('');
+            } else {
+                $('.help-block').html('<i class="fa fa-info-circle"></i>' + e.tip);
+                $('.help-block').css("color", "#a94442");
+            }
+        });
+    }        
+
+
+var pro_name,name       
+
+if("{$address_id[0]}"){
+	var province_id = {$address_id[0]};
+	    $.ajax({
+        url:'/index/user/get_citys',
+        Type:"POST",
+        data:"province_id="+province_id,
+        dataType:"json",
+        success:function(data){
+            var option=$("<option></option>");
+            $(option).val("0");
+            $(option).html("请选择");
+            var option1=$("<option></option>");
+            $(option1).val("0");
+            $(option1).html("请选择");
+            $("#city_id").html(option);
+            $("#district_id").html(option1);
+            for(var i in data){
+                var option=$("<option></option>");
+                $(option).attr('data-name',data[i]['name']);
+                if("{$address_id[1]}" == data[i]['id']){
+	                $(option).attr('selected','selected');
+                }
+                $(option).val(data[i]['id']);
+                $(option).html(data[i]['name']);
+                $("#city_id").append(option);
+            }
+        }
+        
+    });
+}
+
+if("{$address_id[1]}"){
+	var city_id = {$address_id[1]};
+
+    $.ajax({
+        url:'/index/user/get_district',
+        Type:"POST",
+        data:"city_id="+city_id,
+        dataType:"json",
+        success:function(data){
+            var option=$("<option></option>");
+            $(option).val("0");
+            $(option).html("请选择");
+            $("#district_id").html(option);
+            for(var i in data){
+                var option=$("<option></option>");
+                $(option).attr('data-name',data[i]['name']);
+                $(option).val(data[i]['id']);
+
+                if("{$address_id[2]}" == data[i]['id']){
+	                $(option).attr('selected','selected');
+                }
+                $(option).html(data[i]['name']);
+                $("#district_id").append(option);
+            }
+        }
+    });
+}
+
+$("#province_id").change(function(){
+    var province_id=$(this).val();
+    pro_name = $('option[value='+province_id+']').attr('data-name');
+
+    console.log(pro_name)
+    $.ajax({
+        url:'/index/user/get_citys',
+        Type:"POST",
+        data:"province_id="+province_id,
+        dataType:"json",
+        success:function(data){
+            var option=$("<option></option>");
+            $(option).val("0");
+            $(option).html("请选择");
+            var option1=$("<option></option>");
+            $(option1).val("0");
+            $(option1).html("请选择");
+            $("#city_id").html(option);
+            $("#district_id").html(option1);
+            for(var i in data){
+                var option=$("<option></option>");
+                $(option).attr('data-name',data[i]['name']);
+                $(option).val(data[i]['id']);
+                $(option).html(data[i]['name']);
+                $("#city_id").append(option);
+            }
+        }
+        
+    });
+});
+
+
+$("#city_id").change(function(){
+    var city_id=$(this).val();
+    name = $('option[value='+city_id+']').attr('data-name');
+    console.log(pro_name+' '+name)
+    $.ajax({
+        url:'/index/user/get_district',
+        Type:"POST",
+        data:"city_id="+city_id,
+        dataType:"json",
+        success:function(data){
+            var option=$("<option></option>");
+            $(option).val("0");
+            $(option).html("请选择");
+            $("#district_id").html(option);
+            for(var i in data){
+                var option=$("<option></option>");
+                $(option).attr('data-name',data[i]['name']);
+                $(option).val(data[i]['id']);
+                $(option).html(data[i]['name']);
+                $("#district_id").append(option);
+            }
+        }
+    });
+});
+
+
+
+$("#district_id").change(function(){
+    var district_id=$(this).val();
+    var dis_name = $('option[value='+district_id+']').attr('data-name');
+    console.log(pro_name+' '+name+' '+dis_name)
+});
+
+</script>
+

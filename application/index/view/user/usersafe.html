@@ -1,0 +1,113 @@
+						<style type="text/css">
+							button{background: orange;color: #fff;margin-left: 10px;}
+							i{padding-left: 15px}
+						</style>
+						<div class="sub-title">工作室设置
+						</div>
+
+						 <div class="form-group">
+							<span>原密码：</span>
+							<input type="password" name="oldpwd">
+						 </div>
+
+						 <div class="form-group">
+							<span>新密码：</span>
+							<input type="password" name="newpwd">
+						 </div>
+
+						 <div class="form-group">
+							<span>确定新密码：</span>
+							<input type="password" name="againpwd">
+							<button class="btn btn-xs" onclick="edit_pwd()">修改</button>
+						 </div>
+
+
+
+						 <div class="form-group">
+							<span>绑定手机号：</span>
+							<input type="text" name="usertel" value="{$info.usertel}">
+							<button class="btn btn-xs" onclick="edit_tel()">绑定</button><i>(此手机号用于登录 请谨慎处理)</i>
+						 </div>
+
+						 <div class="form-group">
+							<span>其他电话：</span>
+							<input type="text" name="other_phone" value="{$info.other_phone}">
+							<button class="btn btn-xs"  onclick="other_phone()">修改</button>
+						 </div>
+						 <div class="form-group">
+							<span>绑定邮箱：</span>
+							<input type="text" name="email" value="{$info.email}">
+							<button class="btn btn-xs" onclick="edit_email()">绑定</button>
+						 </div>
+
+						<div class="sub-title">实名认证
+						</div>
+
+						 <div class="form-group">
+							<span>姓名：</span>
+							<input type="text" name="truename" value="{$info['truename']}">
+						 </div>
+
+						 <div class="form-group">
+							<span>身份证号：</span>
+							<input type="text" name="shenfenzheng" value="{$info['shenfenzheng']}">
+						 </div>
+
+						<div class="sub-title">银行卡
+						</div>
+
+
+						{if condition="$bankinfo"}
+
+						{volist name="bankinfo" id="item"}
+							<div class="bankinfo" data-id="{$item.id}">
+								 <div class="form-group">
+									<span>开户人：</span>
+									<input type="text" name="" placeholder="请输入开户人" class="username" value="{$item.username}">
+								 </div>
+
+								 <div class="form-group">
+									<span>卡号：</span>
+									<input type="text" name="" placeholder="请输入卡号" class="cardnum" value="{$item.banknum}">
+								 </div>
+
+								 <div class="form-group">
+									<span>开户银行：</span>
+									<input type="text" name="" placeholder="请输入开户银行" class="bankname" value="{$item.bankname}">
+									 <button class="btn btn-xs" onclick="binkcard(this)">绑定</button>
+									 {if count($bankinfo) < 2}
+									 <button class="btn btn-xs add_card" onclick="add_card(this)">添加银行卡</button>
+									 {/if}
+								 </div>
+							</div>
+						{/volist}   
+						{else /}
+							<div class="bankinfo">
+								 <div class="form-group">
+									<span>开户人：</span>
+									<input type="text" name="" placeholder="请输入开户人" class="name">
+								 </div>
+
+								 <div class="form-group">
+									<span>卡号：</span>
+									<input type="text" name="" placeholder="请输入卡号" class="cardnum">
+								 </div>
+
+								 <div class="form-group">
+									<span>开户银行：</span>
+									<input type="text" name="" placeholder="请输入开户银行" class="bankname">
+									 <button class="btn btn-xs" onclick="binkcard(this)">绑定</button>
+									 <button class="btn btn-xs add_card" onclick="add_card(this)">添加银行卡</button>
+								 </div>
+							</div>
+						{/if}
+
+
+						<div class="sub-button">
+							<button class="btn" onclick="saveinfo()">保存</button>
+						</div>
+
+
+
+
+

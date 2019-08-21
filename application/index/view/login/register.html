@@ -2,7 +2,7 @@
 
 		<div class="register-login">
 			<div class="container">
-				<div class="content">
+				<div class="content" style="padding: 0">
 					<div class="content-left">
 						<h1>投资界</h1>
 						<div class="des">
@@ -29,9 +29,9 @@
 								</div>
 								<div class="input">
 									<input type="text" name="usertel" placeholder="请输入手机号码">
+									<div class="tel-error error"></div>
 								</div>
 							</div>
-
 
 							<div class="reg-text-input">
 								<div class="reg-input-icon">
@@ -81,109 +81,156 @@
 							<div class="agreement-check" style="text-align: center;margin-top: 30px"><img src="__STATIC__/index/images/no-check.png"> 我已阅读并同意<span>投资界用户服务协议</span></div>
 							<div class="register"><button>注册</button></div>
 						</form>
-								<script>
-									let agreement = 0;
-									$('.yzmtext').click(function(){
-										$('.yzmnum img').attr('src','{:captcha_src()}?'+Math.random());
-
-									})
-
-
-
-									var countDownT = 10;
-									function get_sms_captcha(type){
-									    //下方写业务
-									    let tel = $('input[name=usertel]').val();
-									    if(tel.length!=11){
-									    	layer.msg('手机号不正确');
-									    	return false;
-									    }
-									    countDownT = 10;
-									    setTime();
-									    $.ajax({
-									    	url:"{:url('index/login/verify')}",
-									    	data:{tel:tel},
-									    	success:function(res){
-									    		console.log(res)
-
-									    		if(res.code==0){
-													layer.msg('error',{
-							                            time:1000,
-							                            end:function () {
-							                             	window.location.reload();
-							                            }
-							                        })
-									    		}else{
-									    			$('input[name=yzmtoken]').val(res.msg)
-									    		}
-									    	}
-									    })
-									}
-
-									function  setTime(){
-									    if (countDownT == 0){
-									        $("#gSMS").attr("onclick","get_sms_captcha()");
-									        $("#gSMS").attr("disabled",false);
-									        $("#gSMS").text("获取短信验证码");
-									    } else{
-									        $("#gSMS").attr("onclick","");
-									        $("#gSMS").attr("disabled","disabled");
-									        $("#gSMS").text("重新发送("+countDownT+")");
-									        countDownT--;
-									        setTimeout(function () {
-									            setTime();
-									        },1000)
-									    }
-									}
-
-
-
-
-									$('.agreement-check img').click(function(){
-											var src = $(this).attr('src');
-											if(src.indexOf("no-check.png") >= 0 ) { 
-											    var newsrc =  src.replace('/no-check.png','/check.png')
-											    $(this).attr('src',newsrc);
-											    $(this).parents('li').siblings().find('.check img').attr('src',src);
-											    agreement = 1;
-											} else{
-											    var newsrc = src.replace('/check.png','/no-check.png')
-											    agreement = 0;
-											     $(this).attr('src',newsrc);
-										    }
-									})
-
-									$('.register').click(function(){
-										if(!agreement){
-											layer.msg('请确定投资协议 ！');
-											return false;
-										}
-										let username = $('input[name=username]').val()
-										let usertel = $('input[name=usertel]').val()
-										let yzm = $('input[name=yzm]').val()
-										let smyzm = $('input[name=smyzm]').val()
-										let password = $('input[name=password]').val()
-
-										if(!username || !usertel ||!yzm ||!smyzm ||!password){
-											layer.msg('请确定信息完整 ！');
-											return false;
-										}
-										$.ajax({
-											url:"",
-											data:$('form').serialize(),
-											type:'post',
-											success:function(res){
-												console.log(res)
-											}
-										})
-										return false;
-
-									})
-
-								</script>
 
 					</div>
 				</div>
 			</div>
 		</div>
+		<script>
+
+			$("input[name=username]").blur(function(){
+				var info = $(this).val();
+			    $.ajax({
+			    	url:"{:url('index/login/have_user')}",
+			    	data:{info:info},
+			    	success:function(res){
+			    		console.log(res)
+			    		if(res.code==0){
+			    			$('.name-error').html('用户名已经存在')
+			    		}else{
+			    			$('.name-error').html('')
+			    		}
+
+
+			    	}
+			    })
+			});
+
+			$("input[name=usertel]").blur(function(){
+				var info = $(this).val();
+				if(info.length != 11){
+					$('.tel-error').html('请输入正确得手机号')
+					return false;
+				}else{
+					$('.tel-error').html('')
+				}
+			    $.ajax({
+			    	url:"{:url('index/login/have_user')}",
+			    	data:{info:info},
+			    	success:function(res){
+			    		console.log(res)
+			    		if(res.code==0){
+			    			$('.tel-error').html('手机号已经注册过')
+			    		}else{
+			    			$('.tel-error').html('')
+			    		}
+
+
+			    	}
+			    })
+			});
+
+
+
+		
+			let agreement = 0;
+			$('.yzmtext').click(function(){
+				$('.yzmnum img').attr('src','{:captcha_src()}?'+Math.random());
+
+			})
+
+
+
+			var countDownT = 10;
+			function get_sms_captcha(type){
+			    //下方写业务
+			    let tel = $('input[name=usertel]').val();
+			    if(tel.length!=11){
+			    	layer.msg('手机号不正确');
+			    	return false;
+			    }
+			    countDownT = 10;
+			    
+			    $.ajax({
+			    	url:"{:url('index/login/verify')}",
+			    	data:{tel:tel},
+			    	success:function(res){
+			    		console.log(res)
+
+			    		if(res.code==0){
+							layer.msg(res.msg,{
+	                            time:1000,
+	                            end:function () {
+	                             	window.location.reload();
+	                            }
+	                        })
+			    		}else{
+			    			setTime();
+			    			$('input[name=yzmtoken]').val(res.msg)
+			    		}
+			    	}
+			    })
+			}
+
+			function  setTime(){
+			    if (countDownT == 0){
+			        $("#gSMS").attr("onclick","get_sms_captcha()");
+			        $("#gSMS").attr("disabled",false);
+			        $("#gSMS").text("获取短信验证码");
+			    } else{
+			        $("#gSMS").attr("onclick","");
+			        $("#gSMS").attr("disabled","disabled");
+			        $("#gSMS").text("重新发送("+countDownT+")");
+			        countDownT--;
+			        setTimeout(function () {
+			            setTime();
+			        },1000)
+			    }
+			}
+
+
+
+
+			$('.agreement-check img').click(function(){
+					var src = $(this).attr('src');
+					if(src.indexOf("no-check.png") >= 0 ) { 
+					    var newsrc =  src.replace('/no-check.png','/check.png')
+					    $(this).attr('src',newsrc);
+					    $(this).parents('li').siblings().find('.check img').attr('src',src);
+					    agreement = 1;
+					} else{
+					    var newsrc = src.replace('/check.png','/no-check.png')
+					    agreement = 0;
+					     $(this).attr('src',newsrc);
+				    }
+			})
+
+			$('.register').click(function(){
+				if(!agreement){
+					layer.msg('请确定投资协议 ！');
+					return false;
+				}
+				let username = $('input[name=username]').val()
+				let usertel = $('input[name=usertel]').val()
+				let yzm = $('input[name=yzm]').val()
+				let smyzm = $('input[name=smyzm]').val()
+				let password = $('input[name=password]').val()
+
+				if(!username || !usertel ||!yzm ||!smyzm ||!password){
+					layer.msg('请确定信息完整 ！');
+					return false;
+				}
+				$.ajax({
+					url:"",
+					data:$('form').serialize(),
+					type:'post',
+					success:function(res){
+						console.log(res)
+					}
+				})
+				return false;
+
+			})
+
+		</script>
 		{include file="public/footer" /}

@@ -1,57 +1,88 @@
         {include file="public/header" /}
 
-
         <div class="index-banner">
-            <img src="__STATIC__/index/images/banner.png">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+              <!-- Indicators -->
+              <ol class="carousel-indicators">
+                {foreach name="list" item="item"}
+                <li data-target="#carousel-example-generic" data-slide-to="{$key}"></li>
+                {/foreach}
+              </ol>
+
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner" role="listbox">
+                {foreach name="list" item="item"}
+                <div class="item">
+                  <img src="{$item.imgurl}">
+                </div>
+                {/foreach}
+
+              </div>
+
+              <!-- Controls -->
+              <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+            <script type="text/javascript">
+                $('.carousel-indicators li').eq(0).addClass('active')
+                $('.carousel-inner .item').eq(0).addClass('active')
+            </script>
+
         </div>
   
         <div class="index">
             <div class="container">
     
                     <ul>
-                        <li>
-                            <div class="index-main">
-                                <img src="__STATIC__/index/images/index-1.png">
-                                <p>强大的数据分析</p>
-                                <hr>
-                                <div>
-                                    真实账户、原始数据、 <br>客观立体式巨量计算分析
-                                </div>
-                            </div>
-                        </li>
+                            <li>
+                                <a style="display: block;" href="{:url('index/webpage/index_sjfx')}" class="index-main">
+                                    <img src="__STATIC__/index/images/index-1.png">
+                                    <p>强大的数据分析</p>
+                                    <hr>
+                                    <div>
+                                        真实账户、原始数据、 <br>客观立体式巨量计算分析
+                                    </div>
+                                </a>
+                            </li>
 
-                        <li>
-                            <div class="index-main">
-                                <img src="__STATIC__/index/images/index-2.png">
-                                <p>最新式科技手段</p>
-                                <hr>
-                                <div>
-                                    急速响应、多重安全 <br>防护、人性化助力、云科技
-                                </div>
-                            </div>
-                        </li>
+                            <li>
+                                <a style="display: block;" href="{:url('index/webpage/index_kjsd')}" class="index-main">
+                                    <img src="__STATIC__/index/images/index-2.png">
+                                    <p>最新式科技手段</p>
+                                    <hr>
+                                    <div>
+                                        急速响应、多重安全 <br>防护、人性化助力、云科技
+                                    </div>
+                                </a>
+                            </li>
 
-                        <li>
-                            <div class="index-main">
-                                <img src="__STATIC__/index/images/index-3.png">
-                                <p>创新学研平台</p>
-                                <hr>
-                                <div>
-                                    金融市场专业精研平台 <br>金融智库服务平台
-                                </div>
-                            </div>
-                        </li>
+                            <li>
+                                <a style="display: block;" href="{:url('index/webpage/index_xypt')}" class="index-main">
+                                    <img src="__STATIC__/index/images/index-3.png">
+                                    <p>创新学研平台</p>
+                                    <hr>
+                                    <div>
+                                        金融市场专业精研平台 <br>金融智库服务平台
+                                    </div>
+                                </a>
+                            </li>
 
-                        <li>
-                            <div class="index-main">
-                                <img src="__STATIC__/index/images/index-4.png">
-                                <p>发现人才 培养人才</p>
-                                <hr>
-                                <div>
-                                    分享智慧、共享技术  <br>助人助己、体现价值
-                                </div>
-                            </div>
-                        </li>
+                            <li>
+                                <a style="display: block;" href="{:url('index/webpage/index_pyrc')}" class="index-main">
+                                    <img src="__STATIC__/index/images/index-4.png">
+                                    <p>发现人才 培养人才</p>
+                                    <hr>
+                                    <div>
+                                        分享智慧、共享技术  <br>助人助己、体现价值
+                                    </div>
+                                </a>
+                            </li>
 
                     </ul>
 
@@ -59,6 +90,7 @@
 
                     $('.index  ul li .index-main').mouseover(function(){
                         var index = $(this).parent('li').index()+1;
+                        console.log(index)
 
                         var src = $(this).find('img').attr('src');
 
@@ -115,6 +147,6 @@
                 </div>
             </div>
         </div>
-        {include file="public/header" /}
+        {include file="public/footer" /}
         
         

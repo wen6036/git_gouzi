@@ -1,0 +1,11 @@
+		{include file="public/header" /}
+		{include file="public/left" /}
+		<script type="text/javascript">
+			$.ajax({
+				url:"{:url('index/subscribe/subscribe')}",
+				success:function(res){
+					$('.sub-right').html(res)
+				}
+			})
+		</script>
+		{include file="public/footer" /}

@@ -1,0 +1,96 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            {include file="template/form_header" /}
+            <form id="dataForm" class="dataForm form-horizontal" action="" method="post" enctype="multipart/form-data">
+                <div class="box-body">
+                    <div class="fields-group">
+                        {if isset($info)}
+                        <input id="id" name="id" value="{$info.id}" hidden placeholder="请勿修改">
+                        {/if}
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">标题</label>
+                            <div class="col-sm-10 col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                    <input maxlength="20" id="title" name="title" value="{$info.title|default=''}"
+                                           class="form-control" placeholder="请输入设置名称" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pageurl" class="col-sm-2 control-label">页面地址</label>
+                            <div class="col-sm-10 col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa  fa-sticky-note"></i></span>
+                                    <input maxlength="20" id="pageurl" name="pageurl" value="{$info.pageurl|default=''}"
+                                           class="form-control" placeholder="请输入说明" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+<script type="text/javascript" charset="utf-8" src="__PLUGINS__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PLUGINS__/ueditor/ueditor.all.min.js"> </script>
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="__PLUGINS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+                        <div class="form-group">
+                            <label for="status" class="col-sm-2 control-label">内容</label>
+                            <div class="col-sm-10 col-md-10">
+
+                                <script id="editor" type="text/plain" style="width:100%;height:500px;"></script>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {include file="template/form_footer" /}
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+window.onload=function(){
+    UE.delEditor('editor');
+    var ue = UE.getEditor('editor')
+    // setTimeout(function(){var ue = UE.getEditor('editor');},100)
+}
+
+    function getContent() {
+        console.log(UE.getEditor('editor').getContent())
+        // var arr = [];
+        // arr.push(UE.getEditor('editor').getContent());
+        // alert(arr.join("\n"));
+        return UE.getEditor('editor').getContent();
+    }
+   function setContent(isAppendTo) {
+        UE.getEditor('editor').setContent(isAppendTo);
+    }
+
+
+        // var text = '{$info.webcontent|default=''}';
+        // var content = HTMLDecode(text);
+        // function HTMLEncode(html) {
+        //     var temp = document.createElement("div");
+        //     (temp.textContent != null) ? (temp.textContent = html) : (temp.innerText = html);
+        //     var output = temp.innerHTML;
+        //     temp = null;
+        //     return output;
+        // }
+
+        // function HTMLDecode(text) { 
+        //     var temp = document.createElement("div"); 
+        //     temp.innerHTML = text; 
+        //     var output = temp.innerText || temp.textContent; 
+        //     temp = null; 
+        //     return output; 
+        // } 
+        setTimeout(function(){
+            setContent('{$info.webcontent}');
+        },500)
+
+</script>

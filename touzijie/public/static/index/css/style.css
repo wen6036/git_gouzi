@@ -1,7 +1,10 @@
 .index .container{width: 1350px;}
 .index-link .container{width: 1350px;}
 
-
+.container, .navbar, footer {
+     max-width: inherit; 
+    margin: auto;
+}
 /*edit-pwd*/
 .section{
 	width: 100%;

@@ -1,0 +1,53 @@
+					<div class="sr-header">
+						<div class="sr-header-item active">用户订阅的工作室</div>
+						<div class="sr-header-item">我的收藏</div>
+						<div class="sr-header-item">我的体验券</div>
+					</div>
+
+
+					<script type="text/javascript">
+
+						$.ajax({
+							url:"{:url('index/subscribe/studio')}",
+							// data:{uid:uid},
+							success:function(res){
+								$('.sub-table').html(res)
+							}
+						})
+					
+						$('.sub-right .sr-header div').click(function(){
+							$(this).addClass('active').siblings().removeClass('active');
+							let index = $(this).index();
+							if(index==0){
+								$.ajax({
+									url:"{:url('index/subscribe/studio')}",
+									// data:{uid:uid},
+									success:function(res){
+										$('.sub-table').html(res)
+									}
+								})
+							}else if(index==1){
+								$.ajax({
+									url:"{:url('index/subscribe/collect')}",
+									// data:{uid:uid},
+									success:function(res){
+										$('.sub-table').html(res)
+									}
+								})
+							}else if(index==2){
+								$.ajax({
+									url:"{:url('index/subscribe/coupon')}",
+									// data:{uid:uid},
+									success:function(res){
+										$('.sub-table').html(res)
+									}
+								})
+							}
+
+						})
+
+					</script>
+
+					<div class="sub-table">
+
+					</div>

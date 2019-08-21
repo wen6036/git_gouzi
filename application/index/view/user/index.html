@@ -1,0 +1,18 @@
+					
+		{include file="public/header" /}
+		{include file="public/left" /}
+
+					<script type="text/javascript">
+						$.ajax({
+							url:"{:url('index/user/user')}",
+							success:function(res){
+								console.log(111)
+								$('.sub-right').html(res)
+							}
+						})
+
+					</script>
+
+
+		{include file="public/footer" /}
+

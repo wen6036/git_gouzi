@@ -5,8 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>首页</title>
-
+    <title>{$title}</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/normalize.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/frappe_theme.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/index.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/zhexiantu/docs/assets/css/default.css" media="screen">
+    
     <!-- Bootstrap -->
     <link href="__STATIC__/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -26,6 +31,13 @@
     <script src="__STATIC__/layer/layer.js"></script>
 
 
+
+
+
+    <script src="__STATIC__/zhexiantu/docs/assets/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="__STATIC__/zhexiantu/docs/assets/js/frappe-charts.min.js"></script>
+
     <link href="__STATIC__/index/css/public.css" rel="stylesheet">
     <link href="__STATIC__/index/css/style.css" rel="stylesheet">
     <link href="__STATIC__/index/css/media.css" rel="stylesheet">
@@ -43,25 +55,52 @@
                 </div>
                 <div class="nav">
                     <ul>
-                        <li>首页1</li>
-                        <li>数据排名订阅区</li>
-                        <li>数据排名展示区</li>
-                        <li>服务内容</li>
-                        <li>学研中心</li>
-                        <li>新手指南</li>
+                        <li><a href="{:url('index/index/index')}">首页</a></li>
+                        <li><a href="{:url('index/datasub/index')}">数据排名订阅区</a></li>
+                        <li><a href="{:url('index/datashow/index')}">数据排名展示区</a></li>
+                        <li><a href="{:url('index/service/content')}">服务内容</a></li>
+                        <li><a href="{:url('index/service/research')}">学研中心</a></li>
+                        <li><a href="{:url('index/service/guide')}">新手指南</a></li>
                     </ul>
                 </div>
 
 
-<!--                 <div class="login-user">
-                    <span>昵称 ,你好</span> 
-                    <button class="btn btn-xs">退出登录</button>
-                </div> -->
+                {if condition="$status eq 1"}
+                    <div class="login-user">
+                        <span><a href="{:url('index/Subscribe/index')}" class="reg">{$userinfo.username} ,你好</a></span> 
+                        <button class="btn btn-xs"><a href="{:url('index/login/loginout')}">退出登录</a></button>
+                    </div>
 
-                 <div class="login-reg">
-                    <span ><a href="{:url('index/login/register')}" class="reg">注册</a></span>
-                    <span ><a href="{:url('index/login/login')}" class="login">登录</a></span>
-                </div>
+                {elseif condition="$status eq 3" /}
+
+                     <div class="login-reg">
+                        <span ><a href="{:url('index/login/register')}" class="reg">用户中心</a></span>
+                        <span ><a href="{:url('index/login/loginout')}" class="login">退出</a></span>
+                    </div>
+                {else /}
+                     <div class="login-reg">
+                        <span ><a href="{:url('index/login/register')}" class="reg">注册</a></span>
+                        <span ><a href="{:url('index/login/login')}" class="login">登录</a></span>
+                    </div>
+
+                {/if}
+    
                 
             </div>
         </header>
+
+        <script type="text/javascript">
+            var href = window.location.href;
+            var host = window.location.host;
+            console.log(href)
+            console.log(host)
+            var length = $('.nav ul li').length;
+            // console.log(length)
+            for (var i = 0; i < length; i++) {
+                if(href.indexOf($('.nav ul li').eq(i).find('a').attr('href')) != -1){
+                    $('.nav ul li').eq(i).find('a').css('border-bottom','1px solid').siblings().css('border-bottom','none');
+                }
+            }
+
+
+        </script>

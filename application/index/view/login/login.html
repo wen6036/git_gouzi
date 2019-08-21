@@ -1,0 +1,110 @@
+		
+		{include file="public/header" /}
+		<div class="register-login">
+			<div class="container">
+				<div class="content" style="padding: 0">
+					<div class="content-left">
+						<h1>投资界</h1>
+						<div class="des">
+							<p>Investment</p> 
+							<p>community</p>
+						</div>
+					</div>
+					<div class="content-right">
+						<div class="title">欢迎登录</div>
+						<form id="formdata">
+							<div class="text-input">
+								<div class="input-icon">
+									<img src="__STATIC__/index/images/name.png">
+								</div>
+								<div class="input">
+									<input type="text" name="userinfo" placeholder="请输入用户名称/手机号码">
+								</div>
+							</div>
+
+
+							<div class="text-input">
+								<div class="input-icon">
+									<img src="__STATIC__/index/images/name.png">
+								</div>
+								<div class="input">
+									<input type="password" name="password" placeholder="请输入密码">
+								</div>
+							</div>
+
+							<div class="text-input">
+								<div class="input-icon">
+									<img src="__STATIC__/index/images/yam.png">
+								</div>
+								<div class="yzm">
+									<input type="text" name="yzm" placeholder="请输入验证码">
+								</div>
+								<div class="yzmtext">
+									看不清，换一张
+								</div>
+							</div>
+
+
+							<div class="text-input">
+								<div class="input-icon">
+								</div>
+								<div>
+									<div class="yzmnum" style="width: 50%;float: left;"><img src="{:captcha_src()}" alt="captcha" onclick="this.src='{:captcha_src()}?'+Math.random();" style="width: 100%;" /></div>
+								</div>
+							</div>
+
+
+							<div class="mkpwd"><button>登录</button></div>
+							<div class="text-input">
+								<div class="input-icon">
+								</div>
+								<div style="text-align: right;width: 65%;float: left;">
+									<a href="{:url('index/login/edit_pwd')}">确定重置密码</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$('.yzmtext').click(function(){
+				$('.yzmnum img').attr('src','{:captcha_src()}?'+Math.random());
+			})
+			$('.mkpwd button').click(function(){
+
+				let userinfo = $('input[name=userinfo]').val()
+				let yzm = $('input[name=yzm]').val()
+				let password = $('input[name=password]').val()
+
+				if(!userinfo ||!yzm ||!password){
+					layer.msg('请确定信息完整 ！');
+					return false;
+				}
+				$.ajax({
+					url:"",
+					data:$('form').serialize(),
+					type:'post',
+					success:function(res){
+						console.log(res)
+
+						if(res.code==1){
+							layer.msg(res.msg,{
+	                            time:1000,
+	                            end:function () {
+	                             	window.location.href = "{:url('index/index/index')}";
+	                            }
+	                        })
+						}else{
+							layer.msg(res.msg)
+						}
+
+					}
+				})
+				return false;
+
+			})
+
+		</script>
+
+		{include file="public/footer" /}

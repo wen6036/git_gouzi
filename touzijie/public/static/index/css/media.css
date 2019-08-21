@@ -46,11 +46,24 @@
 	.index .container ul li{width: 50%;margin-top: 50px;text-align: center;}
 	.index .container ul li .index-main{display: inline-block; text-align: center;float: inherit;}
 
+	.sub-right{width: 700px; }
+
+}
+
+
+
+@media (min-width: 1200px){
+
+.container {
+    width: 1200px !important;
+    max-width: 100%;
+}
 }
 
 @media (max-width: 950px){
 	.web_logo{display:block;}
 	.nav{display:none;}
+	.sub-right{width: 700px; }
 
 }
 
