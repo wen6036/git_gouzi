@@ -1,5 +1,6 @@
 		
 		{include file="public/header" /}
+
         <div class="index-banner">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
               <!-- Indicators -->
@@ -70,125 +71,25 @@
 	  		</div>
   		</div>
 
-		<style type="text/css">
-		.line-chart .x{display: none}
-		.line-chart .y{display: none}
-		.graph-stats-container{display: none !important;}
-		.chart-container .graphics{padding:0;margin:0;}
-		.chart-container .title{display: none}
-		.graph-svg-tip{display: none}
-		.uppercase{display: none}
-		</style>
 		<div class="sjdyq">
 			<div class="container">
-				<table class="table table-striped">
-					<tr>
-						<td style="width: 50px;text-align: center;">
-							<span class="sjdyq-number">1</span>
-						</td>
-						<td class="user-info">
-							<span class="user-name">张三</span>
-							<span class="user-uid">UID：123456</span>
-						</td>
-						<td style="width: 180px;position: relative;padding: 0; height: 100px">
-							<div id="chart-trends" style="position:absolute;left: -68px;width:260px ;height: 100px;"></div>
-						</td>
-						<td style="width: 620px" class="datadetail">
-							<div class="sjdyq-td-item active">
-								<span>综合积分</span>
-								<span>净值</span>
-								<span>年化收益率</span>
-								<span>胜率</span>
-								<span>最大回撤率</span>
-								<span>盈亏比</span>
-								<span>夏普比率</span>
-								<span>盈亏效率</span>
-								
-							</div>
-							<div  class="sjdyq-td-item">
-								<span>51</span>
-								<span>1</span>
-								<span>1</span>
-								<span>1</span>
-								<span>1</span>
-								<span>1</span>
-								<span>1</span>
-								<span>1</span>
 
-							</div>
-							<div class="sjdyq-td-des">
-								<span>累计收益率：168.22% </span>
-								<span>净利润：59873.25</span>
-								<span>资金规模：598730</span>
-							</div>
-						</td>
-						<td class="sjdyq-dynum">
-							<p class="num">订阅人数</p>
-								<p>1</p>
-								<p>
-									<a href="">详情</a>
-								</p>
-						</td>
-						<td class="sjdyq-dingyue">
-							<p class="sjdyq-money">订阅费</p>
-							<p>400元/月</p>
-							<p><button class="btn">订阅</button></p>
-						</td>
-					</tr>
-				</table>
-				<script>
+				<div style="width: 100%;padding: 100px 0px;text-align: center;">
+					<img src="http://www.51dewen.com/static/admin/plugins/layer/skin/default/loading-1.gif">
+				</div>
 
-							let x = ["2007", "2008", "2009", "2010", "2011", "2012","2013", "2014", "2015", "2016", "2017"];
-							let y = [152, 222, 199, 287, 534, 709,1179, 1256, 1632, 1856, 1850];
-
-							xiaozhexian("#chart-trends",x,y);
-
-							function xiaozhexian(element,x,y){
-				// hideLine
-				// heatline
-				// regionFill
-				// hideDots
-					let trends_data = {
-						labels: x,
-						datasets: [
-							{
-								values: y
-							}
-						]
-					};
-
-							let plotChartArgs = {
-								// title: "Mean Total Sunspot Count - Yearly",
-								data: trends_data,
-								type: 'line',
-								height: 100,
-								colors: ['#238e38'],
-								lineOptions: {
-									hideDots: 1,
-									heatline: 1,
-								},
-								axisOptions: {
-									xAxisMode: 'tick',
-									yAxisMode: 'span',
-									xIsSeries: 1
-								}
-							};
-
-							let type = 'regionFill';
-							let config = {};
-							config[type] = 1;
-
-							if(['regionFill', 'heatline'].includes(type)) {
-								config.hideDots = 1;
-							}
-
-							plotChartArgs.init = false;
-							plotChartArgs.lineOptions = config;
-							new Chart(element, plotChartArgs);
-
-				}
-
-				</script>
 			</div>
 		</div>
 		{include file="public/footer" /}
+
+		<script type="text/javascript">
+			// let x,y;
+		
+			$.ajax({
+				url:"{:url('Datasub/info')}",
+				success:function(res){
+					$('.sjdyq .container').html(res)
+				}
+			})
+
+		</script>

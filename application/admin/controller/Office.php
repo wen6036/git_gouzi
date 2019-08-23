@@ -21,7 +21,7 @@ class Office extends Base
         if (isset($this->param['keywords']) && !empty($this->param['keywords'])) {
             $pageParam['query']['keywords'] = $this->param['keywords'];
             // $model->whereLike('studioname', "%" . $this->param['keywords'] . "%");
-            $list = Db::table('tz_studio')->alias('a')->field('a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,b.id,a.uid,FROM_UNIXTIME(a.create_time, "%Y-%m-%d") AS create_time')->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->whereLike('a.uid', "%" . $this->param['keywords'] . "%")->paginate($this->webData['list_rows'], false, $pageParam);
+            $list = Db::table('tz_studio')->alias('a')->field('a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,a.id,a.uid,FROM_UNIXTIME(a.create_time, "%Y-%m-%d") AS create_time')->join(['tz_userinfo'=>'b'],'a.uid=a.id','left')->whereLike('a.uid', "%" . $this->param['keywords'] . "%")->paginate($this->webData['list_rows'], false, $pageParam);
             $this->assign('keywords', $this->param['keywords']);
         }else{
             $list = Db::table('tz_studio')->alias('a')->field('a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,b.id,a.uid,FROM_UNIXTIME(a.create_time, "%Y-%m-%d") AS create_time')->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->paginate($this->webData['list_rows'], false, $pageParam);
@@ -82,6 +82,45 @@ class Office extends Base
         $con['id'] = $this->param['id'];
         $info = Db::table('tz_studio')->where($con)->find();
         return json($info);
+    }
+
+    public function editstatus(){
+        $con['id'] = $this->param['id'];
+        $data['studiotype'] = $this->param['type'];
+        $data['status'] = $this->param['status'];
+        $status = Db::table('tz_studio')->where($con)->update($data); 
+        // dump($con);
+        // dump($data);
+    }
+
+
+
+    public function detail_exl()
+    {
+        $id = $this->id;
+        // $info = Db::table('tz_userinfo')->field("*,FROM_UNIXTIME(create_time, '%Y-%m-%d') as create_time")->where("id=$id")->find();
+
+        $info = Db::table('tz_studio')->alias('a')->field('a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,a.id,a.uid,FROM_UNIXTIME(a.create_time, "%Y-%m-%d") AS create_time')->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->where("a.id=$id")->find();
+
+
+
+            $header = ['创建日期', '工作室名称', '工作室UID', '用户名称', '收费价格','期货账户', '开户供货公司', '类型','状态','是否禁止订阅'];
+            $body   = [];
+
+                $record                    = [];
+                $record['create_time']              = $info['create_time'];
+                $record['studioname']            = $info['studioname'];
+                $record['id']        = $info['id'];
+                $record['username']          = $info['username'];
+                $record['price']           = $info['price'];
+                $record['futures_account']        = $info['futures_account'];
+                $record['futures_company'] = $info['futures_company'];
+                $record['studiotype']          = $info['studiotype'];
+                $record['status']          = $info['status'];
+                $record['is_sub']          = $info['is_sub'];
+                
+                $body[]                    = $record;
+            return $this->export($header, $body, "User-" . date('Y-m-d-H-i-s'), '2007');
     }
 
 }

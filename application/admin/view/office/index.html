@@ -93,11 +93,11 @@
                              <button  data-id="{$item.id}"  class="btn btn-success btn-xs edit_mol" title="取消排名">
                                 编辑 / 审核
                             </button>
-                            <button  data-url="detail.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-default btn-xs" title="取消排名" data-toggle="tooltip">
-                                到处
-                            </button>
-<br>
-                            <button  data-url="detail.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-info btn-xs" title="取消排名" data-toggle="tooltip">
+                            <a  href="detail_exl/id/{$item.id}" target="_blank"  data-id="{$item.id}"  class="btn btn-default btn-xs" title="导出" data-toggle="tooltip">
+                                导出
+                            </a>
+                            <br>
+                            <button  data-id="{$item.id}"  class="btn btn-info btn-xs startservice" title="取消排名" data-toggle="tooltip">
                                 启动数据库
                             </button>
 
@@ -114,7 +114,8 @@
             {include file="template/data_footer" /}
         </div>
 
-<!-- Modal -->
+<input type="hidden" name="id" value="">
+<!-- 编辑审核 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="margin-top: 200px">
     <div class="modal-content">
@@ -125,14 +126,16 @@
       <div class="modal-body">
             <div  class="form-group" style="padding-left: 40px">
                 <label  class="col-sm-2 control-label" value="1" >类型：</label>
-                <input type="radio" name="type" value="1"> 订阅区
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="type"> 展示区
+                <img src="__PUBLIC__/index/images/no-check.png" class="studiotype">&nbsp;&nbsp; 订阅区
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="__PUBLIC__/index/images/no-check.png" class="studiotype">&nbsp;&nbsp; 展示区
+                <input type="hidden" name="type" value="">
             </div>
 
             <div class="form-group" style="padding-left: 40px">
-                <label  class="col-sm-2 control-label">状态：</label>
-                <input type="radio" name="status" value="1"> 审核通过
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="status" value="1" checked> 审核未通过
+                <label  class="col-sm-2 control-label" value="1" >状态：</label>
+                <img src="__PUBLIC__/index/images/no-check.png" class="status">&nbsp;&nbsp; 审核通过
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="__PUBLIC__/index/images/no-check.png" class="status">&nbsp;&nbsp; 审核未通过
+                <input type="hidden" name="status" value="">
             </div>
       </div>
       <div class="modal-footer">
@@ -142,41 +145,130 @@
     </div>
   </div>
 </div>
-        <script type="text/javascript">
 
+<!-- 启动数据库 -->
+<div class="modal fade" id="Service" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="margin-top: 200px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">编辑 / 审核</h4>
+      </div>
+      <div class="modal-body">
+            <div  class="form-group" style="padding-left: 40px">
+                <label  class="col-sm-4 control-label" value="1" >期货账户：</label>
+                <input type="text" name="type" value="">
+            </div>
+
+            <div  class="form-group" style="padding-left: 40px">
+                <label  class="col-sm-4 control-label" value="1" >期货公司：</label>
+                <input type="text" name="type" value="">
+            </div>
+
+            <div class="form-group" style="padding-left: 40px">
+                <label  class="col-sm-4 control-label" value="1" >交易密码：</label>
+                <input type="text" name="status" value="">
+            </div>
+
+            <div class="form-group" style="padding-left: 40px">
+                <label  class="col-sm-4 control-label" value="1" >指标计算起始日：</label>
+                <input type="text" name="status" value="">
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary save_change">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+        <script type="text/javascript">
+            //编辑审核
             $('.edit_mol').click(function(){
                     var id = $(this).attr('data-id')
-
+                    $('input[name=id]').val(id)
+                    // var newsrc =  src.replace('/no-check.png','/check.png')
+                    var src =  "__PUBLIC__/index/images/no-check.png";
+                    var newsrc =  "__PUBLIC__/index/images/check.png";
                     $.ajax({
                         url:"{:url('admin/office/showinfo')}",
                         type:'post',
                         data:{id:id},
                         success:function(res){
+                            $('input[name=type]').val(res.studiotype); 
+                            $('input[name=status]').val(res.status); 
+                            console.log($('.studiotype').length)
+                            console.log($('.status').length)
                             if(res.studiotype==1){
-                                console.log($('input[name=type]').length)
-                                $('input[name=type]').eq(0).attr("checked",true); 
+                                $('.studiotype').eq(0).attr('src',newsrc).siblings('img').attr('src',src);;
                             }else{
-                                $('input[name=type]').eq(1).attr("checked",true); 
+                                $('.studiotype').eq(1).attr('src',newsrc).siblings('img').attr('src',src);;
                             }
-                                $('input[name=type]').eq(0).attr("checked",true); 
                             if(res.status==1){
-                                $('input[name=status]').eq(0).attr("checked",true); 
+                                $('.status').eq(0).attr('src',newsrc).siblings('img').attr('src',src);;
                             }else{
-                                $('input[name=status]').eq(1).attr("checked",true); 
+                                $('.status').eq(1).attr('src',newsrc).siblings('img').attr('src',src);;
                             }
+
                         }
                     })
-
                     $('#myModal').modal('show')
             })
 
+            $('.studiotype').click(function(){
+                var index = $(this).index()
+                var src = $(this).attr('src');
+                if(src.indexOf("no-check.png") >= 0 ) { 
+                    var newsrc =  src.replace('/no-check.png','/check.png')
+                    $(this).attr('src',newsrc);
+                    $(this).siblings('img').attr('src',src);
+                    if(index==1){
+                        $('input[name=type]').val(1)
+                    }else{
+                        $('input[name=type]').val(2)
+                    }
+                }
+            })
 
+            $('.status').click(function(){
+                var index = $(this).index()
+                var src = $(this).attr('src');
+                if(src.indexOf("no-check.png") >= 0 ) { 
+                    var newsrc =  src.replace('/no-check.png','/check.png')
+                    $(this).attr('src',newsrc);
+                    $(this).siblings('img').attr('src',src);
+                    if(index==1){
+                        $('input[name=status]').val(1)
+                    }else{
+                        $('input[name=status]').val(0)
+                    }
+                }
+            })
             $('.save_change').click(function(){
                 var  type = $('input[name=type]').val()
                 var  status = $('input[name=status]').val()
+                var id = $('input[name=id]').val()
                 console.log(type)
                 console.log(status)
-                // $('#myModal').modal('hide')
+                console.log(id)
+                $.ajax({
+                    url:"{:url('admin/office/editstatus')}",
+                    type:'post',
+                    data:{id:id,type:type,status:status},
+                    success:function(res){
+                         $('#myModal').modal('hide')
+                    }
+                })
+            })
+
+
+
+
+            $('.startservice').click(function(){
+                
+                $('#Service').modal('show')
+
             })
 
             document.getElementById("is_sub").onchange = function() {

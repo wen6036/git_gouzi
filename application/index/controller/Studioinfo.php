@@ -21,7 +21,7 @@ class Studioinfo extends Controller
 			$this->assign('title','页面不存在');
 			return $this->fetch('public/error');
 		}
-		dump($info);
+		// dump($info);
 		$this->assign('info',$info);
 		$this->assign('uid',$uid);
 		$this->assign('user',session('userinfo'));
