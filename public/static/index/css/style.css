@@ -160,7 +160,7 @@
 .sub-right .sr-header .sr-header-item{height: 45px;line-height: 45px;float: left;padding: 0 25px;}
 .sub-right .sr-header .sr-header-item:hover{color: #4679bd;cursor: pointer;}
 .sub-right .sr-header .active{color: #4679bd;}
-.sub-table table{width: 100%;margin-bottom: 200px;}
+.sub-table table{width: 100%;margin-bottom: 50px;}
 .sub-table table tr th{line-height: 60px;text-align: center;}
 .sub-table table tr td{text-align: center;line-height: 40px;}
 .sub-table table tr td .btn-info{background: #4679bd;border: none}

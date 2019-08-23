@@ -14,7 +14,7 @@ class Index extends Controller
     	// $userinfo = session('userinfo');
     	$list = Db::table('tz_banner')->where('type=1')->select();
         $this->assign('list',$list);    
-    	$this->assign('title','首页');	
+        $this->assign('title','首页');    
         return $this->fetch();
     }
 
@@ -23,4 +23,12 @@ class Index extends Controller
         return 'hello';
     }
     
+    public function test()
+    {
+
+        
+    	$this->assign('title','test');	
+        return $this->fetch();
+    }
+
 }

@@ -1,0 +1,196 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-body">
+                <form class="form-inline" name="searchForm" id="searchForm" action="" method="GET">
+                    <div class="form-group">
+                        <input value="{$keywords ? $keywords : '' ;}"
+                               name="keywords" id="keywords" class="form-control input-sm" placeholder="用户id">
+                    </div>
+
+
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search"></i> 查询
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <button onclick="exportData()" class="btn btn-sm btn-default" type="button"><i
+                                class="fa fa-download"></i> 导出
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <button onclick="clear_form()" class="btn btn-sm btn-" type="button"><i
+                                class="fa  fa-eraser"></i> 清空查询
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            {include file="template/data_header" /}
+            <div class="box-body table-responsive">
+                <table class="table table-hover table-bordered datatable" width="100%">
+                    <thead>
+                    <tr>
+                        <th>创建日期</th>
+                        <th>工作室名称</th>
+                        <th>工作室UID</th>
+                        <th>用户名称</th>
+                        <th>收费价格</th>
+                        <th>期货账户</th>
+                        <th>开户供货公司</th>
+                        <th>类型</th>
+                        <th>状态</th>
+                        <th>是否禁止订阅</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name="list" item="item"}
+                    <tr>
+
+                        <td>{$item.create_time}</td>
+                        <td>{$item.studioname}</td>
+                        <td>{$item.uid}</td>
+                        <td>{$item.username}</td>
+                        <td>{$item.price}</td>
+                        <td>{$item.futures_account}</td>
+                        <td>{$item.futures_company}</td>
+                        <td>
+                            {if condition="$item.studiotype eq 1"}
+                            订阅区
+                            {else /}
+                            展示区
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$item.studiotype eq 1"}
+                            审核成功
+                            {else /}
+                            待审核
+                            {/if}
+                        </td>
+
+
+                        <td class="subevent">
+                                <input {if ($item.is_sub==1)}checked{/if}
+                                    value="{$item.is_sub|default='1'}"
+                                    class="form-input-switch" type="checkbox" placeholder="is_sub-switch"
+                                    data-input="is_sub">
+                                    <input id="is_sub" name="is_sub" value="{$item.is_sub|default='1'}" data-id="{$item.id}" type="hidden"/>
+                        </td>
+
+
+
+                        <td class="td-do">
+                             <button  data-id="{$item.id}"  class="btn btn-success btn-xs edit_mol" title="取消排名">
+                                编辑 / 审核
+                            </button>
+                            <button  data-url="detail.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-default btn-xs" title="取消排名" data-toggle="tooltip">
+                                到处
+                            </button>
+<br>
+                            <button  data-url="detail.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-info btn-xs" title="取消排名" data-toggle="tooltip">
+                                启动数据库
+                            </button>
+
+                            <button  data-url="" data-id="{$item.id}"  class="AjaxButton btn btn-danger btn-xs" title="取消排名" data-toggle="tooltip">
+                                删除
+                            </button>
+
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+            {include file="template/data_footer" /}
+        </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="margin-top: 200px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">编辑 / 审核</h4>
+      </div>
+      <div class="modal-body">
+            <div  class="form-group" style="padding-left: 40px">
+                <label  class="col-sm-2 control-label" value="1" >类型：</label>
+                <input type="radio" name="type" value="1"> 订阅区
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="type"> 展示区
+            </div>
+
+            <div class="form-group" style="padding-left: 40px">
+                <label  class="col-sm-2 control-label">状态：</label>
+                <input type="radio" name="status" value="1"> 审核通过
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="status" value="1" checked> 审核未通过
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary save_change">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+        <script type="text/javascript">
+
+            $('.edit_mol').click(function(){
+                    var id = $(this).attr('data-id')
+
+                    $.ajax({
+                        url:"{:url('admin/office/showinfo')}",
+                        type:'post',
+                        data:{id:id},
+                        success:function(res){
+                            if(res.studiotype==1){
+                                console.log($('input[name=type]').length)
+                                $('input[name=type]').eq(0).attr("checked",true); 
+                            }else{
+                                $('input[name=type]').eq(1).attr("checked",true); 
+                            }
+                                $('input[name=type]').eq(0).attr("checked",true); 
+                            if(res.status==1){
+                                $('input[name=status]').eq(0).attr("checked",true); 
+                            }else{
+                                $('input[name=status]').eq(1).attr("checked",true); 
+                            }
+                        }
+                    })
+
+                    $('#myModal').modal('show')
+            })
+
+
+            $('.save_change').click(function(){
+                var  type = $('input[name=type]').val()
+                var  status = $('input[name=status]').val()
+                console.log(type)
+                console.log(status)
+                // $('#myModal').modal('hide')
+            })
+
+            document.getElementById("is_sub").onchange = function() {
+                // console.log("隐藏标签的当期值为：" + this.value);
+                var id = $('#is_sub').attr('data-id')
+                var is_sub = this.value;
+                $.ajax({
+                    url:"{:url('admin/office/is_sub')}",
+                    type:'post',
+                    data:{id:id,is_sub:is_sub},
+                    success:function(res){
+
+                    }
+                })
+            }
+        </script>
+ 
