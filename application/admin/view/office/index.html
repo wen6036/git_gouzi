@@ -43,6 +43,7 @@
                         <th>工作室名称</th>
                         <th>工作室UID</th>
                         <th>用户名称</th>
+                        <th>用户ID</th>
                         <th>收费价格</th>
                         <th>期货账户</th>
                         <th>开户供货公司</th>
@@ -58,8 +59,9 @@
 
                         <td>{$item.create_time}</td>
                         <td>{$item.studioname}</td>
-                        <td>{$item.uid}</td>
+                        <td>{$item.id}</td>
                         <td>{$item.username}</td>
+                        <td>{$item.uid}</td>
                         <td>{$item.price}</td>
                         <td>{$item.futures_account}</td>
                         <td>{$item.futures_company}</td>
@@ -71,20 +73,29 @@
                             {/if}
                         </td>
                         <td>
-                            {if condition="$item.studiotype eq 1"}
-                            审核成功
+                            {if condition="$item.status eq 1"}
+                            <span class="btn-success btn-xs btn shenhe" data-id="{$item.id}" data-v="0">审核成功</span>
+                            
                             {else /}
-                            待审核
+                            <span class="btn-danger btn-xs btn shenhe" data-id="{$item.id}" data-v="1">待审核</span>
                             {/if}
                         </td>
 
 
                         <td class="subevent">
-                                <input {if ($item.is_sub==1)}checked{/if}
+<!--                                 <input {if ($item.is_sub==1)}checked{/if}
                                     value="{$item.is_sub|default='1'}"
                                     class="form-input-switch" type="checkbox" placeholder="is_sub-switch"
                                     data-input="is_sub">
-                                    <input id="is_sub" name="is_sub" value="{$item.is_sub|default='1'}" data-id="{$item.id}" type="hidden"/>
+                                    <input class="is_sub" value="{$item.is_sub|default='1'}" data-id="{$item.id}" type="hidden"/> -->
+
+                                    {if condition="$item.is_sub eq 1"}
+                                    <span class="btn-success btn-xs btn is_sub" data-id="{$item.id}" data-v="0">允许</span>
+                                    
+                                    {else /}
+                                    <span class="btn-danger btn-xs btn is_sub" data-id="{$item.id}" data-v="1">禁止</span>
+                                    {/if}
+
                         </td>
 
 
@@ -113,7 +124,39 @@
             </div>
             {include file="template/data_footer" /}
         </div>
+<script type="text/javascript">
+$('.is_sub').click(function(){
+    console.log(111)
+    var id = $(this).attr('data-id')
+    var is_sub = $(this).attr('data-v')
+    $.ajax({
+        url:"{:url('admin/office/is_sub')}",
+        type:'post',
+        data:{id:id,is_sub:is_sub},
+        success:function(res){
+            console.log(res)
+            window.location.reload()
+        }
+    })
 
+})
+            // $(".is_sub").onchange = function() {
+            //     console.log("隐藏标签的当期值为：" + this.value);
+            //     var id = $('#is_sub').attr('data-id')
+            //     console.log(this)
+            //     var is_sub = this.value;
+            //     $.ajax({
+            //         url:"{:url('admin/office/is_sub')}",
+            //         type:'post',
+            //         data:{id:id,is_sub:is_sub},
+            //         success:function(res){
+
+            //         }
+            //     })
+            // }
+
+
+</script>
 <input type="hidden" name="id" value="">
 <!-- 编辑审核 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -157,28 +200,28 @@
       <div class="modal-body">
             <div  class="form-group" style="padding-left: 40px">
                 <label  class="col-sm-4 control-label" value="1" >期货账户：</label>
-                <input type="text" name="type" value="">
+                <input type="text" name="futures_account" value="" disabled="disabled">
             </div>
 
             <div  class="form-group" style="padding-left: 40px">
                 <label  class="col-sm-4 control-label" value="1" >期货公司：</label>
-                <input type="text" name="type" value="">
+                <input type="text" name="futures_company" value="" disabled="disabled">
             </div>
 
             <div class="form-group" style="padding-left: 40px">
                 <label  class="col-sm-4 control-label" value="1" >交易密码：</label>
-                <input type="text" name="status" value="">
+                <input type="password" name="futures_password" value="" disabled="disabled">
             </div>
 
             <div class="form-group" style="padding-left: 40px">
                 <label  class="col-sm-4 control-label" value="1" >指标计算起始日：</label>
-                <input type="text" name="status" value="">
+                <input type="text" name="start_time" value="">
             </div>
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary save_change">Save changes</button>
+        <button type="button" class="btn btn-primary save_service">Save changes</button>
       </div>
     </div>
   </div>
@@ -266,23 +309,35 @@
 
 
             $('.startservice').click(function(){
-                
-                $('#Service').modal('show')
-
-            })
-
-            document.getElementById("is_sub").onchange = function() {
-                // console.log("隐藏标签的当期值为：" + this.value);
-                var id = $('#is_sub').attr('data-id')
-                var is_sub = this.value;
+                var id = $(this).attr('data-id');
+                $('input[name=id]').val(id)
                 $.ajax({
-                    url:"{:url('admin/office/is_sub')}",
+                    url:"{:url('admin/office/showinfo')}",
                     type:'post',
-                    data:{id:id,is_sub:is_sub},
+                    data:{id:id},
                     success:function(res){
-
+                        // console.log(res)
+                        $('input[name=futures_account]').val(res.futures_account)
+                        $('input[name=futures_company]').val(res.futures_company)
+                        $('input[name=futures_password]').val(res.futures_password)
+                        $('input[name=start_time]').val(res.start_time)
+                        $('#Service').modal('show')
                     }
                 })
-            }
+            })
+
+            $('.save_service').click(function(){
+                var id = $('input[name=id]').val()
+                var start_time = $('input[name=start_time]').val()
+                $.ajax({
+                    url:"{:url('admin/office/save_service')}",
+                    type:'post',
+                    data:{id:id,start_time:start_time},
+                    success:function(res){
+                         $('#myModal').modal('hide')
+                    }
+                })
+            })
+
         </script>
  

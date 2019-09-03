@@ -1,3 +1,13 @@
+		<link rel="stylesheet" type="text/css" href="__STATIC__/common/paging/paging.css">
+<script type="text/javascript" src="__STATIC__/common/paging/paging.js"></script>
+<script type="text/javascript" src="__STATIC__/common/paging/page.js"></script>
+<script type="text/javascript" src="__STATIC__/common/paging/jquery.tmpl.min.js"></script>
+<style type="text/css">
+/*.count-page{display: none}*/
+.count-page{padding-left: 20px}
+/*.ui-paging-container{float: inherit !important;}*/
+</style>
+
 			<table>
 				<tr>
 					<th>工作室名称</th>
@@ -5,7 +15,17 @@
 					<th>操作</th>
 				</tr>
 
-				<tr>
+
+
+		        <tbody id="content" class="table-b">
+		            <tr>
+		                <td colspan="4" style="text-align: center">
+		                    暂无数据
+		                </td>
+		            </tr>
+		        </tbody>
+
+<!-- 				<tr>
 					<td>随风而去</td>
 					<td>2019年8月6号</td>
 					<td>
@@ -29,5 +49,46 @@
 					<td>
 						<button class="btn btn-xs">删除</button>
 					</td>
-				</tr>
+				</tr> -->
 			</table>
+    <!-- 列表底部按钮 -->
+    <div class="paginations">
+        <div id="pageTool"><p class="count-page"></p></div>
+    </div>
+
+
+<script id="tpl" type="text/x-jquery-tmpl">
+				<tr>
+					<td>${studioname}</td>
+					<td>${create_time}</td>
+					<td>
+						<button class="btn btn-xs" data="${id}" onclick = "ppp(this)">删除</button>
+					</td>
+				</tr>	
+
+</script>
+
+<script type="text/javascript">
+    $('#pageTool').page("{:url('Subscribe/ajax_collect')}", function (data, obj) {
+        // 分页
+        if (data.data.count > 0) {
+            $("#content").html('');
+            $("#tpl").tmpl(data.data.data).appendTo('#content');
+        } else {
+            var tpl = '<tr><td colspan="4" style="text-align: center">暂无数据</td></tr>';
+            $("#content").html(tpl);
+        }
+        // $('.search-btn').off("click").on('click', function(){
+        //     var name = $('input[name=title]').val()
+        //     obj.ajax({cur: 1, size: data.size, key:name})
+        // })
+
+    });
+
+    function ppp(obj){
+    	var id = $(obj).attr('data');
+    	console.log(id)
+    }
+
+</script>
+

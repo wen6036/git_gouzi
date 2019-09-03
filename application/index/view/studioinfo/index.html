@@ -1,6 +1,6 @@
 		{include file="public/header" /}
 		<div class="studio_introduct">
-			<div class="container">
+			<div class="container" style="min-width:1170px;">
 				<div class="si-header">
 					<div class="studio-info">
 						<div class="headimg">
@@ -62,58 +62,24 @@
 
 
 					<div class="studio-collect">
-						<button class="btn" {if condition="$uid eq $user['id']"}disabled="disabled"{/if}>收藏</button>
-						<p>订阅人数：256人</p>
+					{if isset($collect)}
+						<button class="btn cancle_collect" data-id="{$info.studio_id}">已收藏</button>
+						<p>订阅人数：{$info.deals}人</p>
+					{else /}
+						<button class="btn collect" {if condition="$uid eq $user['id']"}disabled="disabled"{/if} data-id="{$info.studio_id}">收藏</button>
+						<p>订阅人数：{$info.deals}人</p>
+					{/if}
 					</div>
-
 					<div class="studio-dingyue">
-						<button class="btn" {if condition="$uid eq $user['id']"}disabled="disabled"{/if}>订阅</button>
+						<a href="{:url('index/datasub/order_pay',array('id'=>$info.studio_id))}"><button class="btn" {if condition="$uid eq $user['id']"}disabled="disabled"{/if}>订阅</button></a>
 						<p>订阅费:{$info.price}元/月</p>
-						<p class="studio-status">该账户几个月未交易，请谨慎订阅</p>
+						<!-- <p class="studio-status">该账户几个月未交易，请谨慎订阅</p> -->
 					</div>
 
 				</div>
 
-				<div class="studio-type">
-					<ul>
-						<li>
-						<a href="{:url('index/studioinfo/index')}">
-							<div class="studion-main">
-								<img src="__STATIC__/index/images/z1.png">
-								<p>账户分析</p>
-							</div>
-						</a>
-						</li>
+				{include file="public/studio" /}
 
-						<li>
-							<div class="studion-main">
-								<img src="__STATIC__/index/images/z2.png">
-								<p>实时记录</p>
-							</div>
-						</li>
-
-						<li>
-							<div class="studion-main">
-								<img src="__STATIC__/index/images/z3.png">
-								<p>实时持仓</p>
-							</div>
-						</li>
-
-						<li>
-							<div class="studion-main">
-								<img src="__STATIC__/index/images/z4.png">
-								<p>历史记录</p>
-							</div>
-						</li>
-
-						<li>
-							<div class="studion-main">
-								<img src="__STATIC__/index/images/z5.png">
-								<p>工作室简介</p>
-							</div>
-						</li>
-					</ul>
-				</div>
 
 				<div class="studion-jiaoyifenxi">
 					<button class="btn jyfx-title">
@@ -123,27 +89,27 @@
 
 				<div class="jy-type">
 					<ul>
-						<li>综合积分：1250</li>
-						<li>净值(图)：1250</li>
-						<li>累计收益率(图)：1250</li>
-						<li>综合积分:1250分 </li>
-						<li>每日权益(图)：1250</li>
-						<li>净利润(图)：1250</li>
-						<li>累计出入金：1250</li>
-						<li>总手续费：1250</li>
-						<li>盈亏效率(图)：1250</li>
-						<li>胜率(图)：1250</li>
-						<li>盈亏比(图)：1250</li>
-						<li>风报比(图)：1250</li>
-						<li>最大回撤率(图)：1250</li>
-						<li>夏普比率(图)：1250</li>
-						<li>卡玛比率(图)：1250</li>
-						<li>品种成交偏好(图)</li>
-						<li>品种净利润(图)：1250</li>
-						<li>品种胜率(图)：1250</li>
-						<li>总交易天数(图)：1250</li>
-						<li>总交易次数(图)：1250</li>
-						<li>交易频率(图)：1250</li>
+						<li>综合积分：{$info.score}</li>
+						<li>净值(图)：{$info.mulNetValue}</li>
+						<li>累计收益率(图)：{$info.mulProfitRatio}</li>
+						<li>年化收益率:{$info.mulProfitRatioPerYear} </li>
+						<li class="active" data="netProfitSeries">每日权益(图)：wuwu</li>
+						<li>净利润(图)：{$info.netProfit}</li>
+						<li>累计出入金：{$info.deposit}</li>
+						<li>总手续费：{$info.fee}</li>
+						<li>盈亏效率(图)：wuwuwu</li>
+						<li>胜率(图)：{$info.winRate}</li>
+						<li>盈亏比(图)：{$info.totalWinLossRatio}</li>
+						<li>风报比(图)：{$info.rewardRatio}</li>
+						<li>最大回撤率(图)：{$info.maxReduceRatio}</li>
+						<li>夏普比率(图)：{$info.sharpRatio}</li>
+						<li>卡玛比率(图)：{$info.kamaRatio}</li>
+						<li data="prdID_trdRatio">品种成交偏好(图)</li>
+						<li data="prdID_netProfit" >品种净利润(图)：wuwu</li>
+						<li>品种胜率(图)</li>
+						<li>总交易天数(图)：{$info.dealDays}</li>
+						<li>总交易次数(图)：{$info.deals}</li>
+						<li>交易频率(图)：{$info.dealFrequency}</li>
 					</ul>
 				</div>
 
@@ -160,17 +126,48 @@
 
 					<div class="zhexiantu">
 			          <div id="chart-composite-1"><svg height=225></svg></div>
-
-					</div>
-
-					<div class="zhexiantu">
-						<div id="chart-trends"></div>
-					</div>
-
-					<div class="zhexiantu">
-						<div id="chart-events"></div>
 					</div>
 				</div>
+				<script type="text/javascript">
+					// let x = ["2007", "2008", "2009", "2010", "2011", "2012","2013", "2014", "2015", "2016", "2017"];
+					// let y = [152, 222, 199, 287, 534, 709,1179, 1256, 1632, 1856, 1850];
+
+					// zhexiantu("#chart-composite-1",x,y,titlename);
+					// bingzhuangtu("#chart-aggr",x,y)
+					// xiaozhexian("#chart-trends",x,y);
+					// zhuzhuangtu("#chart-events",x,y);
+					var id = {$info.studio_id},type;
+					$('.jy-type ul li').click(function(){
+						type = $(this).attr('data');
+						if(!type){
+							return false;
+						}
+						$(this).addClass('active').siblings().removeClass('active')
+						get_info(type);
+					})
+
+					get_info('netProfitSeries');
+
+					function get_info(type){
+						$.ajax({
+							url:"{:url('Studioinfo/get_info')}",
+							data:{type:type,id:id},
+							success:function(res){
+								console.log(res)
+								if(type=='prdID_netProfit'){
+									xiaozhexian("#chart-composite-1",res.x,res.y,'')
+								}else if(type=='prdID_trdRatio'){
+									zhexiantu("#chart-composite-1",res.x,res.y,'%');
+								}else{
+									zhexiantu("#chart-composite-1",res.x,res.y,'');
+								}
+							}
+						})
+					}
+
+				</script>
+
+
 
 				<div class="jy-fb">
 					<div>
@@ -220,186 +217,51 @@
 
 				<script type="text/javascript">
 					$('.studio-type ul li .studion-main').eq(0).css({'background':'#4679bd','color':'#fff'}).find('img').attr('src','__STATIC__/index/images/zs1.png')
-					$('.studio-type ul li .studion-main').mouseover(function(){
-						var index = $(this).parent('li').index()+1;
-						var src = $(this).find('img').attr('src');
 
-						var z = "z"+index+".png";
-						var nz = "zs"+index+".png";
-						if(src.indexOf(z) >= 0 ) { 
-						    var newsrc =  src.replace(z,nz)
-						    $(this).find('img').attr('src',newsrc);
-						   
-						}
-					})
-					$('.studio-type ul li .studion-main').mouseout(function(){
-						var index = $(this).parent('li').index()+1;
 
-						var src = $(this).find('img').attr('src');
-
-						var nz = "zs"+index+".png";
-						var z = "z"+index+".png";
-						if(index!=1){
-							if(src.indexOf(nz) >= 0 ) { 
-							    var newsrc =  src.replace(nz,z)
-							    $(this).find('img').attr('src',newsrc);
-							   
+					// 收藏
+					$('.collect').click(function(){
+						var studio_id = $(this).attr('data-id');
+						var obj = $(this);
+						$.ajax({
+							url:"{:url('index/studioinfo/collect')}",
+							data:{id:studio_id},
+							success:function(res){
+								layer.msg(res.msg,{
+		                            time:1500,
+		                            end:function () {
+		                             	window.location.reload();
+		                            }
+		                        })
 							}
-							
-						}
+						})
 					})
+					// 取消收藏
+					$('.cancle_collect').click(function(){
+						var studio_id = $(this).attr('data-id');
+						var obj = $(this);
+						$.ajax({
+							url:"{:url('index/studioinfo/cancle_collect')}",
+							data:{id:studio_id},
+							success:function(res){
+								layer.msg(res.msg,{
+		                            time:1500,
+		                            end:function () {
+		                             	window.location.reload();
+		                            }
+		                        })
+								
+							}
+						})
+					})
+
+					function cancle_collect(){}
 				</script>
 			</div>
 		</div>
   
 		{include file="public/footer" /}
 
-    <script type="text/javascript">
 
-			let x = ["2007", "2008", "2009", "2010", "2011", "2012","2013", "2014", "2015", "2016", "2017"];
-			let y = [152, 222, 199, 287, 534, 709,1179, 1256, 1632, 1856, 1850];
-
-			let titlename = 'Events';
-
-			zhexiantu("#chart-composite-1",x,y,titlename);
-
-			function zhexiantu(element,x,y,titlename){
-				let lineCompositeData = {
-				  labels: x,
-				  datasets: [{
-				    "name": titlename,
-				    "values": y
-				  }]
-				};
-
-				let c1 = document.querySelector(element);
-
-				let lineCompositeChart = new Chart (c1, {
-					// title: "Fireball/Bolide Events - Yearly (reported)",
-					data: lineCompositeData,
-					type: 'line',
-					height: 190,
-					colors: ['green'],
-					isNavigable: 1,
-					// valuesOverPoints: 1,
-
-					lineOptions: {
-						dotSize: 5
-					},
-					// yAxisMode: 'tick',
-					// regionFill: 1
-				});
-			}
-
-			bingzhuangtu("#chart-aggr",x,y)
-			function bingzhuangtu(element,x,y){
-				let typeData = {
-					labels: x,
-					datasets: [
-						{
-							values: y,
-						},
-					]
-				};
-				let args = {
-					data: typeData,
-					type: 'pie',
-					height: 250,
-					colors: ['purple', 'magenta', 'light-blue'],
-
-					maxLegendPoints: x.length,
-					maxSlices: x.length,
-
-					tooltipOptions: {
-						formatTooltipX: d => (d + '').toUpperCase(),
-						formatTooltipY: d => d + ' pts',
-					}
-				}
-				// pie 三种状态
-				//  percentage
-				//  axis-mixed
-				let newChart = new Chart(element, args);
-			}
-
-
-			xiaozhexian("#chart-trends",x,y);
-
-			function xiaozhexian(element,x,y){
-// hideLine
-// heatline
-// regionFill
-// hideDots
-				let trends_data = {
-					labels: x,
-					datasets: [
-						{
-							values: y
-						}
-					]
-				};
-
-						let plotChartArgs = {
-							// title: "Mean Total Sunspot Count - Yearly",
-							data: trends_data,
-							type: 'line',
-							height: 250,
-							colors: ['#238e38'],
-							lineOptions: {
-								hideDots: 1,
-								heatline: 1,
-							},
-							axisOptions: {
-								xAxisMode: 'tick',
-								yAxisMode: 'span',
-								xIsSeries: 1
-							}
-						};
-
-						let type = 'regionFill';
-						let config = {};
-						config[type] = 1;
-
-						if(['regionFill', 'heatline'].includes(type)) {
-							config.hideDots = 1;
-						}
-
-						plotChartArgs.init = false;
-						plotChartArgs.lineOptions = config;
-						new Chart(element, plotChartArgs);
-
-			}
-
-
-
-
-
-// // let moon_names = ["Ganymede", "Callisto", "Io", "Europa"];
-// // let distances = [1070.412, 1882.709, 421.700, 671.034];
-
-	zhuzhuangtu("#chart-events",x,y);
-		function zhuzhuangtu(element,x,y){
-
-		let events_data = {
-			labels:x,
-			datasets: [
-				{
-					"values": y,
-				}
-			]
-		};
-
-		let events_chart = new Chart(element, {
-			// title: "Jupiter's Moons: Semi-major Axis (1000 km)",
-			data: events_data,
-			type: 'bar',
-			height: 250,
-			colors: ['grey'],
-			// isNavigable: 1,
-		});
-
-		}
-
-
-    </script>
   	</body>
 </html>

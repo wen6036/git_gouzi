@@ -1,103 +1,157 @@
 
-					<div class="have-sub-info">
-						<div class="sub-title">工作室设置
-							<a href="{:url('index/studioinfo/index',array('uid'=>$id))}"><button class="btn">进入工作室</button></a>
-						</div>
+	<div class="have-sub-info">
+		<div class="sub-title">工作室设置
+			<a href="{:url('index/studioinfo/index',array('uid'=>$id))}"><button class="btn">进入工作室</button></a>
+		</div>
 
-						<div class="form-group">
-							<span>工作室名称：</span>
-							{$info.studioname}
-						 </div>
+		<div class="form-group">
+			<span>工作室名称：</span>
+			{$info.studioname}
+		 </div>
 
-						 <div class="form-group">
-							<span>工作室UID：</span>
-							{$info.uid}
+		 <div class="form-group">
+			<span>工作室UID：</span>
+			{$info.id}
 
-						 </div>
+		 </div>
 
-						 <div class="form-group">
-							<span>账户性质：</span>
-							{if condition="$info.shipan eq 1"}
-							期货实盘
-							{else /}
-							无
-							{/if}
-						 </div>
-
-
-						 <div class="form-group">
-							<span>交易方式：</span>
-							{if condition="$info.fangshi eq 1"}
-							日内短线
-							{elseif condition="$info.fangshi eq 2"}
-							隔夜短线
-							{elseif condition="$info.fangshi eq 3"}
-							中短线
-							{elseif condition="$info.fangshi eq 4"}
-							中长线
-							{elseif condition="$info.fangshi eq 5"}
-							长线
-							{/if}
-						 </div>
+		 <div class="form-group">
+			<span>账户性质：</span>
+			{if condition="$info.shipan eq 1"}
+			期货实盘
+			{else /}
+			无
+			{/if}
+		 </div>
 
 
-						 <div class="form-group">
-							<span>交易周期：</span>
-							{if condition="$info.zhouqi eq 1"}
-							主观
-							{else /}
-							量化
-							{/if}
-						 </div>
-						<div class="form-group">
-							 <span>收费价格：</span>
-							 <div class="sub-money"><input type="number" name="" value="{$info.price}"> /30天</div>
-							 <span class="sub-notice">范围:100-5000元/30天，取100的整数倍，展示区不需要填写</span>
-						</div>
-
-<!-- 						 <div class="form-group">
-							<span>工作室区分：</span>
-							<img src="./public/static/index/images/no-check.png">订阅区
-							<img src="./public/static/index/images/no-check.png">展示区
-						 </div> -->
-
-						 <div class="form-group">
-							<span>工作室简介：</span>
-							<div class="sub-des">
-								<textarea placeholder="100字以内">{$info.description|default=''}</textarea>
-							</div>
-						 </div>
+		 <div class="form-group">
+			<span>交易方式：</span>
+			{if condition="$info.fangshi eq 1"}
+			日内短线
+			{elseif condition="$info.fangshi eq 2"}
+			隔夜短线
+			{elseif condition="$info.fangshi eq 3"}
+			中短线
+			{elseif condition="$info.fangshi eq 4"}
+			中长线
+			{elseif condition="$info.fangshi eq 5"}
+			长线
+			{/if}
+		 </div>
 
 
-						 <div class="form-group">
-							 <span>期货账户 ：</span>
-							{$info.futures_account}
-						</div>
+		 <div class="form-group">
+			<span>交易周期：</span>
+			{if condition="$info.zhouqi eq 1"}
+			主观
+			{else /}
+			量化
+			{/if}
+		 </div>
+		<div class="form-group">
+			 <span>收费价格：</span>
+			 <div class="sub-money"><input type="number" name="price" value="{$info.price}"> /30天</div><button class="btn btn-xs edit_price" style="background: #4679bd;margin-left: 20px;color: #fff">修改</button>
+			 <span class="sub-notice">范围:100-5000元/30天，取100的整数倍，展示区不需要填写</span>
+		</div>
 
-						<div class="form-group">
-							 <span>期货交易密码 ：</span>
-							{$info.futures_password}
-						</div>
-						<div class="form-group">
-							 <span>期货交易原密码 ：</span>
-							<div class="sub-zhanghao">
-								<input type="text" name="">
-							</div>
-						</div>
-						<div class="form-group">
-							 <span>期货交易新密码 ：</span>
-							<div class="sub-zhanghao">
-								<input type="text" name="">
-							</div>
-						</div>
-						<div class="form-group">
-							 <span>确定新密码 ：</span>
-							<div class="sub-zhanghao">
-								<input type="text" name="">
-							</div>
-						</div>
+		 <div class="form-group">
+			<span>工作室简介：</span>
+			<div class="sub-des">
+				<textarea placeholder="100字以内">{$info.description|default=''}</textarea>
+			</div>
+		 </div>
 
-						<div class="sub-button">
-							<button class="btn">修改</button>
-						</div>
-					</div>
+
+		 <div class="form-group">
+			 <span>期货账户 ：</span>
+			{$info.futures_account}
+		</div>
+
+		<div class="form-group">
+			 <span>期货交易密码 ：</span>
+			{$info.futures_password}
+		</div>
+		<div class="form-group">
+			 <span>期货交易原密码 ：</span>
+			<div class="sub-zhanghao">
+				<input type="text" name="old_pwd">
+			</div>
+		</div>
+		<div class="form-group">
+			 <span>期货交易新密码 ：</span>
+			<div class="sub-zhanghao">
+				<input type="text" name="new_pwd">
+			</div>
+		</div>
+		<div class="form-group">
+			 <span>确定新密码 ：</span>
+			<div class="sub-zhanghao">
+				<input type="text" name="mk_pwd">
+			</div>
+		</div>
+
+		<div class="sub-button">
+			<button class="btn savepwd">修改</button>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$('.edit_price').click(function(){
+			var price = $('input[name=price]').val();
+			if(price>5000){
+				layer.msg('价格不能大于5000')
+				return false;
+			}else{
+				if(price%100>0){
+					layer.msg('请输入100的整数倍')
+					return false;
+				}
+			}
+			$.ajax({
+				url:"{:url('index/studio/edit_price')}",
+				data:{price:price},
+				success:function(res){
+					if(res.code==1){
+						layer.msg(res.msg)
+					}else{
+						layer.msg(res.msg,{
+                            time:1000,
+                            end:function () {
+                             	window.location.reload();
+                            }
+                        })
+					}
+				}
+			})
+		})
+
+		$('.savepwd').click(function(){
+			var  old_pwd = $('input[name=old_pwd]').val()
+			var  new_pwd = $('input[name=new_pwd]').val()
+			var  mk_pwd = $('input[name=mk_pwd]').val()
+
+			if(new_pwd != mk_pwd){
+					layer.msg('两次密码不一致')
+					return false;
+			}
+			$.ajax({
+				url:"{:url('index/studio/edit_pwd')}",
+				data:{old_pwd:old_pwd,new_pwd:new_pwd,mk_pwd:mk_pwd},
+				success:function(res){
+					return false;
+					if(res.code==1){
+						layer.msg(res.msg)
+					}else{
+						layer.msg(res.msg,{
+                            time:1000,
+                            end:function () {
+                             	window.location.reload();
+                            }
+                        })
+					}
+				}
+			})
+
+		})
+	</script>

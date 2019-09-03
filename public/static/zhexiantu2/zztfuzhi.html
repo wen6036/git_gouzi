@@ -1,0 +1,25 @@
+<div id="container" style="min-width:400px;height:400px"></div>
+
+<script src="../jq.js"></script>
+<script src="./highcharts.js"></script>
+<script src="./exporting.js"></script>
+<script src="./oldie.js"></script>
+
+<script type="text/javascript">
+var chart = Highcharts.chart('container',{
+	chart: {
+		type: 'column'
+	},
+	title: {
+		text: '包含负值的柱形图'
+	},
+	xAxis: {
+		categories: ['苹果', '橘子', '梨', '葡萄', '香蕉']
+	},
+	series: [{
+		name: '小张',
+		data: [5, -3, 4, 7, 2]
+	}]
+});
+
+</script>

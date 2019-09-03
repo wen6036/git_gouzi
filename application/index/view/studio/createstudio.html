@@ -17,10 +17,14 @@
 
 						 <div class="form-group">
 							<span>账户性质：</span>
-							{if condition="$info.shipan eq 1"}
-							<img src="__STATIC__/index/images/check.png" class="shipan"> 
-							{else /}
-							<img src="__STATIC__/index/images/no-check.png" class="shipan">
+							{if isset($info)}  
+								{if condition="$info.shipan eq 1"}
+								<img src="__STATIC__/index/images/check.png" class="shipan"> 
+								{else /}
+								<img src="__STATIC__/index/images/no-check.png" class="shipan">
+								{/if}
+								{else /}
+								<img src="__STATIC__/index/images/no-check.png" class="shipan">
 							{/if}
 							 期货实盘
 							<input type="hidden" name="shipan">
@@ -32,7 +36,7 @@
 							<img src="__STATIC__/index/images/no-check.png" class="fangshi" data-id='2'> 量化	
 							<input type="hidden" name="fangshi">		
 							<script type="text/javascript">
-								let fangshinum = {$info.fangshi|default='0'};
+								fangshinum = {$info.fangshi|default='0'};
 								if(fangshinum){
 									$('.fangshi').eq(fangshinum-1).attr("src",'__STATIC__/index/images/check.png')
 								}
@@ -47,7 +51,7 @@
 
 
 							<script type="text/javascript">
-								let celueshinum = {$info.celue|default='0'};
+								celueshinum = {$info.celue|default='0'};
 								if(celueshinum){
 									$('.celue').eq(celueshinum-1).attr("src",'__STATIC__/index/images/check.png')
 								}
@@ -63,14 +67,14 @@
 							<input type="hidden" name="zhouqi">	
 						 </div>
 							<script type="text/javascript">
-								let zhouqinum = {$info.zhouqi|default='0'};
+								zhouqinum = {$info.zhouqi|default='0'};
 								if(zhouqinum){
 									$('.zhouqi').eq(zhouqinum-1).attr("src",'__STATIC__/index/images/check.png')
 								}
 							</script>
 						<div class="form-group">
 							 <span>收费价格：</span>
-							 <div class="sub-money"><input type="number" name="price" value="{$info.price|default='0'}"> /30天</div>
+							 <div class="sub-money"><input type="number" name="price" value="{$info.price|default=''}"> /30天</div>
 							 <span class="sub-notice">范围:100-5000元/30天，取100的整数倍，展示区不需要填写</span>
 						</div>
 
@@ -80,7 +84,7 @@
 							<img src="__STATIC__/index/images/no-check.png" class="studiotype" data-id='2'>展示区
 							<input type="hidden" name="studiotype">	
 							<script type="text/javascript">
-								let studiotypenum = {$info.zhouqi|default='0'};
+								studiotypenum = {$info.zhouqi|default='0'};
 								if(studiotypenum){
 									$('.studiotype').eq(studiotypenum-1).attr("src",'__STATIC__/index/images/check.png')
 								}
@@ -91,7 +95,7 @@
 						 <div class="form-group">
 							<span>工作室简介：</span>
 							<div class="sub-des">
-								<textarea placeholder="100字以内" name="description">{$info.description|default='0'}</textarea>
+								<textarea placeholder="100字以内" name="description">{$info.description|default=''}</textarea>
 							</div>
 						 </div>
 
@@ -100,25 +104,26 @@
 						 <div class="form-group">
 							 <span>期货账户 ：</span>
 							<div class="sub-pwd">
-								 <input type="text" name="futures_account" value="{$info.futures_account|default='futures_account'}">
+								 <input type="text" name="futures_account" value="{$info.futures_account|default=''}">
 							</div>
 						</div>
 
 						<div class="form-group">
 							 <span>期货交易密码 ：</span>
 							<div class="sub-zhanghao">
-								<input type="text" name="futures_password">
+								<input type="password" name="futures_password" value="{$info.futures_password|default=''}">
 							</div>
 						</div>
 
 						<div class="form-group">
 							 <span>开户期货公司 ：</span>
-							<div class="selected">
-								<select name="futures_company">
-										<option>随风而行</option>
-										<option>随风而行1</option>
-										<option>随风而行2</option>
+							<div class="selected futures_company" >
+								<select name="BrokerId">
+									{foreach name="futures_company" item="item"}
+										<option value="{$item.BrokerId}" data-name="{$item.BrokerName}">{$item.BrokerName}</option>
+									{/foreach}
 								</select>
+								<input type="hidden" name="futures_company">
 							</div>
 						</div>
 						<div class="sub-agreement">
@@ -239,8 +244,12 @@
 
 			var futures_account = $('input[name=futures_account]').val();
 			var futures_password = $('input[name=futures_password]').val();
-			var futures_company = $('select[name=futures_company]').val();
-			console.log(studioname+'--'+shipan+'--'+fangshi+'--'+celue+'--'+zhouqi+'--'+studiotype+'--'+description+'--'+futures_account+'--'+futures_password+'--'+futures_company)
+			var BrokerId = $('select[name=BrokerId]').val();
+
+			var futures_company=$('.futures_company option:selected').attr('data-name'); 
+			$('input[name=futures_company]').val(futures_company);
+
+			// console.log(studioname+'--'+shipan+'--'+fangshi+'--'+celue+'--'+zhouqi+'--'+studiotype+'--'+description+'--'+futures_account+'-'+options+'-'+futures_password+'--'+futures_company)
 			var agreement = $('input[name=agreement]').val()
 			console.log(agreement)
 			if(!agreement){

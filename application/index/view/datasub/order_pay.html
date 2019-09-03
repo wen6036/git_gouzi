@@ -1,0 +1,148 @@
+		{include file="public/header" /}
+		<div class="subscribe-pay">
+			<div class="container">
+				<div class="spay-item">
+					<div class="coupon-time">订阅时间</div>
+					<div class="pay-time select_time">
+						<ul>
+							<li><button class="active">一个月</button></li>
+							<li><button>两个月</button></li>
+							<li><button>三个月</button></li>
+							<li><button>六个月</button></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="spay-item">
+					<div class="coupon-time">订阅费用1</div>
+					<div class="pay-time pay_price">
+						<ul>
+							<li><button class="active"><span>{$info.price}</span>元</button></li>
+							<li><button><span>{$info.price * 2}</span>元</button></li>
+							<li><button><span>{$info.price * 3}</span>元</button></li>
+							<li><button><span>{$info.price * 6}</span>元</button></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="spay-item">
+					<div class="coupon-time">支付方式</div>
+					<div class="pay-time">
+						<ul>
+							<li>
+								<div class="check"><img src="__STATIC__/index/images/check.png" class="paytype"></div>
+								<div class="pay-icon">
+									<img src="__STATIC__/index/images/wx-icon.png">
+									<p>微信支付</p>
+								</div>
+							</li>
+
+							<li>
+								<div class="check"><img src="__STATIC__/index/images/no-check.png" class="paytype"></div>
+								<div class="pay-icon">
+									<img src="__STATIC__/index/images/al-cion.png">
+									<p>支付宝支付</p>
+								</div>
+							</li>
+							<li>
+								<div class="check"><img src="__STATIC__/index/images/no-check.png" class="paytype"></div>
+								<div class="pay-icon">
+									<img src="__STATIC__/index/images/ty-cion.png">
+									<p>体验券</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<script type="text/javascript">
+					var paytype = 1;
+					$('.check img').click(function(){
+						var src = $(this).attr('src');
+						if(src.indexOf("no-check.png") >= 0 ) { 
+							paytype = $(this).parents('li').index()+1;
+						    var newsrc =  src.replace('/no-check.png','/check.png')
+						    $(this).attr('src',newsrc);
+						    $(this).parents('li').siblings().find('.check img').attr('src',src);
+						} else{
+						    var newsrc = src.replace('/check.png','/no-check.png')
+						    $(this).attr('src',newsrc);
+						}
+					})
+
+					$('.paytype').click(function(){
+						console.log($(this).parents('li').index()+1)
+							
+						if(paytype==3){
+							$('.select_time li,.pay_price li').find('button').removeClass('active')
+						}else{
+							if(!$('.select_time li button').hasClass('active')){
+								$('.select_time li').eq(0).find('button').addClass('active')
+								$('.pay_price  li').eq(0).find('button').addClass('active')
+							}
+							
+						}
+					})
+
+
+					$('.select_time li button').click(function(){
+						console.log($(this).parents('li').index())
+						if(paytype==3){
+							return false;
+						}
+						$(this).addClass('active').parents('li').siblings('li').find('button').removeClass('active')
+
+						$('.pay_price li').eq($(this).parents('li').index()).find('button').addClass('active').parents('li').siblings('li').find('button').removeClass('active')
+					})
+
+
+				</script>
+
+
+
+				<div class="spay-item coupon-agreement pp">
+					<img src="__STATIC__/index/images/check.png">
+					<div class="agreement">我已阅读并同意<span>《用户订阅支付协议》</span></div>
+				</div>
+
+
+				<div class="pay-button">
+					<button class="btn payorder" style="color: #fff">支付</button>
+				</div>
+
+
+				<script>
+
+
+
+					$('.coupon-agreement img').click(function(){
+						var src = $(this).attr('src');
+						if(src.indexOf("no-check.png") >= 0 ) { 
+						    var newsrc =  src.replace('/no-check.png','/check.png')
+						    $(this).attr('src',newsrc);
+						} else{
+							
+						    var newsrc = src.replace('/check.png','/no-check.png')
+						    $(this).attr('src',newsrc);
+						}
+					})
+
+					$('.payorder').click(function(){
+						var index = $('.select_time li .active').parents('li').index()+1;
+						console.log(index)
+						$.ajax({
+							url:"{:url('index/datasub/payorder')}",
+							data:{id:{$info['id']},index:index,paytype:paytype},
+							success:function(res){
+								console.log(res)
+							}
+						})
+					})
+
+
+				</script>
+			</div>
+		</div>
+  
+		
+		{include file="public/footer" /}

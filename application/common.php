@@ -41,3 +41,30 @@ function basepic($img, $fileurl = '') //保存base图片
         return false;
     }
 }
+
+
+function sendCurlPost($url, $data = 'input'){
+    //初始化，创建一个cURL资源
+    $ch = curl_init();
+    //设置cURL选项
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_USERAGENT, "user-agent:Mozilla/5.0 (Windows NT 5.1; rv:24.0) Gecko/20100101 Firefox/24.0");
+    curl_setopt($ch, CURLOPT_HEADER, 0);    //是否返回文件头信息
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);    //不直接打印输出
+    curl_setopt($ch, CURLOPT_POST, 1);  //是否post请求
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data); //post传输数据
+    // curl_setopt($ch, CURLOPT_HTTPHEADER, array("application/x-www-form-urlencoded; charset=utf-8", "Content-length: ".strlen($data)));
+    //执行cURL会话
+    $response = curl_exec($ch);
+    if (!curl_errno($ch)){
+        $result =  $response;
+    }else{
+    //    echo 'Curl error: ' . curl_error($ch);
+        $result = false;
+    }
+ 
+    //关闭cURL释放资源
+    curl_close($ch);
+ 
+    return $result;
+}

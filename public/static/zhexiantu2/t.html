@@ -1,0 +1,79 @@
+<div id="container"></div>
+
+<script src="../jq.js"></script>
+<script src="./highcharts.js"></script>
+<script src="./exporting.js"></script>
+<script src="./oldie.js"></script>
+<script type="text/javascript">
+
+
+// Data generated from http://www.bikeforums.net/professional-cycling-fans/1113087-2017-tour-de-france-gpx-tcx-files.html
+var elevationData = [
+    [0.0, 225],
+    [0.1, 226],
+    [0.2, 228],
+    [0.3, 228],
+    [0.4, 229],
+    [0.5, 229],
+    [0.6, 230],
+    [0.7, 234],
+    [0.8, 235],
+    [0.9, 236],
+    [1.0, 235],
+];
+// highcharts-label highcharts-tooltip highcharts-color-undefined
+// 初始化图标
+var chart = Highcharts.chart('container', {
+    chart: {
+        type: 'area',
+        zoomType: 'x',
+        panning: true,
+        panKey: 'shift'
+    },
+    title: {
+        text: '标题'
+    },
+
+
+    xAxis: {
+        labels: {
+            format: '{value} km'//x下方单位
+        },
+        minRange: 1,
+        title: {
+            text: '下方标题'
+        }
+    },
+    yAxis: {
+        startOnTick: true,
+        endOnTick: false,
+        maxPadding: 0.35,
+        title: {
+            text: null
+        },
+        labels: {
+            format: '{value} m'//y下方单位
+        }
+    },
+    tooltip: {
+        headerFormat: '距离: {point.x:.1f} km<br>',
+        pointFormat: '海拔：{point.y} m ',
+        shared: true
+    },
+    legend: {
+        enabled: false
+    },
+    // Highcharts.getOptions().colors[10]
+    series: [{
+        data: elevationData,
+        lineColor: '#4679bd',
+        color: '#4679bd',
+        fillOpacity: 0.3,
+        // name: '海拔高度',
+        marker: {
+            enabled: false
+        },
+        threshold: null
+    }]
+});
+</script>

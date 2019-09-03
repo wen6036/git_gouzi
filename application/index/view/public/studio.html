@@ -1,0 +1,82 @@
+					<div class="studio-type">
+					<ul>
+						<li>
+						<a href="{:url('index/studioinfo/index',array('id'=>$info.studio_id))}">
+							<div class="studion-main">
+								<img src="__STATIC__/index/images/z1.png">
+								<p>账户分析</p>
+							</div>
+						</a>
+						</li>
+
+
+						<li>
+							<a href="{:url('index/studioinfo/timelog',array('id'=>$info.studio_id))}">
+							<div class="studion-main">
+								<img src="__STATIC__/index/images/z2.png">
+								<p>实时记录</p>
+							</div>
+							</a>
+						</li>
+
+						<li>
+							<a href="{:url('index/studioinfo/timehold',array('id'=>$info.studio_id))}">
+							<div class="studion-main">
+								<img src="__STATIC__/index/images/z3.png">
+								<p>实时持仓</p>
+							</div>
+							</a>
+						</li>
+
+						<li>
+							<a href="{:url('index/studioinfo/historylog',array('id'=>$info.studio_id))}">
+							<div class="studion-main">
+								<img src="__STATIC__/index/images/z4.png">
+								<p>历史记录</p>
+							</div>
+							</a>
+						</li>
+
+						<li>
+							<a href="{:url('index/studioinfo/studio_instruct',array('id'=>$info.studio_id))}">
+							<div class="studion-main">
+								<img src="__STATIC__/index/images/z5.png">
+								<p>工作室简介</p>
+							</div>
+							</a>
+						</li>
+						</ul>
+				</div>
+
+				<script type="text/javascript">
+
+					$('.studio-type ul li .studion-main').mouseover(function(){
+						var index = $(this).parents('li').index()+1;
+						console.log(index)
+						var src = $(this).find('img').attr('src');
+
+						var z = "z"+index+".png";
+						var nz = "zs"+index+".png";
+						if(src.indexOf(z) >= 0 ) { 
+						    var newsrc =  src.replace(z,nz)
+						    $(this).find('img').attr('src',newsrc);
+						   
+						}
+					})
+					$('.studio-type ul li .studion-main').mouseout(function(){
+						var index = $(this).parents('li').index()+1;
+
+						var src = $(this).find('img').attr('src');
+
+						var nz = "zs"+index+".png";
+						var z = "z"+index+".png";
+						if(index!=1){
+							if(src.indexOf(nz) >= 0 ) { 
+							    var newsrc =  src.replace(nz,z)
+							    $(this).find('img').attr('src',newsrc);
+							   
+							}
+							
+						}
+					})
+				</script>

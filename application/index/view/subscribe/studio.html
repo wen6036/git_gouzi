@@ -25,8 +25,7 @@
         </tbody>
 
 
-<!-- {volist name='list' id='user'}
-	<tr>
+<!-- 	<tr>
 		<td>随风而去</td>
 		<td>2019年8月6号-2019年9月5号</td>
 		<td>有效</td>
@@ -34,49 +33,23 @@
 			<button class="btn btn-xs btn-info">接受</button>
 			<button class="btn btn-xs">关闭</button>
 		</td>
-	</tr>							
-{/volist}
- -->
+	</tr>	 -->						
 
-	<!-- <tr>
-		<td>随风而去</td>
-		<td>2019年8月6号-2019年9月5号</td>
-		<td>有效</td>
-		<td>
-			<button class="btn btn-xs btn-info">接受</button>
-			<button class="btn btn-xs">关闭</button>
-		</td>
-	</tr>							<tr>
-		<td>随风而去</td>
-		<td>2019年8月6号-2019年9月5号</td>
-		<td>有效</td>
-		<td>
-			<button class="btn btn-xs btn-info">接受</button>
-			<button class="btn btn-xs">关闭</button>
-		</td>
-	</tr>							<tr>
-		<td>随风而去</td>
-		<td>2019年8月6号-2019年9月5号</td>
-		<td>有效</td>
-		<td>
-			<button class="btn btn-xs btn-info">接受</button>
-			<button class="btn btn-xs">关闭</button>
-		</td>
-	</tr> -->
+
 </table>
 
     <!-- 列表底部按钮 -->
     <div class="paginations">
         <div id="pageTool"><p class="count-page"></p></div>
     </div>
-<script id="tpl" type="text/x-jquery-tmpl">
 
+<script id="tpl" type="text/x-jquery-tmpl">
     <tr class="table-b1">
-		<td>${title}</td>
-		<td>2019年8月6号-2019年9月5号</td>
-		<td>有效</td>
+		<td>${studioname}</td>
+		<td>${create_time}至${end_time}</td>
+		<td>${studio}</td>
 		<td>
-			<button class="btn btn-xs btn-info">接受</button>
+			<button class="btn btn-xs btn-info" data="${studio_id}" onclick = "ppp(this)">接受</button>
 			<button class="btn btn-xs">关闭</button>
 		</td>
 </script>
@@ -91,8 +64,6 @@
             var tpl = '<tr><td colspan="4" style="text-align: center">暂无数据</td></tr>';
             $("#content").html(tpl);
         }
-
-
         // $('.search-btn').off("click").on('click', function(){
         //     var name = $('input[name=title]').val()
         //     obj.ajax({cur: 1, size: data.size, key:name})
@@ -101,5 +72,11 @@
 
     });
 
-
+    function ppp(obj){
+    	var url = "{:url('index/studioinfo/index')}";
+    	var id = $(obj).attr('data');
+    	// window.location.href=;
+    	window.open(url+"?id="+id);   
+    	// console.log(url+"?id="+id)
+    }
 </script>

@@ -13,32 +13,38 @@ class Showdata extends Base
 {
     public function index()
     {
-        $model = new Studios();
         $this->showDataHeaderAddButton = false;
         $this->showDataHeaderDeleteButton = false;
         $pageParam = ['query' => []];
         if (isset($this->param['keywords']) && !empty($this->param['keywords'])) {
             $pageParam['query']['keywords'] = $this->param['keywords'];
-            $model->whereLike('studioname', "%" . $this->param['keywords'] . "%");
+            // dump($this->param['keywords']);
             $this->assign('keywords', $this->param['keywords']);
+            $list = Db::table('tz_studio')->alias('a')->field('a.*,b.score,b.mulNetValue,b.netProfit,b.efficiency,b.deals,b.winRate,b.maxReduceRatio')->join(['tz_futures_info'=>'b'],'a.id=b.studio_id','left')->whereLike('a.studioname', "%" . $this->param['keywords'] . "%")->where('a.studiotype=2')->paginate($this->webData['list_rows']);
+            // dump( Db::table('tz_studio')->getLastSql());
+        }else{
+
+            $list = Db::table('tz_studio')->alias('a')->field('a.*,b.score,b.mulNetValue,b.netProfit,b.efficiency,b.deals,b.winRate,b.maxReduceRatio')->join(['tz_futures_info'=>'b'],'a.id=b.studio_id','left')->where('a.studiotype=2')->paginate($this->webData['list_rows'], false, $pageParam);
+
         }
 
+        // dump($list);
 
         if (isset($this->param['export_data']) && $this->param['export_data'] == 1) {
             $header = ['ID', '工作室名称', '综合积分', '净值','其他'];
             $body   = [];
-            $data   = $model->select();
+            $data   = $list;
             foreach ($data as $item) {
                 $record                    = [];
-                $record['id']              = $item->id;
-                $record['studioname']            = $item->studioname;
+                $record['id']              = $item['id'];
+                $record['studioname']            = $item['studioname'];
+                $record['score']            = $item['score'];
+                $record['mulNetValue']            = $item['mulNetValue'];
                 $body[]                    = $record;
             }
             return $this->export($header, $body, "User-" . date('Y-m-d-H-i-s'), '2007');
         }
-
-        $list = $model->paginate($this->webData['list_rows'], false, $pageParam);
-        // dump($list->toArray());
+        // $list = $model->paginate($this->webData['list_rows'], false, $pageParam);
         $this->assign([
             'list'      => $list,
             'total'     => $list->total(),
@@ -47,16 +53,27 @@ class Showdata extends Base
         return $this->fetch();
     }
 
-    //启用/禁用
-    public function disable()
+    public function rangking()
     {
-        $user         = UserInfo::get($this->id);
-        $user->status = $user->status == 1 ? 0 : 1;
-        $result       = $user->save();
-        if ($result) {
+        $con['ranking'] = 0;
+        $status = Db::table('tz_studio')->where('id='.$this->id)->update($con);
+        // dump($this->id);
+        if($status){
             return $this->success();
         }
         return $this->error();
     }
+
+    public function rangk()
+    {
+        $con['ranking'] = 1;
+        $status = Db::table('tz_studio')->where('id='.$this->id)->update($con);
+        // dump($this->id);
+        if($status){
+            return $this->success();
+        }
+        return $this->error();
+    }
+
 
 }

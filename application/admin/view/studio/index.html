@@ -46,7 +46,11 @@
                         <th>工作室名称</th>
                         <th>综合积分</th>
                         <th>净值</th>
-                        <th>其他指标</th>
+                        <th>净利润</th>
+                        <th>盈亏效率</th>
+                        <th>交易次数</th>
+                        <th>胜率</th>
+                        <th>最大回撤率</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -56,14 +60,24 @@
 
                         <td>{$item.id}</td>
                         <td>{$item.studioname}</td>
-                        <td>{$item.id}</td>
-                        <td>{$item.id}</td>
-                        <td>{$item.id}</td>
+                        <td>{$item.score}</td>
+                        <td>{$item.mulNetValue}</td>
+                        <td>{$item.netProfit}</td>
+                        <td>{$item.efficiency}</td>
+                        <td>{$item.deals}</td>
+                        <td>{$item.winRate}</td>
+                        <td>{$item.maxReduceRatio}</td>
 
                         <td class="td-do">
-                            <button  data-url="detail.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-default btn-xs" title="取消排名" data-toggle="tooltip">
+                            {if $item.ranking == 1}
+                            <button  data-url="rangking.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-default btn-xs" title="取消排名" data-toggle="tooltip">
                                 取消排名
                             </button>
+                            {else /}
+                             <button  data-url="rangk.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-success btn-xs" title="取消排名" data-toggle="tooltip">
+                                显示排名
+                            </button>
+                            {/if}
                         </td>
                     </tr>
                     {/foreach}

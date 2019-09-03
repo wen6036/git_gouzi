@@ -23,4 +23,12 @@ class Controller extends Tk
 			$this->assign('status',2);
 		}
 	}
+
+
+	public function _empty(){
+        // $this->redirect(url());//空方法处理
+        $this->assign('title','页面错误');
+        return $this->fetch('./public/error');
+    }
+
 }

@@ -58,14 +58,14 @@
 				</style>
 			
 				<table class="table table-striped">
-					{foreach name="arr" item="item"}
+					{foreach name="list" item="item"}
 					<tr>
 						<td style="width: 50px;text-align: center;">
-							<span class="sjzsq-number">1</span>
+							<span class="sjzsq-number">{$pagesize*($pagenum-1)+$key+1}</span>
 						</td>
 						<td class="user-info">
-							<span class="user-name">张三</span>
-							<span class="user-uid">UID：123456</span>
+							<span class="user-name">{$item.username}</span>
+							<span class="user-uid">UID：{$item.uid}</span>
 						</td>
 						<td style="width: 180px;position: relative;padding: 0; height: 100px">
 							<div id="chart-trends{$key}" style="position:absolute;left: -68px;width:260px ;height: 100px;"></div>
@@ -103,7 +103,7 @@
 								<span>资金规模：{$item.initialFund}</span>
 								<button class="btn">订阅</button>
 								<span class="shzsq-detail">
-									<a href="{:url('index/studioinfo/index',array('uid'=>1))}">详情</a>
+									<a href="{:url('index/studioinfo/index',array('id'=>$item['id']))}">详情</a>
 								</span>
 							</div>
 						</td>
@@ -123,6 +123,8 @@
 $("#pager").zPager({
 	totalData: {$count|default='1'},
 	htmlBox: $('#wraper'),
+	pageData: {$pagesize}, //每页数据条数
+	pageCount: {$pagesize}, //总页数
 	current: {$pagenum|default='1'}, //当前页码数
 	btnShow: true,
 	ajaxSetData: false,
@@ -131,6 +133,7 @@ $("#pager").zPager({
 		alert(data);
 	},
 });
+
 // $('#pager a').click(function(){
 // 	var pageid = $(this).attr('page-id');
 // 	console.log(pageid)
