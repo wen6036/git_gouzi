@@ -105,7 +105,7 @@ class Subscribe extends Controller
             $where="";
         }
 
-        $info = Db::table('tz_user_collect')->alias('a')->field("a.id,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') as create_time,b.studioname")->join(['tz_studio'=>'b'],'a.studio_id=b.id','left')->where('a.uid='.$uid)->where($where)->page($cur, $size)->select();
+        $info = Db::table('tz_user_collect')->alias('a')->field("a.id,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') as create_time,b.id as studio_id,b.studioname")->join(['tz_studio'=>'b'],'a.studio_id=b.id','left')->where('a.uid='.$uid)->where($where)->page($cur, $size)->select();
         $data['data'] = $info;
         $data['count'] = Db::table('tz_user_collect')->alias('a')->field("a.id")->join(['tz_studio'=>'b'],'a.studio_id=b.id','left')->where('a.uid='.$uid)->where($where)->count();
         return json($data);

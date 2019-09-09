@@ -74,7 +74,7 @@
 									<i>*</i>设置登录密码
 								</div>
 								<div class="input">
-									<input type="text" name="password" placeholder="请输入您的登录密码">
+									<input type="password" name="password" placeholder="请输入您的登录密码">
 								</div>
 							</div>
 							<input type="hidden" name="yzmtoken">
@@ -141,7 +141,7 @@
 
 
 
-			var countDownT = 10;
+			var countDownT = 60;
 			function get_sms_captcha(type){
 			    //下方写业务
 			    let tel = $('input[name=usertel]').val();
@@ -149,7 +149,7 @@
 			    	layer.msg('手机号不正确');
 			    	return false;
 			    }
-			    countDownT = 10;
+			    countDownT = 60;
 			    
 			    $.ajax({
 			    	url:"{:url('index/login/verify')}",
@@ -225,7 +225,13 @@
 					data:$('form').serialize(),
 					type:'post',
 					success:function(res){
-						console.log(res)
+						layer.msg(res.msg,{
+                            time:1000,
+                            end:function () {
+                            	window.location.href = "{:url('index/index/index')}";
+                             	// window.history.go(-1);
+                            }
+                        })
 					}
 				})
 				return false;

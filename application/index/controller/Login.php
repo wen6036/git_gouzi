@@ -44,21 +44,16 @@ class Login extends Controller
 				 return json(['code'=>0,'msg'=>'验证码错误']);
 			};
 
-
-
 			$username = $param['username'];
-			$have = Db::table('tz_userinfo')->where("username = $username")->find();
+			$have_name = Db::table('tz_userinfo')->where("username = '$username'")->find();
 			if($have_name){
 				return json(['code'=>0,'msg'=>'用户名已存在']);
 			}
-
-			$tel = $param['tel'];
-			$have = Db::table('tz_userinfo')->where("usertel = '$tel'")->find();
+			$tel = $param['usertel'];
+			$have_tel = Db::table('tz_userinfo')->where("usertel = '$tel'")->find();
 			if($have_tel){
 				return json(['code'=>0,'msg'=>'手机号已经注册过']);
 			}
-
-
 			$con['yzm'] = $param['smyzm'];
 			$con['tel'] = $param['usertel'];
 			$con['token'] = $param['yzmtoken'];
@@ -76,6 +71,15 @@ class Login extends Controller
 			$status = Db::table('tz_userinfo')->insert($data);
 
 			if($status){
+				$con1['date'] = date("Y-m-d");
+				$registerdata = Db::table('tz_register_data')->where($con1)->find();
+				if($registerdata){
+					Db::table('tz_register_data')->where($con1)->setInc('num');
+				}else{
+					Db::table('tz_register_data')->insert($con1);
+				}
+
+
 				return json(['code'=>1,'msg'=>'注册成功']);
 			}else{
 				return json(['code'=>0,'msg'=>'注册失败']);
@@ -114,7 +118,23 @@ class Login extends Controller
 			if(!$info){
 				return json(['code'=>0,'msg'=>'用户信息不存在']);
 			}
+
+			if($info['status']==0) return json(['code'=>0,'msg'=>'用户被禁用,请联系客服']);
+			
+			
 			if($info['password'] == $password){
+				$con1['date'] = date("Y-m-d");
+				$logindata = Db::table('tz_login_data')->where($con1)->find();
+				if(date( "Y-m-d",$info['last_login_time']) != $con1['date'] ){
+					if($logindata){
+						Db::table('tz_login_data')->where($con1)->setInc('num');
+					}else{
+						Db::table('tz_login_data')->insert($con1);
+					}
+				}
+				$con['last_login_time'] = time();
+				Db::table('tz_userinfo')->where("username = '$userinfo' OR usertel = '$userinfo'")->update($con);
+
 				session('userinfo',$info);
 				return json(['code'=>1,'msg'=>'登入成功']);
 			}else{

@@ -1,75 +1,19 @@
 <div class="row">
     <div class="col-md-12">
         <div class="box">
-            <div class="box-body">
-                <form class="form-inline" name="searchForm" id="searchForm" action="" method="GET">
-                    <div class="form-group">
-                        <input value="{$keywords ? $keywords : '' ;}"
-                               name="keywords" id="keywords" class="form-control input-sm" placeholder="帐号/昵称/手机号/邮箱">
-                    </div>
+        <style type="text/css">
+            li{list-style: none;}
+            .website ul li{padding: 5px 10px;display: inline-block;font-size: 16px;}
+            .website ul .active{color: red}
+        </style>
+            <div class="box-body website">
+                <ul>
+                    <a href="{:url('admin/website/index')}" ><li>网站轮播图</li></a>
+                    <a href="{:url('admin/website/webindex')}" ><li>首页</li></a>
 
+                </ul>
 
-                    <div class="form-group">
-                        <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search"></i> 查询
-                        </button>
-                    </div>
-                    <div class="form-group">
-                        <button onclick="exportData()" class="btn btn-sm btn-default" type="button"><i
-                                class="fa fa-download"></i> 导出
-                        </button>
-                    </div>
-
-                    <div class="form-group">
-                        <button onclick="clear_form()" class="btn btn-sm btn-" type="button"><i
-                                class="fa  fa-eraser"></i> 清空查询
-                        </button>
-                    </div>
-
-                </form>
             </div>
         </div>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="box">
-            {include file="template/data_header" /}
-            <div class="box-body table-responsive">
-                <table class="table table-hover table-bordered datatable" width="100%">
-                    <thead>
-                    <tr>
-<!--                         <th>
-                            <input id="data-checkall" type="checkbox" onclick="check_all(this)" class="checkbox" placeholder="全选/取消">
-                        </th> -->
-                        <th>排名序号ID</th>
-                        <th>工作室名称</th>
-                        <th>综合积分</th>
-                        <th>净值</th>
-                        <th>其他指标</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {foreach name="list" item="item"}
-                    <tr>
-
-                        <td>{$item.id}</td>
-                        <td>{$item.studioname}</td>
-                        <td>{$item.id}</td>
-                        <td>{$item.id}</td>
-                        <td>{$item.id}</td>
-
-                        <td class="td-do">
-                            <button  data-url="detail.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-default btn-xs" title="取消排名" data-toggle="tooltip">
-                                取消排名
-                            </button>
-                        </td>
-                    </tr>
-                    {/foreach}
-                    </tbody>
-                </table>
-            </div>
-            {include file="template/data_footer" /}
-        </div>
- 

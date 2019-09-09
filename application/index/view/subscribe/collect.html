@@ -20,36 +20,10 @@
 		        <tbody id="content" class="table-b">
 		            <tr>
 		                <td colspan="4" style="text-align: center">
-		                    暂无数据
+		                    <img src="http://www.51dewen.com/static/admin/plugins/layer/skin/default/loading-1.gif">
 		                </td>
 		            </tr>
 		        </tbody>
-
-<!-- 				<tr>
-					<td>随风而去</td>
-					<td>2019年8月6号</td>
-					<td>
-						<button class="btn btn-xs">删除</button>
-					</td>
-				</tr>							<tr>
-					<td>随风而去</td>
-					<td>2019年8月6号</td>
-					<td>
-						<button class="btn btn-xs">删除</button>
-					</td>
-				</tr>							<tr>
-					<td>随风而去</td>
-					<td>2019年8月6号</td>
-					<td>
-						<button class="btn btn-xs">删除</button>
-					</td>
-				</tr>							<tr>
-					<td>随风而去</td>
-					<td>2019年8月6号</td>
-					<td>
-						<button class="btn btn-xs">删除</button>
-					</td>
-				</tr> -->
 			</table>
     <!-- 列表底部按钮 -->
     <div class="paginations">
@@ -59,7 +33,7 @@
 
 <script id="tpl" type="text/x-jquery-tmpl">
 				<tr>
-					<td>${studioname}</td>
+					<td><a href="{:url('index/studioinfo/index')}?id=${studio_id}">${studioname}</td>
 					<td>${create_time}</td>
 					<td>
 						<button class="btn btn-xs" data="${id}" onclick = "ppp(this)">删除</button>

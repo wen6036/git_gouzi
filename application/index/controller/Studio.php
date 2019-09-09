@@ -38,15 +38,19 @@ class Studio extends Controller
 		$userinfo = session('userinfo');
 		$con['uid'] = $userinfo['id'];
 		$info = Db::table('tz_studio')->field("*,LPAD(id,6,'0') as id")->where($con)->find();
-		// dump($info);
 		$this->assign('info',$info);
-		$this->assign('id',$userinfo['id']);
+		$this->assign('id',$info['id']);
 		return $this->fetch();
 	}
 
 	// 工作室订阅管理
 	public function studiosub(){
 		return $this->fetch();
+	}
+
+	public function ajax_agreement(){
+		$info = Db::table('tz_agreement')->field('content')->where("id=2")->find();
+		return json($info);
 	}
 
 

@@ -1,9 +1,13 @@
 
 	<div class="have-sub-info">
 		<div class="sub-title">工作室设置
-			<a href="{:url('index/studioinfo/index',array('uid'=>$id))}"><button class="btn">进入工作室</button></a>
+			{if isset($id)}
+			<a href="{:url('index/studioinfo/index',array('id'=>$id))}"><button class="btn">进入工作室</button></a>
+			{else /}
+			<a><button class="btn">未创建工作室</button></a>
+			{/if}
 		</div>
-
+{if isset($id)}
 		<div class="form-group">
 			<span>工作室名称：</span>
 			{$info.studioname}
@@ -95,7 +99,7 @@
 			<button class="btn savepwd">修改</button>
 		</div>
 	</div>
-
+{/if}
 	<script type="text/javascript">
 		$('.edit_price').click(function(){
 			var price = $('input[name=price]').val();

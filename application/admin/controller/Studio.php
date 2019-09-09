@@ -30,7 +30,7 @@ class Studio extends Base
         // dump($list);
 
         if (isset($this->param['export_data']) && $this->param['export_data'] == 1) {
-            $header = ['ID', '工作室名称', '综合积分', '净值','其他'];
+            $header = ['ID', '工作室名称', '综合积分', '净值','净利润','盈亏效率','交易次数','胜率','最大回撤率'];
             $body   = [];
             $data   = $list;
             foreach ($data as $item) {
@@ -39,6 +39,11 @@ class Studio extends Base
                 $record['studioname']            = $item['studioname'];
                 $record['score']            = $item['score'];
                 $record['mulNetValue']            = $item['mulNetValue'];
+                $record['netProfit']            = $item['netProfit'];
+                $record['efficiency']            = $item['efficiency'];
+                $record['deals']            = $item['deals'];
+                $record['winRate']            = $item['winRate'];
+                $record['maxReduceRatio']            = $item['maxReduceRatio'];
                 $body[]                    = $record;
             }
             return $this->export($header, $body, "User-" . date('Y-m-d-H-i-s'), '2007');

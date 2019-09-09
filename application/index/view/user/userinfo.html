@@ -83,22 +83,23 @@
 
 	 </script>
 
+     <div class="form-group">
+        <span>地区：</span>
+        <select name="province_id" id="province_id">
+        <option>请选择</option>
+        {volist name="listprovince" id="province"}
+            <option  value="{$province.id}" data-name="{$province.name}" {if condition="$province.id eq $address_id[0]"}selected="selected"{/if}>{$province.name}</option>
+        {/volist}                                                  
+        </select>
+        <select name="city_id"  id="city_id" >
+            <option value="0">请选择</option>
+        </select>
+        <select name="district_id"  id="district_id" >
+            <option value="0">请选择</option>
+        </select>  
+     </div>
 	 <div class="form-group">
-		<span>地区：</span>
-		<select name="province_id" id="province_id">
-		<option>请选择</option>
-		{volist name="listprovince" id="province"}
-		    <option  value="{$province.id}" data-name="{$province.name}" {if condition="$province.id eq $address_id[0]"}selected="selected"{/if}>{$province.name}</option>
-		{/volist}                                                  
-		</select>
-		<select name="city_id"  id="city_id" >
-			<option value="0">请选择</option>
-		    <!-- <option value="" selected="selected"></option> -->
-		</select>
-		<select name="district_id"  id="district_id" >
-		    <option value="0">请选择</option>
-		    <!-- <option value="" selected="selected"></option> -->
-		</select>  
+		<span>详细地址：</span>
 		<input type="text" name="address_detail" value="{$info.address_detail|default=''}">
 	 </div>
 		<div class="sub-button">
@@ -144,7 +145,7 @@ $('.sub-button button').click(function(){
 
 var pro_name,name       
 
-if("{$address_id[0]}"){
+if({$address_id[0]}){
 	var province_id = {$address_id[0]};
 	    $.ajax({
         url:'/index/user/get_citys',
@@ -175,7 +176,7 @@ if("{$address_id[0]}"){
     });
 }
 
-if("{$address_id[1]}"){
+if({$address_id[1]}){
 	var city_id = {$address_id[1]};
 
     $.ajax({

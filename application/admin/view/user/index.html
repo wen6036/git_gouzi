@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <select name="_order_" class="form-control input-sm">
                             <option value="">排序字段</option>
-                            <option value="" {if isset($_order_) && $_order_=='id'}selected{/if}>ID</option>
+                            <option value="id" {if isset($_order_) && $_order_=='id'}selected{/if}>ID</option>
                             <option value="name" {if isset($_order_) && $_order_=='name'}selected{/if}>帐号</option>
                             <option value="reg_time" {if isset($_order_) && $_order_=='reg_time'}selected{/if}>注册时间</option>
                             <option value="last_login_time" {if isset($_order_) && $_order_=='last_login_time'}selected{/if}>最后登录时间</option>

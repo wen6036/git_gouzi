@@ -1,0 +1,75 @@
+<footer style="min-width: 1350px">
+            <div class="container" style="min-width: 1170px">
+                <div class="footer-main">
+                    <div class="footer-item">
+                        <div class="title">
+                            投资界
+                        </div>
+                        <div class="footer-descript">
+                            <p>Investment</p>
+                            <p>community</p>
+                        </div>
+                    </div>
+                    <div class="footer-item">
+                        <div class="kfzx">客服中心</div>
+                        <div class="kfzx-item">
+                            <ul>
+                                <a href="{:url('index/webpage/customer_xrzn')}"><li>新人指南</li></a>
+                                <a href="{:url('index/webpage/customer_sysc')}"><li>使用手册</li></a>
+                                <a href="{:url('index/webpage/customer_cjwt')}"><li>常见问题</li></a>
+                                <a href="{:url('index/webpage/customer_yhzx')}"><li>用户中心</li></a>
+                                <a href="{:url('index/webpage/customer_yhzx')}"><li>投诉建议</li></a>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-item">
+                        <div class="kfzx">关于</div>
+                        <div class="kfzx-item">
+                            <ul>
+                                <a href="{:url('index/webpage/about_gywm')}"><li>关于我们</li></a>
+                                <a href="{:url('index/webpage/about_hzhb')}"><li>合作伙伴</li></a>
+                                <a href="{:url('index/webpage/about_zxnc')}"><li>招贤纳才</li></a>
+                                <a href="{:url('index/webpage/about_lxfs')}"><li>联系方式</li></a>
+                                <a href="{:url('index/webpage/about_flsm')}"><li>法律声明</li></a>
+                                <a href="{:url('index/webpage/about_mztk')}"><li>免责条款</li></a>
+                                <a href="{:url('index/webpage/about_yhxz')}"><li>用户须知</li></a>
+                                <a href="{:url('index/webpage/about_jmhz')}"><li>加盟合作</li></a>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-item">
+                        <div class="kfzx">客户服务热线</div>
+
+                        <div class="lianxi">
+                            <div class="lx-item">
+                                <img src="__STATIC__/index/images/tel.png">
+                                <div>{$companyinfo.tel}</div>
+                            </div>
+                            <div class="lx-item">
+                                <img src="__STATIC__/index/images/wx.png">
+                                <div>{$companyinfo.wechat}</div>
+                            </div>
+                            <div class="lx-item">
+                                <img src="__STATIC__/index/images/time.png">
+                                <div>{$companyinfo.start_week}至{$companyinfo.end_week} {$companyinfo.start_time}-{$companyinfo.end_time}</div>
+                            </div>
+                            <div class="lx-item">
+                                <img src="__STATIC__/index/images/address.png">
+                                <div>上海市徐汇区</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-item">
+                        <div class="kfzx">关注我们</div>
+                        <div class="qrcode">
+                            <img src="{$companyinfo.wx_qrcode|default='__STATIC__/index/images/qrcode.png'}" style="width: 140px;height: 140px">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="banquan">Copyright©2019-2025投资界版权所有|苏ICP备15016032号-1</div>
+            </div>
+        </footer>
+
+    </body>
+</html>

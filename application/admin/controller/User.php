@@ -33,8 +33,8 @@ class User extends Base
                 case 'username':
                     $order = 'username';
                     break;
-                case 'reg_time':
-                    $order = 'reg_time';
+                case 'create_time':
+                    $order = 'create_time';
                     break;
                 case 'last_login_time':
                     $order = 'last_login_time';
@@ -67,14 +67,14 @@ class User extends Base
                 $record['address_detail']          = $item->address_detail;
                 $record['truename']          = $item->truename;
                 $record['shenfenzheng']          = $item->shenfenzheng;
-                $record['sex']          = $item->sex;
+                $record['sex']          = $item->sex==1?'男':'女';
                 $record['wx_num']          = $item->wx_num;
                 $body[]                    = $record;
             }
             return $this->export($header, $body, "User-" . date('Y-m-d-H-i-s'), '2007');
         }
 
-        $list = $model->paginate($this->webData['list_rows'], false, $pageParam);
+        $list = $model->where("status != -1")->paginate($this->webData['list_rows'], false, $pageParam);
         // dump($list->toArray());
         $this->assign([
             'list'      => $list,
@@ -172,7 +172,7 @@ class User extends Base
     {
         // $this->showLeftMenu = false;
         $id = $this->id;
-        $info = Db::table('tz_userinfo')->field("*,FROM_UNIXTIME(create_time, '%Y-%m-%d') as create_time")->where("id=$id")->find();
+        $info = Db::table('tz_userinfo')->field("*,FROM_UNIXTIME(create_time, '%Y-%m-%d') as create_time,FROM_UNIXTIME(last_login_time, '%Y-%m-%d') as last_login_time")->where("id=$id")->find();
         $bankinfo = Db::table('tz_user_bank')->where("uid=$id")->select();
         $info['bankinfo'] = $bankinfo;
             $header = ['ID', '帐号', '昵称', '手机', '邮箱','注册时间', '最后登录时间', '其他电话','地址','真实姓名','身份证','性别','微信','银行卡姓名1','银行卡1','所属银行1','银行卡姓名2','银行卡2','所属银行2'];
@@ -190,7 +190,7 @@ class User extends Base
                 $record['address_detail']          = $info['address_detail'];
                 $record['truename']          = $info['truename'];
                 $record['shenfenzheng']          = $info['shenfenzheng'];
-                $record['sex']          = $info['sex'];
+                $record['sex']          = $info['sex']==1?'男':'女';
                 $record['wx_num']          = $info['wx_num'];
                 foreach ($bankinfo as $key => $value) {
                     $record['bankusername'.$key]          = $value['username'];
@@ -198,7 +198,7 @@ class User extends Base
                     $record['bankname'.$key]          = $value['bankname'];
                 }
                 $body[]                    = $record;
-            return $this->export($header, $body, "User-" . date('Y-m-d-H-i-s'), '2007');
+            return $this->export($header, $body, $info['username']. date('Y-m-d-H-i-s'), '2007');
     }
 
 
@@ -207,9 +207,12 @@ class User extends Base
     {
 
         $id     = $this->id;
-        $result = UserInfo::destroy(function ($query) use ($id) {
-            $query->whereIn('id', $id);
-        });
+        $con['status']= -1;
+        $con['delete_time'] = time();
+        $result = Db::table('tz_userinfo')->whereIn('id', $id)->update($con);
+        // $result = UserInfo::destroy(function ($query) use ($id) {
+        //     $query->whereIn('id', $id);
+        // });
         if ($result) {
             return $this->deleteSuccess();
         }

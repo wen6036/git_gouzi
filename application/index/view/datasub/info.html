@@ -1,63 +1,59 @@
-		
-				<script>
-							function xiaozhexian(element,x,y){
-				// hideLine
-				// heatline
-				// regionFill
-				// hideDots
-							let trends_data = {
-								labels: x,
-								datasets: [
-									{
-										values: y
-									}
-								]
-							};
+        <script>
+        	function highcharts(element,arr){
+				// // Data generated from http://www.bikeforums.net/professional-cycling-fans/1113087-2017-tour-de-france-gpx-tcx-files.html
+				var elevationData = arr;
 
-							let plotChartArgs = {
-								// title: "Mean Total Sunspot Count - Yearly",
-								data: trends_data,
-								type: 'line',
-								height: 100,
-								colors: ['#238e38'],
-								lineOptions: {
-									hideDots: 1,
-									heatline: 1,
-								},
-								axisOptions: {
-									xAxisMode: 'tick',
-									yAxisMode: 'span',
-									xIsSeries: 1
-								}
-							};
-
-							let type = 'regionFill';
-							let config = {};
-							config[type] = 1;
-
-							if(['regionFill', 'heatline'].includes(type)) {
-								config.hideDots = 1;
-							}
-
-							plotChartArgs.init = false;
-							plotChartArgs.lineOptions = config;
-							new Chart(element, plotChartArgs);
-
-				}
-
-				</script>
+				// 初始化图标
+				var chart = Highcharts.chart(element, {
+				    chart: {
+				        type: 'area',
+				        zoomType: 'x',
+				        panning: true,
+				        panKey: 'shift',
+				         backgroundColor: 'rgba(0,0,0,0)'
+				    },
+				    title: {
+				        text: ''
+				    },
+				    xAxis: {
+				        visible:false//x坐标显示
+				    },
+				    yAxis: {
+				         visible:false//x坐标显示
+				    },
+				    tooltip: {
+				         enabled:false//x坐标显示
+				    },
+				    legend: {
+				        enabled: false
+				    },
+				    series: [{
+				        data: elevationData,
+				        lineColor: Highcharts.getOptions().colors[1],
+				        color: Highcharts.getOptions().colors[2],
+				        fillOpacity: 0.5,
+				        marker: {
+				            enabled: false
+				        },
+				        threshold: null
+				    }],
 
 
+				        //是否允许下载
+				        navigation: {
+				            buttonOptions: {
+				                enabled: false
+				            }
+				        },
+				                //版权信息
+				        credits: {
+				            enabled: false
+				        },
 
-				<style type="text/css">
-				.line-chart .x{display: none}
-				.line-chart .y{display: none}
-				.graph-stats-container{display: none !important;}
-				.chart-container .graphics{padding:0;margin:0;}
-				.chart-container .title{display: none}
-				.graph-svg-tip{display: none}
-				.uppercase{display: none}
-				</style>
+				});        		
+        	}
+        	let arr
+        </script>
 
 				<table class="table table-striped">
 
@@ -70,12 +66,18 @@
 							<span class="user-name">{$item.username}</span>
 							<span class="user-uid">UID：{$item.uid}</span>
 						</td>
-						<td style="width: 180px;position: relative;padding: 0; height: 100px">
-							<div id="chart-trends{$key}" style="position:absolute;left: -68px;width:260px ;height: 100px;"></div>
+						<td style="width: 180px;position: relative;padding-right: 10px; height: 100px">
+							<div id="container{$key}" style="height: 100px"></div>
 							<script type="text/javascript">
-							x = JSON.parse('{$item.x}');
-							y = JSON.parse('{$item.y}');
-							xiaozhexian("#chart-trends{$key}",x,y);</script>
+
+							var jsonObj = {$item.data};
+					        arr=[];
+					        for(let i in jsonObj){
+					            arr.push(jsonObj[i]);            
+					        }
+					        console.log(arr)
+							highcharts("container{$key}",arr);
+							</script>
 						</td>
 						<td style="width: 620px" class="datadetail">
 							<div class="sjdyq-td-item active">
@@ -151,8 +153,6 @@ $("#pager").zPager({
 		alert(data);
 	},
 });
-
-
 
 	// $.fn.zPager.defaults = {
 	// 	totalData: 10, //数据总条数

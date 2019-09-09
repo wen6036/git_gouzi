@@ -132,7 +132,7 @@
 							{else /}
 							<img src="__STATIC__/index/images/no-check.png" class="agreement">
 							{/if}
-							<span> &nbsp;我已阅读并同意《投资界工作室创建协议》</span>
+							<span> &nbsp;我已阅读并同意<a id="agreement" style="color: #337ab7;cursor: pointer;">《投资界工作室创建协议》</a></span>
 							<input type="hidden" name="agreement">	
 						</div>
 
@@ -145,7 +145,41 @@
 						</div>
 					</form>
 					</div>
+
+
+<!-- 启动数据库 -->
+<div class="modal fade" id="Service" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="margin-top: 200px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">工作室创建协议</h4>
+      </div>
+      <div class="modal-body">
+		<div id="content"></div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 <script type="text/javascript">
+
+		$('#agreement').click(function(){
+			$('#Service').modal('show')
+			$.ajax({
+				url:"{:url('ajax_agreement')}",
+				success:function(res){
+					$('#content').html(res.content)
+				}
+			})
+		})
 
 		$('.agreement').click(function(){
 		 	var src = $(this).attr('src');

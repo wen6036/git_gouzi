@@ -1,3 +1,4 @@
+<script src="__STATIC__/plugins/laydate/laydate.js"></script>
 <div class="row">
     <div class="col-md-12">
         <div class="box">
@@ -83,12 +84,6 @@
 
 
                         <td class="subevent">
-<!--                                 <input {if ($item.is_sub==1)}checked{/if}
-                                    value="{$item.is_sub|default='1'}"
-                                    class="form-input-switch" type="checkbox" placeholder="is_sub-switch"
-                                    data-input="is_sub">
-                                    <input class="is_sub" value="{$item.is_sub|default='1'}" data-id="{$item.id}" type="hidden"/> -->
-
                                     {if condition="$item.is_sub eq 1"}
                                     <span class="btn-success btn-xs btn is_sub" data-id="{$item.id}" data-v="0">允许</span>
                                     
@@ -112,9 +107,9 @@
                                 启动数据库
                             </button>
 
-                            <button  data-url="" data-id="{$item.id}"  class="AjaxButton btn btn-danger btn-xs" title="取消排名" data-toggle="tooltip">
-                                删除
-                            </button>
+                            <a class="btn btn-danger btn-xs AjaxButton" data-toggle="tooltip" title="删除" data-confirm-title="删除提示" data-confirm-content="您确认要删除ID为{$item.id}的用户吗？" data-id="{$item.id}" data-url="del.html">
+                                <!-- <i class="fa fa-trash"></i> -->删除
+                            </a>
 
                         </td>
                     </tr>
@@ -126,36 +121,27 @@
         </div>
 <script type="text/javascript">
 $('.is_sub').click(function(){
-    console.log(111)
     var id = $(this).attr('data-id')
     var is_sub = $(this).attr('data-v')
+
+    if(is_sub==1){
+        $(this).html('允许').addClass('btn-success').removeClass('btn-danger')
+        $(this).attr('data-v',0)
+    }else{
+        $(this).html('禁止').addClass('btn-danger').removeClass('btn-success')
+        $(this).attr('data-v',1)
+    }
     $.ajax({
         url:"{:url('admin/office/is_sub')}",
         type:'post',
         data:{id:id,is_sub:is_sub},
         success:function(res){
             console.log(res)
-            window.location.reload()
+            // window.location.reload()
         }
     })
 
 })
-            // $(".is_sub").onchange = function() {
-            //     console.log("隐藏标签的当期值为：" + this.value);
-            //     var id = $('#is_sub').attr('data-id')
-            //     console.log(this)
-            //     var is_sub = this.value;
-            //     $.ajax({
-            //         url:"{:url('admin/office/is_sub')}",
-            //         type:'post',
-            //         data:{id:id,is_sub:is_sub},
-            //         success:function(res){
-
-            //         }
-            //     })
-            // }
-
-
 </script>
 <input type="hidden" name="id" value="">
 <!-- 编辑审核 -->
@@ -200,22 +186,23 @@ $('.is_sub').click(function(){
       <div class="modal-body">
             <div  class="form-group" style="padding-left: 40px">
                 <label  class="col-sm-4 control-label" value="1" >期货账户：</label>
-                <input type="text" name="futures_account" value="" disabled="disabled">
+                <input class="form-control input-sm" style="width: 200px" type="text" name="futures_account" value="" disabled="disabled">
             </div>
 
             <div  class="form-group" style="padding-left: 40px">
                 <label  class="col-sm-4 control-label" value="1" >期货公司：</label>
-                <input type="text" name="futures_company" value="" disabled="disabled">
+                <input class="form-control input-sm" style="width: 200px" type="text" name="futures_company" value="" disabled="disabled">
             </div>
 
             <div class="form-group" style="padding-left: 40px">
                 <label  class="col-sm-4 control-label" value="1" >交易密码：</label>
-                <input type="password" name="futures_password" value="" disabled="disabled">
+                <input class="form-control input-sm" style="width: 200px" type="password" name="futures_password" value="" disabled="disabled">
             </div>
 
             <div class="form-group" style="padding-left: 40px">
                 <label  class="col-sm-4 control-label" value="1" >指标计算起始日：</label>
-                <input type="text" name="start_time" value="">
+                <input id="start_date" style="background: #fff;width: 200px;" readonly name="start_time" value="{$start_time ? $start_time : '' ;}"
+                               class=" form-control input-sm" placeholder="起始日期">
             </div>
 
       </div>
@@ -226,6 +213,20 @@ $('.is_sub').click(function(){
     </div>
   </div>
 </div>
+<script>
+    var start = {
+        elem: '#start_date',
+        // max: laydate.now(),
+        // istoday: true,
+        choose: function (datas) {
+            // end.max = datas; //开始日选好后，重置结束日的最小日期
+            // end.start = datas; //将结束日的初始值设定为开始日
+        }
+    };
+    laydate(start);
+</script>
+
+
         <script type="text/javascript">
             //编辑审核
             $('.edit_mol').click(function(){
@@ -301,6 +302,7 @@ $('.is_sub').click(function(){
                     data:{id:id,type:type,status:status},
                     success:function(res){
                          $('#myModal').modal('hide')
+                         window.location.reload();
                     }
                 })
             })
@@ -334,7 +336,7 @@ $('.is_sub').click(function(){
                     type:'post',
                     data:{id:id,start_time:start_time},
                     success:function(res){
-                         $('#myModal').modal('hide')
+                         $('#Service').modal('hide')
                     }
                 })
             })
