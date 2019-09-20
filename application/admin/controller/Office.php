@@ -105,86 +105,105 @@ class Office extends Base
 
 
     public function editstatus(){
-        $con['id'] = $this->param['id']; 
-
-        $studioinfo = Db::table('tz_studio')->where($con)->find();
-// dump($studioinfo);
-        $BrokerId = $studioinfo['BrokerId'];
-        $uid = $studioinfo['uid'];
-        $uid = '071988';
         $data['studiotype'] = $this->param['type'];
         $data['status'] = $this->param['status'];
-        if($this->param['status']==1){
-            // qryPerformance brokerID userID 20190101
-             
-            // $url = 'http://49.235.36.29/WebFunctions.asmx/qry';
-            // $input = "input=qryPerformance $BrokerId $uid 20190101";
-            // $info = sendCurlPost($url,$input); 
-            // dump($info);
-
-            // $a = explode('#', $info);
-            // $b = str_replace('</string>','', $a[2]);
-
-            // $arr = json_decode($b,true);
-            // // $data1['datainfo'] = $b;
-            // $data1['uid'] = $uid;
-            // $data1['studio_id'] = $studioinfo['id'];
-            // $data1['periodType'] = $arr['periodType'];
-            // $data1['initialFund'] = $arr['initialFund'];
-            // $data1['netProfit'] = $arr['netProfit'];
-            // $data1['fee'] = $arr['fee'];
-            // $data1['efficiency'] = $arr['efficiency'];
-            // $data1['deals'] = $arr['deals'];
-            // $data1['winRate'] = $arr['winRate'];
-            // $data1['maxSucWinDeals'] = $arr['maxSucWinDeals'];
-            // $data1['maxSucLossDeals'] = $arr['maxSucLossDeals'];
-            // $data1['dealDays'] = $arr['dealDays'];
-            // $data1['dealFrequency'] = $arr['dealFrequency'];
-            // $data1['deposit'] = $arr['deposit'];
-            // $data1['withdraw'] = $arr['withdraw'];
-            // $data1['rewardRatio'] = $arr['rewardRatio'];
-            // $data1['totalWinLossRatio'] = $arr['totalWinLossRatio'];
-            // $data1['winLossRatio'] = $arr['winLossRatio'];
-            // $data1['mulNetValue'] = $arr['mulNetValue'];
-            // $data1['mulProfitRatio'] = $arr['mulProfitRatio'];
-            // $data1['mulProfitRatioPerYear'] = $arr['mulProfitRatioPerYear'];
-            // $data1['maxReduceRatio'] = $arr['maxReduceRatio'];
-            // $data1['score'] = $arr['score'];
-            // $data1['kamaRatio'] = $arr['kamaRatio'];
-            // $data1['sharpRatio'] = $arr['sharpRatio'];
-
-            // $data1['equitySeries'] = json_encode($arr['equitySeries']);
-            // $data1['netProfitSeries'] = json_encode($arr['netProfitSeries']);
-            // $data1['monthProfitSeries'] = json_encode($arr['monthProfitSeries']);
-            // $data1['riskRatioSeries'] = json_encode($arr['riskRatioSeries']);
-            // $data1['prdID_netProfit'] = json_encode($arr['prdID_netProfit']);
-            // $data1['prdID_totalWinLossRatio'] = json_encode($arr['prdID_totalWinLossRatio']);
-            // $data1['prdID_winLossRatio'] = json_encode($arr['prdID_winLossRatio']);
-            // $data1['prdID_fee'] = json_encode($arr['prdID_fee']);
-            // $data1['prdID_deals'] = json_encode($arr['prdID_deals']);
-            // $data1['prdID_winRate'] = json_encode($arr['prdID_winRate']);
-            // $data1['prdID_trdRatio'] = json_encode($arr['prdID_trdRatio']);
-            // $data1['last_time'] = time();
-
-            // $s = Db::table('tz_futures_info')->where('uid='.$uid)->find();
-            // if($s){
-            //     if(time() - $s['last_time'] >300){
-            //         $status = Db::table('tz_futures_info')->where('uid='.$uid)->update($data1); 
-            //     }
-            // }else{
-            //     $status = Db::table('tz_futures_info')->insert($data1); 
-            // }
-            // dump($data1);
-        }
+        $con['id'] = $this->param['id'];
         $status = Db::table('tz_studio')->where($con)->update($data); 
+        if($this->param['status']==1){
+             $this->save_info($con['id']);
+        }
+        
 
     }
 
     public function save_service(){
         $con['id'] = $this->param['id'];
+        $this->save_info($con['id']);
         $data['start_time'] = strtotime($this->param['start_time']);
         $status = Db::table('tz_studio')->where($con)->update($data);
     }
+
+
+    public function save_info($studio_id){
+            $con['id'] = $studio_id; 
+            $studioinfo = Db::table('tz_studio')->where($con)->find();
+            $BrokerId = $studioinfo['BrokerId'];
+            $BrokerId = 6050;
+            $uid = $studioinfo['uid'];
+            $uid = '81331531';
+
+            $s = Db::table('tz_futures_info')->where('uid='.$uid)->find();
+            if($s){
+                if(time() - $s['last_time'] < 3600*3){
+                    return false;
+                }
+            }
+
+            //综合积分
+            $score = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/score.txt");
+            $a = parse_ini_string($score);
+
+            $data['score_json'] = json_encode($a);
+            $data['score'] = end($a);
+
+            //每日净值
+            $netValue = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/netValue.txt");
+            $b = parse_ini_string($netValue);
+            $data['netValue'] = end($b);
+
+            //年化收益率（string）
+            $mulProfitRatioPerYear = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/mulProfitRatioPerYear.txt");
+            $c = parse_ini_string($mulProfitRatioPerYear);
+            $data['mulProfitRatioPerYear'] = end($c);
+
+            //胜率
+            $winRate = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/winRate.txt");
+            $d = parse_ini_string($winRate);
+            $data['winRate'] = end($d);
+
+            //最大回撤率
+            $maxReduceRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/maxReduceRatio.txt");
+            $e = parse_ini_string($maxReduceRatio);
+            $data['maxReduceRatio'] = end($e);
+
+            //截止每日盈亏比
+            $winLossRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/winLossRatio.txt");
+            $f = parse_ini_string($winLossRatio);
+            $data['winLossRatio'] = end($f);
+
+            //截止每日夏普比率
+            $sharpRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/sharpRatio.txt");
+            $g = parse_ini_string($sharpRatio);
+            $data['sharpRatio'] = end($g);
+
+            //截止每日夏普比率
+            $sharpRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/sharpRatio.txt");
+            $g = parse_ini_string($sharpRatio);
+            $data['sharpRatio'] = end($g);
+
+            //每日初始资金、每日出入金、每日净利润、每日净利率、每日手续费、每日交易次数、每日成交额
+            $day = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/day.txt");
+            // dump($day);
+            $h = parse_ini_string($day,true);
+            // 净利润
+            $data['netProfit'] = end($h['netProfit']);
+            // 资金规模（每日初始资金）
+            $data['initialFund'] = end($h['initialFund']);
+
+           // //截止每日各品种胜率
+           //  $prdID_winRate = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_winRate.txt");
+           //  $i = parse_ini_string($prdID_winRate);
+           //  $data['prdID_winRate'] = end($i);
+           //  
+            $data['last_time'] = time();
+            if($s){
+                $status = Db::table('tz_futures_info')->where('uid='.$uid)->update($data); 
+            }else{
+                $status = Db::table('tz_futures_info')->insert($data); 
+            }
+
+    }
+
 
 
     public function detail_exl()

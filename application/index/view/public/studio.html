@@ -61,10 +61,10 @@
 					<div class="studio-collect">
 					{if isset($collect)}
 						<button class="btn cancle_collect" data-id="{$info.studio_id}">已收藏</button>
-						<p>订阅人数：{$info.deals}人</p>
+						<p>订阅人数：{$info.lot}人</p>
 					{else /}
 						<button class="btn collect" {if condition="$uid eq $user['id']"}disabled="disabled"{/if} data-id="{$info.studio_id}">收藏</button>
-						<p>订阅人数：{$info.deals}人</p>
+						<p>订阅人数：{$info.lot}人</p>
 					{/if}
 					</div>
 					<div class="studio-dingyue">

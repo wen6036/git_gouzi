@@ -46,28 +46,14 @@ class Studioinfo extends Controller
 		$id = $param['id'];
 		$type = $param['type'];
 
-		$info = Db::table('tz_futures_info')->field("$type")->where('studio_id='.$id)->find();
+		// $info = Db::table('tz_futures_info')->field("$type")->where('studio_id='.$id)->find();
 
-
-
-		$arr=[];
- 			foreach (json_decode($info[$type],true) as $k => $v) {
- 				$arr[]=["$k",(float)$v];
- 			}
- 			$info['data'] = $arr;
- 		// dump($arr);
-		// $data['x'] = array_keys(json_decode($info[$type],true));
-		// $v = array_values(json_decode($info[$type],true));
-		// if($type=='prdID_trdRatio'){
-		// 	foreach ($v as $key => $value) {
-		// 		$v[$key] =(int)$value;
-		// 	}
-		// 	$data['y'] = $v;
-		// }else{
-		// 	$data['y'] = $v;
-		// }
-		// dump($data);
-		return json($info['data']);
+		// $arr=[];
+ 	// 		foreach (json_decode($info[$type],true) as $k => $v) {
+ 	// 			$arr[]=["$k",(float)$v];
+ 	// 		}
+ 	// 		$info['data'] = $arr;
+		// return json($info['data']);
 
 	}
 

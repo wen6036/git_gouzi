@@ -301,6 +301,7 @@ $('.is_sub').click(function(){
                     type:'post',
                     data:{id:id,type:type,status:status},
                     success:function(res){
+                        console.log(res)
                          $('#myModal').modal('hide')
                          window.location.reload();
                     }
