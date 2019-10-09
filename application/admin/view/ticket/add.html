@@ -1,0 +1,56 @@
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            {include file="template/form_header" /}
+            <form id="dataForm" class="form-horizontal dataForm" action="" method="post" enctype="multipart/form-data">
+                <div class="box-body">
+                    <div class="fields-group">
+                        {if isset($info)}
+                        <input id="id" name="id" value="{$info.id}" hidden placeholder="请勿修改">
+                        {/if}
+
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">免费订阅天数</label>
+                            <div class="col-sm-10 col-md-4">
+                                <div class="input-group">
+                                    <input  type="number" name="number" value="{$info.number|default=''}" class="form-control" placeholder="免费订阅天数">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">有效期</label>
+                            <div class="col-sm-10 col-md-4">
+                                <div class="input-group">
+                                    <input id="datetime" style="background: #fff" readonly name="datetime" value="{$info.datetime ? $info.datetime : '' ;}"
+                               class=" form-control input-sm" placeholder="有效期">
+                                </div>
+                            </div>
+                        </div>
+<script src="__STATIC__/plugins/laydate/laydate.js"></script>
+<script>
+    var start = {
+        elem: '#datetime',
+        istoday: false,
+        min: laydate.now(),
+    };
+    // var start = {
+    //     elem: '#datetime',
+    //     max: laydate.now(),
+    //     istoday: false,
+    //     choose: function (datas) {
+    //         end.min = datas; //开始日选好后，重置结束日的最小日期
+    //         end.start = datas; //将结束日的初始值设定为开始日
+    //     }
+    // };
+    laydate(start);
+</script>
+
+                    </div>
+                </div>
+                {include file="template/form_footer" /}
+            </form>
+        </div>
+    </div>
+</div>

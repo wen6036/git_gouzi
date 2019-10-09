@@ -1,31 +1,73 @@
-					<div class="sub-table">
-						<table>
-							<tr>
-								<th>订阅次数</th>
-								<th>订阅费（汇总）</th>
-								<th>状态</th>
-								<th>提现日期</th>
-								<th>操作</th>
-							</tr>
+<link rel="stylesheet" type="text/css" href="__STATIC__/common/paging/paging.css">
+<script type="text/javascript" src="__STATIC__/common/paging/paging.js"></script>
+<script type="text/javascript" src="__STATIC__/common/paging/page.js"></script>
+<script type="text/javascript" src="__STATIC__/common/paging/jquery.tmpl.min.js"></script>
+<style type="text/css">
+/*.count-page{display: none}*/
+.count-page{padding-left: 20px}
+/*.ui-paging-container{float: inherit !important;}*/
+</style>
 
-							<tr>
-								<td>151次</td>
-								<td>6000.00元</td>
-								<td>已提现</td>
-								<td>2019年7月18</td>
-								<td>
-									<button class="btn btn-xs btn-info">申请提现</button>
-								</td>
-							</tr>	
-							<tr>
-								<td>151次</td>
-								<td>6000.00元</td>
-								<td>已提现</td>
-								<td>2019年7月18</td>
-								<td>
-									<button class="btn btn-xs">申请提现</button>
-								</td>
-							</tr>	
+		<div class="sub-table">
+			<table>
+				<tr>
+					<th>订阅次数</th>
+					<th>订阅费（汇总）</th>
+					<th>状态</th>
+					<th>最后时间</th>
+					<th>操作</th>
+				</tr>
+		        <tbody id="content" class="table-b">
+		            <tr>
+		                <td colspan="4" style="text-align: center">
+		                    <img src="http://www.51dewen.com/static/admin/plugins/layer/skin/default/loading-1.gif">
+		                </td>
+		            </tr>
+		        </tbody>
+			</table>
+		</div>
+			    <!-- 列表底部按钮 -->
+			    <div class="paginations">
+			        <div id="pageTool"><p class="count-page"></p></div>
+			    </div>
 
-						</table>
-					</div>
+<script id="tpl" type="text/x-jquery-tmpl">
+    <tr class="table-b1">
+						<td>${order_num}次</td>
+						<td>${order_totle}元</td>
+
+						<td>${status_name}${status}</td>
+						<td>${last_time}</td>
+						<td>
+							<button class="btn btn-xs btn-info">${status_name1}</button>
+						</td>
+					</tr>	
+</script>
+
+<script type="text/javascript">
+    $('#pageTool').page("{:url('studio/get_studio')}", function (data, obj) {
+        // 分页
+        if (data.data.count > 0) {
+            $("#content").html('');
+            $("#tpl").tmpl(data.data.data).appendTo('#content');
+        } else {
+            var tpl = '<tr><td colspan="4" style="text-align: center">暂无数据</td></tr>';
+            $("#content").html(tpl);
+        }
+        // $('.search-btn').off("click").on('click', function(){
+        //     var name = $('input[name=title]').val()
+        //     obj.ajax({cur: 1, size: data.size, key:name})
+        // })
+
+
+    });
+
+    function ppp(obj){
+    	var url = "{:url('index/studioinfo/index')}";
+    	var id = $(obj).attr('data');
+    	// window.location.href=;
+    	window.open(url+"?id="+id);   
+    	// console.log(url+"?id="+id)
+    }
+</script>
+

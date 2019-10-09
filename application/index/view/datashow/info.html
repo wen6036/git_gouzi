@@ -1,6 +1,5 @@
         <script>
         	function highcharts(element,arr){
-				// // Data generated from http://www.bikeforums.net/professional-cycling-fans/1113087-2017-tour-de-france-gpx-tcx-files.html
 				var elevationData = arr;
 
 				// 初始化图标
@@ -91,20 +90,27 @@
 							</div>
 							<div  class="sjzsq-td-item">
 								<span>{$item.score}</span>
-								<span>{$item.mulNetValue}</span>
-								<span>{$item.mulNetValue}</span>
+								<span>{$item.netValue}</span>
 								<span>{$item.mulProfitRatioPerYear}</span>
+								<span>{$item.winRate}</span>
 								<span>{$item.maxReduceRatio}</span>
-								<span>{$item.totalWinLossRatio}</span>
-								<span>{$item.sharpRatio}</span>
 								<span>{$item.winLossRatio}</span>
-
+								<span>{$item.sharpRatio}</span>
+								<span>{$item.efficiency}</span>
 							</div>
 							<div class="sjzsq-td-des">
 								<span>累计收益率：{$item.mulProfitRatio} </span>
 								<span>净利润：{$item.netProfit}</span>
 								<span>资金规模：{$item.initialFund}</span>
-								<button class="btn">订阅</button>
+							{if isset($studio_id)}
+								{if $studio_id ==$item.id}
+									<a disabled="disabled"><button class="btn btn-default" style="background: #ccc;color: #333">禁止订阅</button></a>
+								{else /}
+									<a href="{:url('index/datasub/order_pay',array('id'=>$item['id']))}"><button class="btn">订阅</button></a>
+								{/if}
+							{else /}
+								<a href="{:url('index/datasub/order_pay',array('id'=>$item['id']))}"><button class="btn">订阅</button></a>
+							{/if}
 								<span class="shzsq-detail">
 									<a href="{:url('index/studioinfo/index',array('id'=>$item['id']))}">详情</a>
 								</span>

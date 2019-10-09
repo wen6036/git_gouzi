@@ -133,4 +133,103 @@ class Studio extends Controller
 
 	} 
 
+
+
+	public function get_studio(){
+        $userinfo = session('userinfo');
+        $con['uid'] = $userinfo['id'];
+        $info = Db::table('tz_studio')->where($con)->find();
+        $time = time()-3600*24;
+        // 现在时间大于结束时间 可提现
+		$list = Db::table('tz_suborder')->where("studio_id=".$info['id'])->where("$time > end_time")->select();
+		$money = 0;
+		foreach ($list as $key => $value) {
+			$idarr[] = $value['id']; 
+			$money +=  $value['pay_money'];
+		}
+		$idarr = isset($idarr)?$idarr:'';
+		$con1['studio_id'] = $info['id'];
+		$con1['status'] = 1;
+		$c = Db::table('tz_subtotle_status')->where($con1)->find();
+
+		if($c['order_num'] != count($list)){
+			$data['studio_id'] = $info['id'];
+			$data['last_time'] = time();
+			$data['order_num'] = count($list);
+			$data['order_totle'] = $money;
+			$data['idlist'] = json_encode($idarr);
+			if(count($list)){
+				if($c){
+					$data['status'] = 1;
+					Db::table('tz_subtotle_status')->where($con1)->update($data);
+				}else{
+					$data['status'] = 1;
+					Db::table('tz_subtotle_status')->where($con1)->insert($data);
+				}
+			}
+		}
+
+		// 现在时间小于结束时间 buke提现
+		$list2 = Db::table('tz_suborder')->where("studio_id=".$info['id'])->where("$time < end_time and $time > create_time")->select();
+		$money2 = 0;
+		foreach ($list2 as $key => $value) {
+			$idarr2[] = $value['id']; 
+			$money2 +=  $value['pay_money'];
+		}
+		$idarr2 = isset($idarr2)?$idarr2:'';
+		$con2['studio_id'] = $info['id'];
+		$con2['status'] = 0;
+		$c2 = Db::table('tz_subtotle_status')->where($con2)->find();
+
+		if($c2['order_num'] != count($list2)){
+			$data2['studio_id'] = $info['id'];
+			$data2['last_time'] = time();
+			$data2['order_num'] = count($list2);
+			$data2['order_totle'] = $money2;
+			$data2['idlist'] = json_encode($idarr2);
+
+			if(count($list2)){
+				if($c2){
+					$data2['status'] = 0;
+					Db::table('tz_subtotle_status')->where($con2)->update($data2);
+				}else{
+					$data2['status'] = 0;
+					Db::table('tz_subtotle_status')->where($con2)->insert($data2);
+				}
+			}
+		}
+
+
+        $cur = input('get.cur');
+        $cur = !empty($cur) ? $cur : 1;
+        $size = input("get.size");
+        $size = !empty($size) ? $size : 10;
+        $key = input("get.key");
+        if($key){
+            $where = "title LIKE '%$key%'" ;
+        }else{
+            $where="";
+        }
+
+		$con3['studio_id'] = $info['id'];
+		$subinfo = Db::table('tz_subtotle_status')->field("*,FROM_UNIXTIME(last_time,'%Y-%m-%d %H:%i:%s') last_time")->where($con3)->where($where)->page($cur, $size)->select();
+
+		foreach ($subinfo as $key => $value) {
+			if($value['status']==2){
+				$subinfo[$key]['status_name'] = '已提现';
+				$subinfo[$key]['status_name1'] = '';
+			}else if($value['status']==1){
+				$subinfo[$key]['status_name'] = '可提现';
+				$subinfo[$key]['status_name1'] = '申请提现';
+			}else{
+				$subinfo[$key]['status_name'] = '不可提现';
+				$subinfo[$key]['status_name1'] = '';
+			}	
+		}
+
+		$ppp['data'] = $subinfo;
+    	$ppp['count'] = Db::table('tz_subtotle_status')->where($con3)->where($where)->count();
+        return json($ppp);
+	}
+
 }

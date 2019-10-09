@@ -41,20 +41,279 @@ class Studioinfo extends Controller
 		return $this->fetch();
 	}
 
+
+
+    // 只需传过来工作室id   数据指标写道数据库
+    public function save_info($studio_id){
+            $con['id'] = $studio_id; 
+            $studioinfo = Db::table('tz_studio')->where($con)->find();
+            $BrokerId = $studioinfo['BrokerId'];
+            $BrokerId = 6050;
+            $uid = $studioinfo['uid'];
+            $uid = '81331531';
+            $s = Db::table('tz_futures_info')->where('uid='.$uid)->find();
+            if($s){
+                if(time() - $s['last_time'] < 3600*3){
+                    return false;
+                }
+            }
+            $path = getcwd()."\data"."\\"."$BrokerId"."_".$uid;
+            if(!is_dir($path)){
+                $flag = mkdir($path,0777,true);
+            }
+            //综合积分
+            $score = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/score.txt");
+            file_put_contents($path."\score.txt",$score);
+            $a = parse_ini_string($score);
+
+            $data['score_json'] = json_encode($a);
+            $data['score'] = end($a);
+
+            //每日净值
+            $netValue = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/netValue.txt");
+            file_put_contents($path."\\netValue.txt",$netValue);
+            $b = parse_ini_string($netValue);
+            $data['netValue'] = end($b);
+
+            //年化收益率（string）
+            $mulProfitRatioPerYear = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/mulProfitRatioPerYear.txt");
+            file_put_contents($path."\mulProfitRatioPerYear.txt",$mulProfitRatioPerYear);
+            $c = parse_ini_string($mulProfitRatioPerYear);
+            $data['mulProfitRatioPerYear'] = end($c);
+
+
+            //胜率
+            $winRate = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/winRate.txt");
+            file_put_contents($path."\winRate.txt",$winRate);
+            $d = parse_ini_string($winRate);
+            $data['winRate'] = end($d);
+
+            //最大回撤率
+            $maxReduceRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/maxReduceRatio.txt");
+            file_put_contents($path."\maxReduceRatio.txt",$maxReduceRatio);
+            $e = parse_ini_string($maxReduceRatio);
+            $data['maxReduceRatio'] = end($e);
+
+            //截止每日盈亏比
+            $winLossRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/winLossRatio.txt");
+            file_put_contents($path."\winLossRatio.txt",$winLossRatio);
+            $f = parse_ini_string($winLossRatio);
+            $data['winLossRatio'] = end($f);
+
+            //截止每日卡玛比率
+            $kamaRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/kamaRatio.txt");
+            file_put_contents($path."\kamaRatio.txt",$kamaRatio);
+            $g = parse_ini_string($kamaRatio);
+            $data['kamaRatio'] = end($g);
+
+            //截止每日夏普比率
+            $sharpRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/sharpRatio.txt");
+            file_put_contents($path."\sharpRatio.txt",$sharpRatio);
+            $k= parse_ini_string($sharpRatio);
+            $data['sharpRatio'] = end($k);
+
+            //截止每日夏普比率http://49.235.36.29/accountPerformance/6050_81331531/efficiency.txt //截止每日盈亏效率
+            $sharpRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/efficiency.txt");
+            file_put_contents($path."\sharpRatio.txt",$sharpRatio);
+            $i= parse_ini_string($sharpRatio);
+            $data['efficiency'] = end($i);
+
+            //交易频率
+            $dealFrequency = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/dealFrequency.txt");
+            file_put_contents($path."\dealFrequency.txt",$dealFrequency);
+            $m= parse_ini_string($dealFrequency);
+            $data['dealFrequency'] = end($m);
+
+            //交易次数
+            $lot = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/lot.txt");
+            file_put_contents($path."\lot.txt",$lot);
+            $n= parse_ini_string($lot);
+            $data['lot'] = end($n);
+
+            //交易天数
+            $dealDays = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/dealDays.txt");
+            file_put_contents($path."\dealDays.txt",$dealDays);
+            $n= parse_ini_string($dealDays);
+            $data['dealDays'] = end($n);
+
+            //风暴比
+            $rewardRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/rewardRatio.txt");
+            file_put_contents($path."\\rewardRatio.txt",$rewardRatio);
+            $o= parse_ini_string($rewardRatio);
+            $data['rewardRatio'] = end($o);
+
+             //风总手续费
+            $fee = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/fee.txt");
+            file_put_contents($path."\\fee.txt",$fee);
+            $p= parse_ini_string($fee);
+            $data['fee'] = end($p);
+
+             //风总手续费
+            $equity = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/equity.txt");
+            file_put_contents($path."\\equity.txt",$equity);
+            $q= parse_ini_string($equity);
+            $data['equity'] = end($q);
+
+
+             //最大盈利次数
+            $maxSucWinDeals = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/maxSucWinDeals.txt");
+            $r= parse_ini_string($maxSucWinDeals);
+            file_put_contents($path."\maxSucWinDeals.txt",$maxSucWinDeals);
+            $data['maxSucWinDeals'] = end($r);
+
+
+            //最大亏损次数
+            $maxSucLossDeals = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/maxSucLossDeals.txt");
+            file_put_contents($path."\maxSucLossDeals.txt",$maxSucLossDeals);
+            $s= parse_ini_string($maxSucLossDeals);
+            $data['maxSucLossDeals'] = end($s);
+
+            //【每天仓位】
+            $riskRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/riskRatio.txt");
+            file_put_contents($path."\\riskRatio.txt",$riskRatio);
+            $t= parse_ini_string($riskRatio);
+            $data['riskRatio'] = end($t);
+
+            // 【品种净利】
+            $prdID_netProfit = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_netProfit.txt");
+            file_put_contents($path."\prdID_netProfit.txt",$prdID_netProfit);
+            $aa= parse_ini_string($prdID_netProfit,true);
+            $data['prdID_netProfit'] = json_encode(end($aa));
+
+            // 【品种胜率】
+            $prdID_winRate = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_winRate.txt");
+            file_put_contents($path."\prdID_winRate.txt",$prdID_winRate);
+            $bb= parse_ini_string($prdID_winRate,true);
+            $data['prdID_winRate'] = json_encode(end($bb));
+
+            //【品种盈亏比】
+            $prdID_winLossRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_winLossRatio.txt");
+            file_put_contents($path."\prdID_winLossRatio.txt",$prdID_winLossRatio);
+            $cc= parse_ini_string($prdID_winLossRatio,true);
+            $data['prdID_winLossRatio'] = json_encode(end($cc));
+
+            //【品种手续费】
+            $prdID_fee = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_fee.txt");
+            file_put_contents($path."\prdID_fee.txt",$prdID_fee);
+            $dd= parse_ini_string($prdID_fee,true);
+            $data['prdID_fee'] = json_encode(end($dd));
+
+            //每日日内交易天数
+            $dayinDealDays = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/dayinDealDays.txt");
+            file_put_contents($path."\dayinDealDays.txt",$dayinDealDays);
+            $ee= parse_ini_string($dayinDealDays);
+            $data['dayinDealDays'] = end($ee);
+
+
+
+            //截止每日各品种交易次数
+            $prdID_deals = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_deals.txt");
+            file_put_contents($path."\prdID_deals.txt",$prdID_deals);
+            $gg= parse_ini_string($prdID_deals,true);
+            $data['prdID_deals'] = json_encode(end($gg));
+
+
+
+            //每日初始资金、每日出入金、每日净利润、每日净利率、每日手续费、每日交易次数、每日成交额
+            $day = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/day.txt");
+            file_put_contents($path."\day.txt",$day);
+            // dump($day);
+            $h = parse_ini_string($day,true);
+            // 净利润
+            $data['netProfit'] = end($h['netProfit']);
+            // 出入金
+            $data['deposit'] = end($h['deposit']);
+            // 资金规模（每日初始资金）
+            $data['initialFund'] = end($h['initialFund']);
+
+
+            //leiji收益率（string）
+            $mulProfitRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/mulProfitRatio.txt");
+            $l = parse_ini_string($mulProfitRatio);
+            $data['mulProfitRatio'] = end($l);
+            $data['last_time'] = time();
+            if($s){
+                $status = Db::table('tz_futures_info')->where('uid='.$uid)->update($data); 
+            }else{
+                $status = Db::table('tz_futures_info')->insert($data); 
+            }
+
+    }
+	// 图形表 获取数据
 	public function get_info(){
 		$param = $this->request->param();
 		$id = $param['id'];
+		$this->save_info($id);
+		$info = Db::table('tz_studio')->field("uid,BrokerId")->where('id='.$id)->find();
 		$type = $param['type'];
+		$info['uid'] = 81331531;
+		//综合积分
+		$url = "http://49.235.36.29/accountPerformance/".$info['BrokerId']."_" .$info['uid']."/".$type.".txt";
 
-		// $info = Db::table('tz_futures_info')->field("$type")->where('studio_id='.$id)->find();
+		$months = $param['time'];
+		if($months=='all'){
+			$time = 0;
+		}else{
+			$time = date('Ymd',strtotime("-$months months",time()));
+		}
 
-		// $arr=[];
- 	// 		foreach (json_decode($info[$type],true) as $k => $v) {
- 	// 			$arr[]=["$k",(float)$v];
- 	// 		}
- 	// 		$info['data'] = $arr;
-		// return json($info['data']);
+		$BrokerId = $info['BrokerId'];
+		$path = getcwd()."\data"."\\"."$BrokerId"."_".$info['uid'];
+		if($type=='netProfit'){
+			$url = "http://49.235.36.29/accountPerformance/".$info['BrokerId']."_" .$info['uid']."/day.txt";
+			$sarr = get_headers($url,1); 
+			if(!preg_match('/200/',$sarr[0])){ 
+				return json(['code'=>0,'msg'=>'地址不存在']);
+			}
 
+			$info = file_get_contents($url);
+			file_put_contents($path."\day.txt",$info);
+			$arr = parse_ini_string($info,true);
+			$array=[];
+	        foreach ($arr['netProfit'] as $key => $value) {
+	        	if($key>$time){
+		        	$array[]=["$key",round($value,2)];
+	        	}
+	        }
+	        return $array;
+		}else if($type=='deposit'){
+			$url = "http://49.235.36.29/accountPerformance/".$info['BrokerId']."_" .$info['uid']."/day.txt";
+			$sarr = get_headers($url,1); 
+			if(!preg_match('/200/',$sarr[0])){ 
+				return json(['code'=>0,'msg'=>'地址不存在']);
+			}
+
+			$info = file_get_contents($url);
+			file_put_contents($path."\day.txt",$info);
+			$arr = parse_ini_string($info,true);
+			$array=[];
+	        foreach ($arr['deposit'] as $key => $value) {
+	        	if($key>$time){
+		        	$array[]=["$key",round($value,2)];
+	        	}
+	        }
+	        return $array;
+		}
+
+		$sarr = get_headers($url,1); 
+		if(!preg_match('/200/',$sarr[0])){ 
+			return json(['code'=>0,'msg'=>'地址不存在']);
+		}
+
+	
+        $score = file_get_contents($url);
+        file_put_contents($path."\\$type.txt",$score);
+        $a = parse_ini_string($score);
+        foreach ($a as $key => $value) {
+        	if($type=='prdID_trdRatio' || $type=='prdID_netProfit' || $type=='prdID_winRate'){
+		        	$arr[]=["$key",round($value,2)];
+        	}else{
+	        	if($key>$time){
+		        	$arr[]=["$key",round($value,2)];
+	        	}
+        	}
+        }
+        return $arr;
 	}
 
 	// 收藏
@@ -76,6 +335,239 @@ class Studioinfo extends Controller
 			return json(['code'=>0,'msg'=>'收藏失败']);
 		}
 	}
+
+
+	public function get_info2(){
+		$param = $this->request->param();
+		try{
+			$id = $param['id'];
+			$info = Db::table('tz_studio')->field("uid,BrokerId")->where('id='.$id)->find();
+			$type = $param['type'];
+			$info['uid'] = 81331531;
+
+			$months = $param['time'];
+			if($months=='all'){
+				$time = 0;
+			}else{
+				$time = date('Ymd',strtotime("-$months months",time()));
+			}
+			$BrokerId = $info['BrokerId'];
+			$path = getcwd()."\data"."\\"."$BrokerId"."_".$info['uid'];
+			if($type=='netProfit'){//每日净利
+				$url = "http://49.235.36.29/accountPerformance/".$info['BrokerId']."_" .$info['uid']."/day.txt";
+				$sarr = get_headers($url,1); 
+				if(!preg_match('/200/',$sarr[0])){ 
+					if(!file_exists($path."\\$type.txt")) return json(['code'=>0,'msg'=>'地址不存在']);
+					$info = file_get_contents($path."\\$type.txt");
+					// return json(['code'=>0,'msg'=>'地址不存在']);
+				}
+
+				$info = file_get_contents($url);
+				file_put_contents($path."\\$type.txt",$info);
+				$arr = parse_ini_string($info,true);
+				$array=[];
+		        foreach ($arr['netProfit'] as $key => $value) {
+		        	if($key>$time){
+			        	$array[]=["$key",round($value,2)];
+		        	}
+		        }
+		        return $array;
+			}else if($type=='deposit'){//出入金
+				$url = "http://49.235.36.29/accountPerformance/".$info['BrokerId']."_" .$info['uid']."/day.txt";
+				$sarr = get_headers($url,1); 
+				if(!preg_match('/200/',$sarr[0])){ 
+					if(!file_exists($path."\\$type.txt")) return json(['code'=>0,'msg'=>'地址不存在']);
+					$info = file_get_contents($path."\\$type.txt");
+				}
+				
+				$info = file_get_contents($url);
+				file_put_contents($path."\\$type.txt",$info);
+				$arr = parse_ini_string($info,true);
+				$array=[];
+		        foreach ($arr['deposit'] as $key => $value) {
+		        	if($key>$time){
+			        	$array[]=["$key",round($value,2)];
+		        	}
+		        }
+		        return $array;
+			}else if($type=='dayinDealDays'){
+				$url = "http://49.235.36.29/accountPerformance/".$info['BrokerId']."_" .$info['uid']."/dayinDealDays.txt";
+				//截止每日日内交易天数
+				$dayinDealDays = file_get_contents($url);
+
+				$sarr = get_headers($url,1); 
+				if(!preg_match('/200/',$sarr[0])){ 
+					if(!file_exists($path."\\dayinDealDays.txt")) return json(['code'=>0,'msg'=>'地址不存在']);
+					$dayinDealDays = file_get_contents($path."\dayinDealDays.txt");
+				}
+
+
+				file_put_contents($path."\dayinDealDays.txt",$dayinDealDays);
+	            $p= parse_ini_string($dayinDealDays);
+	            $dayinDealDays = end($p);
+
+
+	            $url1 = "http://49.235.36.29/accountPerformance/".$info['BrokerId']."_" .$info['uid']."/dealDays.txt";
+	            $dealDays = file_get_contents($url1);
+
+				$sarr = get_headers($url1,1); 
+				if(!preg_match('/200/',$sarr[0])){ 
+					if(!file_exists($path."\\dealDays.txt")) return json(['code'=>0,'msg'=>'地址不存在']);
+					$dealDays = file_get_contents($path."\dealDays.txt");
+				}
+
+	            //交易天数
+	            file_put_contents($path."\dealDays.txt",$dealDays);
+	            $n= parse_ini_string($dealDays);
+	            $dealDays = end($n);
+				// 日内交易比例＝日内交易天数÷总交易天数
+				$data[] = ['日内',$dayinDealDays/$dealDays];
+				$data[] = ['隔夜',1 - $dayinDealDays/$dealDays];
+
+		        return $data;
+			}else if($type=='monthProfit'){//出入金
+				$url = "http://49.235.36.29/accountPerformance/".$info['BrokerId']."_" .$info['uid']."/monthProfit.txt";
+				$sarr = get_headers($url,1); 
+				if(!preg_match('/200/',$sarr[0])){ 
+					if(!file_exists($path."\\dealDays.txt")) return json(['code'=>0,'msg'=>'地址不存在']);
+					$info = file_get_contents($path."\\$type.txt");
+				}
+				
+		        $score = file_get_contents($url);
+		        file_put_contents($path."\\$type.txt",$score);
+		        $a = parse_ini_string($score);
+		        foreach ($a as $key => $value) {
+		        	if($key>$time){
+			        	$arr[substr("$key",0,6)]=[round($value,2)];
+		        	}
+		        }
+		        foreach ($arr as $key => $value) {
+		        	if($key>$time){
+			        	$array[]=["$key",$value];
+		        	}
+		        }
+		        return $array;
+			}
+
+
+				//综合积分
+			$url = "http://49.235.36.29/accountPerformance/".$info['BrokerId']."_" .$info['uid']."/".$type.".txt";
+			$sarr = get_headers($url,1); 
+			if(!preg_match('/200/',$sarr[0])){
+				if(!file_exists($path."\\$type.txt")) return json(['code'=>0,'msg'=>'地址不存在']);
+				$info = file_get_contents($path."\\$type.txt");
+			}
+	        $score = file_get_contents($url);
+	        file_put_contents($path."\\$type.txt",$score);
+	        $a = parse_ini_string($score);
+	         // || $type=='prdID_winRate' 品种胜率
+	         // || $type=='prdID_netProfit' 净利润
+	         // || $type=='prdID_posTimeRatio' 品种持仓偏好
+	        foreach ($a as $key => $value) {
+	        	if($type=='prdID_netProfit'||$type=="prdID_trdRatio"||$type=="prdID_posTimeRatio"){//成交偏好 持仓偏好
+		        	$arr[]=["$key",round($value,2)];
+	        	}elseif ($type=='prdID_winRate' ||$type=="prdID_winLossRatio"||$type=="prdID_fee"||$type=="prdID_deals") {
+		        	$arr[$key]=round($value,2);
+	        	} else{
+		        	if($key>$time){
+			        	$arr[]=["$key",round($value,2)];
+		        	}
+	        	}
+	        }
+
+	        if($type=='prdID_winRate'){
+	        	arsort($arr);
+	        	$html = '';
+	        	$html .= '<div class="js-content"><table class="table table-striped" style="width: 80%;margin: 0 auto;"><tr><th>品种</th><th>胜率</th></tr><tbody id="content" class="table-b">';
+
+	        	foreach ($arr as $key => $value) {
+	        		$html.="<tr><td>$key</td><td>$value%</td></tr>";
+	        	}
+	        	$html .= '</tbody></table></div>';
+		        return $html;
+	        }else if($type=="prdID_winLossRatio"){
+	        	arsort($arr);
+	        	// dump($arr);
+	        	$html = '';
+	        	$html .= '<div class="js-content"><table class="table table-striped" style="width: 80%;margin: 0 auto;"><tr><th>品种</th><th>盈亏比</th></tr><tbody id="content" class="table-b">';
+
+	        	foreach ($arr as $key => $value) {
+	        		$html.="<tr><td>$key</td><td>$value</td></tr>";
+	        	}
+	        	$html .= '</tbody></table></div>';
+		        return $html;
+	        }else if($type=="prdID_fee"){
+	        	arsort($arr);
+	        	// dump($arr);
+	        	$html = '';
+	        	$html .= '<div class="js-content"><table class="table table-striped" style="width: 80%;margin: 0 auto;"><tr><th>品种</th><th>手续费</th></tr><tbody id="content" class="table-b">';
+
+	        	foreach ($arr as $key => $value) {
+	        		$html.="<tr><td>$key</td><td>$value</td></tr>";
+	        	}
+	        	$html .= '</tbody></table></div>';
+		        return $html;
+	        }else if($type=="prdID_deals"){
+	        	arsort($arr);
+	        	// dump($arr);
+	        	$html = '';
+	        	$html .= '<div class="js-content"><table class="table table-striped" style="width: 80%;margin: 0 auto;"><tr><th>品种</th><th>品种交易次数</th></tr><tbody id="content" class="table-b">';
+
+	        	foreach ($arr as $key => $value) {
+	        		$html.="<tr><td>$key</td><td>$value</td></tr>";
+	        	}
+	        	$html .= '</tbody></table></div>';
+		        return $html;
+	        }
+	        return $arr;
+		}catch (Exception $e) {
+		     // echo $e->getMessage();
+		     return json(['code'=>0,'msg'=>'errir']);
+		}
+		
+	}
+
+
+	public function ajax_start_data(){
+        $cur = input('get.cur');
+        $size = input('get.size');
+        $cur = !empty($cur) ? $cur : 1;
+        $size = input("get.size");
+        $size = !empty($size) ? $size : 10;
+        $start = $size*($cur-1);
+        $BrokerId = '6050';
+        $uid = '81331531'; 
+
+		$url = "http://49.235.36.29/accountPerformance/$BrokerId"."_$uid/stmt.txt";
+	    $str = file_get_contents('http://49.235.36.29/accountPerformance/6050_81331531/stmt.txt');//将整个文件内容读入到一个字符串中
+	    $str_encoding = mb_convert_encoding($str, 'UTF-8', 'UTF-8,GBK,GB2312,BIG5');//转换字符集（编码）
+	    $arr = explode("\r\n", $str_encoding);//转换成数组
+
+	    //去除值中的空格
+	    foreach ($arr as &$row) {
+	        $row = trim($row);
+	    }
+		foreach( $arr as $k=>$v){   
+		    if( !$v ){
+		    	unset( $arr[$k] );
+		    }else{
+		    	$array[$k] = explode(',',$v);
+		    }
+		}  
+
+	    // dump($arr);
+        // dump($arr);
+        $a = array_slice($array,$start,$size);
+        $data['count'] = count($array);
+        foreach ($a as $key => $value) {
+        	foreach ($value as $k => $v) {
+        		$a[$key]["test".$k] = $v;
+        	}
+        }
+        $data['data'] = $a;
+        return json($data);
+	}
+
 
 	// 取消收藏
 	public function cancle_collect(){
@@ -125,25 +617,45 @@ class Studioinfo extends Controller
 
 	// 实时持仓
 	public function timehold(){
+		
+         //实时持仓
+        // $info = file_get_contents("http://49.235.36.29/posAll.txt");
+        // dump($info);
+        // // $info = file_get_contents("http://49.235.36.29/accountPerformance/6050_81331531/day.txt");
+        // $r= parse_ini_string($info);
+        // dump($r);
+        // $data['maxSucWinDeals'] = end($r);
+
 		$this->init('实时持仓');
 		return $this->fetch();
 	}
 	public function ajax_hold(){
+		// qryPos 9999 071988
         $cur = input('get.cur');
         $cur = !empty($cur) ? $cur : 1;
         $size = input("get.size");
         $size = !empty($size) ? $size : 10;
         $start = 10*($cur-1);
         $BrokerId = '6050';
+        $BrokerId = '9999';
         $uid = '81331531';
+        $uid = '071988';
         $url = 'http://49.235.36.29/WebFunctions.asmx/qry';
         $input = "input=qryPos $BrokerId $uid";
         $info = sendCurlPost($url,$input); 
         $a = explode('#', $info);
         $b = str_replace('</string>','', $a[2]);
         $arr = json_decode($b,true);
-        // dump($arr);
         $a = array_slice($arr,$start,$size);
+        foreach ($a as $key => $value) {
+        	if($value['vol'] < 0){
+        		$a[$key]['vol']='无仓';
+        	}elseif ($value['vol']==0) {
+        		$a[$key]['vol']='空仓';
+        	}else{
+        		$a[$key]['vol']='多仓';
+        	}
+        }
         $data['count'] = count($arr);
         $data['data'] = $a;
         return json($data);

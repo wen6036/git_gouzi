@@ -1,6 +1,5 @@
         <script>
         	function highcharts(element,arr){
-				// // Data generated from http://www.bikeforums.net/professional-cycling-fans/1113087-2017-tour-de-france-gpx-tcx-files.html
 				var elevationData = arr;
 
 				// 初始化图标
@@ -37,8 +36,6 @@
 				        },
 				        threshold: null
 				    }],
-
-
 				        //是否允许下载
 				        navigation: {
 				            buttonOptions: {
@@ -52,7 +49,6 @@
 
 				});        		
         	}
-        	let arr
         </script>
 
 				<table class="table table-striped">
@@ -70,13 +66,8 @@
 							<div id="container{$key}" style="height: 100px"></div>
 							<script type="text/javascript">
 
-							var jsonObj = {$item.data};
-					        arr=[];
-					        for(let i in jsonObj){
-					            arr.push(jsonObj[i]);            
-					        }
-					        console.log(arr)
-							highcharts("container{$key}",arr);
+							// console.log({$item.data})
+							highcharts("container{$key}",{$item.data});
 							</script>
 						</td>
 						<td style="width: 620px" class="datadetail">
@@ -93,10 +84,13 @@
 							</div>
 							<div  class="sjdyq-td-item">
 								<span>{$item.score}</span>
+								<span>{$item.netValue}</span>
 								<span>{$item.mulProfitRatioPerYear}</span>
+								<span>{$item.winRate}</span>
 								<span>{$item.maxReduceRatio}</span>
-								<span>{$item.sharpRatio}</span>
 								<span>{$item.winLossRatio}</span>
+								<span>{$item.sharpRatio}</span>
+								<span>{$item.efficiency}</span>
 
 							</div>
 							<div class="sjdyq-td-des">
@@ -107,7 +101,7 @@
 						</td>
 						<td class="sjdyq-dynum">
 							<p class="num">订阅人数</p>
-								<p>{$item.deals}</p>
+								<p>{$item.lot}</p>
 								<p>
 									<a href="{:url('index/studioinfo/index',array('id'=>$item['id']))}">详情</a>
 								</p>
@@ -141,12 +135,12 @@ $("#pager").zPager({
 	totalData: {$count|default='1'},
 	htmlBox: $('#wraper'),
 	pageData: {$pagesize}, //每页数据条数
-	pageCount: {$pagesize}, //总页数
+	pageCount: 0, //总页数
 	current: {$pagenum|default='1'}, //当前页码数
 	btnShow: true,
 	ajaxSetData: false,
 	dataRender: function(data) {
-		console.log(data + '---data-2');
+		// console.log(data + '---data-2');
 		alert(data);
 	},
 });
@@ -177,12 +171,13 @@ $("#pager").zPager({
 
 function pagego(id){
 	console.log(id)
+	var pagesize = {$pagesize};
 		var html='<div style="width: 100%;padding: 100px 0px;text-align: center;"><img src="/static/admin/plugins/layer/skin/default/loading-1.gif"></div>'
 			$('.sjdyq .container').html(html)
 
 		$.ajax({
 			url:"{:url('Datasub/info')}",
-			data:{pagenum:id},
+			data:{pagenum:id,pagesize:pagesize,type:type},
 			success:function(res){
 				$('.sjdyq .container').html(res)
 			}

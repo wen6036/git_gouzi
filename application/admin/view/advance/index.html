@@ -42,11 +42,18 @@
 <!--                         <th>
                             <input id="data-checkall" type="checkbox" onclick="check_all(this)" class="checkbox" placeholder="全选/取消">
                         </th> -->
-                        <th>排名序号ID</th>
                         <th>工作室名称</th>
-                        <th>综合积分</th>
-                        <th>净值</th>
-                        <th>其他指标</th>
+                        <th>工作室ID</th>
+                        <th>用户名称</th>
+                        <th>用户UID</th>
+                        <th>手机号</th>
+                        <th>银行开户人</th>
+                        <th>银行卡卡号</th>
+                        <th>开户行</th>
+                        <th>订阅次数</th>
+                        <th>订阅费</th>
+                        <th>状态</th>
+                        <th>提现日期</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -54,15 +61,28 @@
                     {foreach name="list" item="item"}
                     <tr>
 
-                        <td>{$item.id}</td>
                         <td>{$item.studioname}</td>
-                        <td>{$item.id}</td>
-                        <td>{$item.id}</td>
-                        <td>{$item.id}</td>
+                        <td>{$item.studio_id}</td>
+                        <td>{$item.username}</td>
+                        <td>{$item.uid}</td>
+                        <td>{$item.usertel}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{$item.order_num}</td>
+                        <td>{$item.price}</td>
+                        <td>{if condition="$item.status eq 2"}
+                                已提现
+                        {elseif condition="$item.status eq 1" /}
+                                可提现
+                        {elseif condition="$item.status eq 0" /}
+                                不可提现
+                        {/if}</td>
+                        <td>{$item.last_time}</td>
 
                         <td class="td-do">
-                            <button  data-url="detail.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-default btn-xs" title="取消排名" data-toggle="tooltip">
-                                取消排名
+                            <button>
+                                导出
                             </button>
                         </td>
                     </tr>

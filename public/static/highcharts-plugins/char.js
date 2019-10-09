@@ -1,12 +1,9 @@
-function chart1(element,arr){
+function chart1(element,arr,title){
         var chart = null;
-        // var data1 =[['2019-08-06', 0.7695],['2019-08-07', 0.7648],['2019-08-08', 0.7645],['2019-08-09', 0.7638],['2019-08-10', 0.7549],['2019-08-11', 0.7562],['2019-08-12', 0.7574],['2019-08-13', 0.7543],['2019-08-14', 0.751],['2019-08-15', 0.751],['2019-08-16', 0.751],['2019-08-17', 0.751],['2019-08-18', 0.751],['2019-08-19', 0.751],['2019-08-20', 0.751],['2019-08-21', 0.751],['2019-08-22', 0.751],['2019-08-23', 0.751],['2019-08-24', 0.751],['2019-08-25', 0.751],['2019-08-26', 0.751],['2019-08-27', 0.751],['2019-08-28', 0.751],['2019-08-29', 0.751],['2019-08-30', 0.751]];
-        console.log(111)
         var data = arr;
         // var data =[[1370131200000, 0.7695],[1370217600000, 0.7648],[1370304000000, 0.7645],[1370390400000, 0.7638],[1370476800000, 0.7549],[1370563200000, 0.7562],[1370736000000, 0.7574],[1370822400000, 0.7543],[1370908800000, 0.751]];
 
             chart = Highcharts.chart(element, {
-
                 //版权信息
                 credits: {
                     enabled: false
@@ -16,7 +13,6 @@ function chart1(element,arr){
                 //     shadow: true,
                 //     padding: 1
                 // },
-
                 chart: {
                     zoomType: 'x',
                     type: 'area',
@@ -25,18 +21,23 @@ function chart1(element,arr){
                     backgroundColor: 'rgba(0,0,0,0)'
                 },
                 title: {
-                    text: '',
+                    text: title,
                     floating: true,
-                    y: 100
+                    // y: 0,
+                    style:{
+                        color:"#4679bd",
+                        "font-weight":"bold"
+                    },
                 },
-                // subtitle: {
-                //     text: document.ontouchstart === undefined ?
-                //     '鼠标拖动可以进行缩放' : '手势操作进行缩放'
-                // },
+                subtitle: {
+                    text: document.ontouchstart === undefined ?
+                    '鼠标拖动可以进行缩放' : '手势操作进行缩放',
+                    y: 30,
+                },
                 // 分类x坐标
                 xAxis: {
                     type: 'category',
-                    // visible:false
+                    visible:false
                     // dateTimeLabelFormats: {
                     //     millisecond: '%H:%M:%S.%L',
                     //     second: '%H:%M:%S',
@@ -67,7 +68,7 @@ function chart1(element,arr){
                     },
 
                     pointFormatter: function() {
-                        return '<span style="color: '+ this.series.color + '">\u25CF</span> '+this.series.name+': <b>'+ this.y +'%</b><br/>'
+                        return '<span style="color: '+ this.series.color + '">\u25CF</span> '+this.series.name+': <b>'+ this.y +'</b><br/>'
                     },
 
 
@@ -75,7 +76,7 @@ function chart1(element,arr){
                 },
                 yAxis: {
                     title: {
-                        text: '每日权益'
+                        text: title
                     },
                     allowDecimals:Boolean,
                     // visible:false,//y坐标显示
@@ -112,9 +113,9 @@ function chart1(element,arr){
                             ],
                             color: '#FF0000'
                         },
-                        marker: {
-                            radius: 2
-                        },
+                        // marker: {
+                        //     radius: 2
+                        // },
                         lineWidth: 1,
                         states: {
                             hover: {
@@ -126,7 +127,7 @@ function chart1(element,arr){
                 },
                 series: [{
                     type: 'area',
-                    name: '每日权益',
+                    name: title,
                     data: data,
                     // lineWidth:2,
                     // lineColor: '#FF0000',//线颜色
@@ -155,11 +156,16 @@ function chartzhu(element,data,title){
     // var x = ['苹果', '橘子', '梨', '葡萄', '香蕉'];
     // var y = [5, 3, 4, 7, 2];
     var chart = Highcharts.chart(element,{
+        //版权信息
+        credits: {
+            enabled: false
+        },
+        
         chart: {
             type: 'column'
         },
         title: {
-            text: '包含负值的柱形图'
+            text: title
         },
         xAxis: {
             categories: x
@@ -244,4 +250,72 @@ function charthuan(element){
                     ]
             }]
     });
+}
+
+function chartiao(element,data,title){
+    var x= [],y= [];
+    for (var i = 0; i < data.length; i++) {
+        x.push(data[i][0]);
+        y.push(data[i][1]);
+    }
+
+    var chart = Highcharts.chart(element, {
+    //版权信息
+    credits: {
+        enabled: false
+    },
+        
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: title
+    },
+    // subtitle: {
+    //     text: '数据来源: Wikipedia.org'
+    // },
+    xAxis: {
+        categories: x,
+        title: {
+            text: null
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            // text: '人口总量 (百万)',
+            align: 'high'
+        },
+        labels: {
+            overflow: 'justify'
+        }
+    },
+    tooltip: {
+        // valueSuffix: ' 百万'
+    },
+    plotOptions: {
+        bar: {
+            dataLabels: {
+                enabled: true,
+                allowOverlap: true // 允许数据标签重叠
+            }
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'top',
+        x: -40,
+        y: 100,
+        floating: true,
+        borderWidth: 1,
+        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+        shadow: true,
+        enabled: true
+    },
+    series: [{
+        name: title,
+        data: y
+    }]
+});
 }

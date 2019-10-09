@@ -134,7 +134,8 @@
 							url:"{:url('index/datasub/payorder')}",
 							data:{id:{$info['id']},index:index,paytype:paytype},
 							success:function(res){
-								console.log(res)
+								// console.log(res)
+								layer.msg(res.msg)
 							}
 						})
 					})

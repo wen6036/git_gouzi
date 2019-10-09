@@ -71,7 +71,11 @@
                         <td>{$item.pay_money}</td>
 
                         <td class="td-do">
-                            <button  data-url="del.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-danger btn-xs" title="取消排名" data-toggle="tooltip">
+                            <button  data-url="del.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-success btn-xs" title="取消排名" data-toggle="tooltip">
+                                取消排名
+                            </button>
+
+                            <button  data-url="del.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-danger btn-xs" title="删除" data-toggle="tooltip">
                                 删除
                             </button>
                             <a  href="detail_exl/id/{$item.id}" target="_blank"  data-id="{$item.id}"  class="btn btn-default btn-xs" title="导出" data-toggle="tooltip">

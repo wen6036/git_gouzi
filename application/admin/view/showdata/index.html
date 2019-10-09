@@ -39,17 +39,18 @@
                 <table class="table table-hover table-bordered datatable" width="100%">
                     <thead>
                     <tr>
-<!--                         <th>
-                            <input id="data-checkall" type="checkbox" onclick="check_all(this)" class="checkbox" placeholder="全选/取消">
-                        </th> -->
                         <th>排名序号ID</th>
                         <th>工作室名称</th>
                         <th>综合积分</th>
                         <th>净值</th>
                         <th>净利润</th>
-                        <th>盈亏效率</th>
                         <th>交易次数</th>
+                        <th>盈亏效率</th>
+                        <th>交易天数</th>
                         <th>胜率</th>
+                        <th>卡玛比率</th>
+                        <th>夏普比率</th>
+                        <th>每日权益</th>
                         <th>最大回撤率</th>
                         <th>操作</th>
                     </tr>
@@ -61,11 +62,15 @@
                         <td>{$item.id}</td>
                         <td>{$item.studioname}</td>
                         <td>{$item.score}</td>
-                        <td>{$item.mulNetValue}</td>
+                        <td>{$item.netValue}</td>
                         <td>{$item.netProfit}</td>
+                        <td>{$item.lot}</td>
                         <td>{$item.efficiency}</td>
-                        <td>{$item.deals}</td>
+                        <td>{$item.dealDays}</td>
                         <td>{$item.winRate}</td>
+                        <td>{$item.kamaRatio}</td>
+                        <td>{$item.sharpRatio}</td>
+                        <td>{$item.equity}</td>
                         <td>{$item.maxReduceRatio}</td>
 
                         <td class="td-do">

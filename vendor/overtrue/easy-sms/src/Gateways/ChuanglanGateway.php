@@ -70,6 +70,8 @@ class ChuanglanGateway extends Gateway
 
         if (86 != $IDDCode) {
             $params['mobile'] = $to->getIDDCode().$to->getNumber();
+            $params['account'] = $config->get('intel_account') ?: $config->get('account');
+            $params['password'] = $config->get('intel_password') ?: $config->get('password');
         }
 
         $result = $this->postJson($this->buildEndpoint($config, $IDDCode), $params);
@@ -92,6 +94,10 @@ class ChuanglanGateway extends Gateway
     protected function buildEndpoint(Config $config, $IDDCode = 86)
     {
         $channel = $this->getChannel($config, $IDDCode);
+
+        if (self::INT_URL === $channel) {
+            return $channel;
+        }
 
         return sprintf(self::ENDPOINT_URL_TEMPLATE, $channel);
     }

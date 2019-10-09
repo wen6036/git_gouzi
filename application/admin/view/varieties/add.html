@@ -1,0 +1,61 @@
+<link rel="stylesheet" href="__PLUGINS__/iconpicker/css/iconpicker.min.css">
+<script src="__PLUGINS__/iconpicker/js/iconpicker.min.js"></script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            {include file="template/form_header" /}
+            <form id="dataForm" class="dataForm form-horizontal" action="" method="post" enctype="multipart/form-data">
+                <div class="box-body">
+                    <div class="fields-group">
+                        {if isset($info)}
+                        <input id="id" name="id" value="{$info.id}" hidden placeholder="请勿修改">
+                        {/if}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">上级品种</label>
+                            <div class="col-sm-10 col-md-4">
+                                <div class="input-group">
+                                    <select name="pid" id="pid" class="form-control">
+                                        <option value="0">/</option>
+                                        {foreach name="arr" item="item"}
+                                            <option value="{$item.id}">{$item.v_name}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="title" class="col-sm-2 control-label">品种名称</label>
+                            <div class="col-sm-10 col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                    <input maxlength="50" id="title" name="v_name" value="{$info.v_name|default=''}" class="form-control" placeholder="品种名称">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="url" class="col-sm-2 control-label">代码符号</label>
+                            <div class="col-sm-10 col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-adn"></i></span>
+                                    <input maxlength="100" id="url" name="code" value="{$info.code|default=''}" class="form-control" placeholder="代码符号">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+                {include file="template/form_footer" /}
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $('#icon').iconpicker({placement: 'bottomLeft'});
+    });
+</script>

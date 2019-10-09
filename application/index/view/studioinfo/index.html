@@ -1,4 +1,8 @@
 		{include file="public/header1" /}
+		<link rel="stylesheet" type="text/css" href="__STATIC__/common/paging/paging.css">
+		<script type="text/javascript" src="__STATIC__/common/paging/paging.js"></script>
+		<script type="text/javascript" src="__STATIC__/common/paging/page.js"></script>
+		<script type="text/javascript" src="__STATIC__/common/paging/jquery.tmpl.min.js"></script>
 		<script src="__STATIC__/highcharts-plugins/char.js"></script>
 		<div class="studio_introduct">
 			<div class="container" style="min-width:1170px;">
@@ -11,80 +15,88 @@
 
 				<div class="jy-type">
 					<ul>
-						<li>综合积分：{$info.score}</li>
-						<li>净值(图)：{$info.mulNetValue}</li>
-						<li>累计收益率(图)：{$info.mulProfitRatio}</li>
-						<li>年化收益率:{$info.mulProfitRatioPerYear} </li>
-						<li class="active" data="equity">每日权益(图)：wuwu</li>
-						<li>净利润(图)：{$info.netProfit}</li>
-						<li>累计出入金：{$info.deposit}</li>
-						<li>总手续费：</li>
-						<li>盈亏效率(图)：wuwuwu</li>
-						<li>胜率(图)：{$info.winRate}</li>
-						<li>盈亏比(图)：{$info.totalWinLossRatio}</li>
-						<li>风报比(图)：{$info.rewardRatio}</li>
-						<li>最大回撤率(图)：{$info.maxReduceRatio}</li>
-						<li>夏普比率(图)：{$info.sharpRatio}</li>
-						<li>卡玛比率(图)：{$info.kamaRatio}</li>
-						<li data="prdID_trdRatio">品种成交偏好(图)</li>
-						<li data="prdID_netProfit" >品种净利润(图)：wuwu</li>
-						<li>品种胜率(图)</li>
-						<li>总交易天数(图)：{$info.dealDays}</li>
-						<li>总交易次数(图)：{$info.lot}</li>
-						<li>交易频率(图)：{$info.dealFrequency}</li>
+						<li class="active" data="score" data-name="综合积分">综合积分：{$info.score}</li>
+						<li data="netValue" data-name="净值">净值(图)：{$info.netValue}</li>
+						<li data="mulProfitRatio" data-name="累计收益率">累计收益率(图)：{$info.mulProfitRatio}</li>
+						<li data="mulProfitRatioPerYear" data-name="年化收益率">年化收益率:{$info.mulProfitRatioPerYear} </li>
+						<li data="equity" data-name="每日权益">每日权益(图)：{$info.equity}</li>
+						<li data="netProfit" data-name="净利润">净利润(图)：{$info.netProfit}</li>
+						<li data="deposit" data-name="累计出入金">累计出入金：{$info.deposit}</li>
+						<li data="fee" data-name="总手续费">总手续费：{$info.fee}</li>
+						<li data="efficiency" data-name="盈亏效率">盈亏效率(图){$info.efficiency}</li>
+						<li data="winRate" data-name="胜率">胜率(图)：{$info.winRate}</li>
+						<li data="winLossRatio" data-name="盈亏比">盈亏比(图)：{$info.winLossRatio}</li>
+						<li data="rewardRatio" data-name="风报比">风报比(图)：{$info.rewardRatio}</li>
+						<li data="maxReduceRatio" data-name="最大回撤率">最大回撤率(图)：{$info.maxReduceRatio}</li>
+						<li data="sharpRatio" data-name="夏普比率">夏普比率(图)：{$info.sharpRatio}</li>
+						<li data="kamaRatio" data-name="卡玛比率">卡玛比率(图)：{$info.kamaRatio}</li>
+						<li data="prdID_trdRatio" data-name="品种成交偏好">品种成交偏好(图)</li>
+						<li data="prdID_netProfit" data-name="品种净利润">品种净利润(图)</li>
+						<li data="prdID_winRate" data-name="品种胜率">品种胜率(图)</li>
+						<li data="dealDays" data-name="总交易天数">总交易天数(图)：{$info.dealDays}</li>
+						<li data="lot" data-name="总交易次数">总交易次数(图)：{$info.lot}</li>
+						<li data="dealFrequency" data-name="交易频率">交易频率(图)：{$info.dealFrequency}</li>
 					</ul>
 				</div>
 
 				<div class="js-content">
 					<div class="js-shaixuan">
 						<span class="pp">筛选:</span>
-						<select>
-							<option>全部</option>
-							<option>一年</option>
-							<option>六个月</option>
-							<option>三个月</option>
+						<select name="slect_time"  onchange="func(this)">
+							<option value="all">全部</option>
+							<option value="12">一年</option>
+							<option value="6">六个月</option>
+							<option value="3">三个月</option>
 						</select>
 					</div>
 
 					<div class="zhexiantu">
+						<div class="loading" style="width: 100%;padding: 100px 0px;text-align: center;">
+							<img src="http://www.51dewen.com/static/admin/plugins/layer/skin/default/loading-1.gif">
+						</div>
 			          <div id="chart-composite-1"><svg height=225></svg></div>
 					</div>
 				</div>
 				<script type="text/javascript">
-					// let x = ["2007", "2008", "2009", "2010", "2011", "2012","2013", "2014", "2015", "2016", "2017"];
-					// let y = [152, 222, 199, 287, 534, 709,1179, 1256, 1632, 1856, 1850];
+					var id = {$info.studio_id},type='score',title='综合计分',title2='累计收益率',time='all',time2='all';
 
-					// zhexiantu("#chart-composite-1",x,y,titlename);
-					// bingzhuangtu("#chart-aggr",x,y)
-					// xiaozhexian("#chart-trends",x,y);
-					// zhuzhuangtu("#chart-events",x,y);
-					var id = {$info.studio_id},type;
+					function func(obj){
+						time= $(obj).val()
+						get_info(type,time);
+					}
+
 					$('.jy-type ul li').click(function(){
 						type = $(this).attr('data');
+						title = $(this).attr('data-name');
+
 						if(!type){
 							return false;
 						}
 						$(this).addClass('active').siblings().removeClass('active')
-						get_info(type);
+						get_info(type,time);
 					})
 
-					get_info('equity');
+					get_info('score');
 
 					function get_info(type){
 						$.ajax({
 							url:"{:url('Studioinfo/get_info')}",
-							data:{type:type,id:id},
+							data:{type:type,id:id,time:time},
 							success:function(res){
-								console.log(res)
-								console.log(typeof(res))
-								if(type=='prdID_netProfit'){
-									chartzhu("chart-composite-1",res,'title')
-								}else if(type=='prdID_trdRatio'){
-									//饼状图
-									chartbing("chart-composite-1",res,'title');
+								$('.loading').hide()
+								if(res.code==0){
+									$('#chart-composite-1').html("<div class='nomsg'><img src='__STATIC__/index/images/nomsg.png'></div>")
+									return false;
+								}
+
+
+								if(type=='prdID_trdRatio'||type=="prdID_winRate"){
+									chartbing("chart-composite-1",res,title);
+								}else if(type=="prdID_netProfit"){
+									chartzhu("chart-composite-1",res,title)
 								}else{
-									// chart1("chart-composite-1",res);
-									chart1("chart-composite-1",res);
+									chart1("chart-composite-1",res,title);
+									console.log(res)
 								}
 							}
 						})
@@ -95,50 +107,229 @@
 
 
 				<div class="jy-fb">
-					<div>
-						<button class="btn">盈利能力</button>
+					<div class="jy-type">
+						<button class="btn active">盈利能力</button>
 						<button class="btn">风控能力</button>
 						<button class="btn">稳定性</button>
 						<button class="btn">盈亏分析</button>
 						<button class="btn">交易分析</button>
 						<button class="btn">品种分析</button>
-						<button class="btn">其他分析</button>
 						<button class="btn">原始数据</button>
+						<!-- <button class="btn">其他分析</button> -->
+					</div>
+					<div class="jy-fb-type">
+						<span class="active" data="mulProfitRatio" data-name="累计收益率">累计收益率(曲线图):{$info.mulProfitRatio}</span>
+						<span data="mulProfitRatioPerYear" data-name="年化收益率">年化收益率(曲线图):{$info.mulProfitRatioPerYear}</span>
+						<span data="netValue" data-name="净值">净值(曲线图):{$info.netValue}</span>
+						<span data="winRate" data-name="胜率">胜率(曲线图):{$info.winRate}</span>
+						<span data="rewardRatio" data-name="风报比">风报比(曲线图):{$info.rewardRatio}</span>
+						<span data="netProfit" data-name="净利润">净利润(曲线图):{$info.netProfit}</span>
 					</div>
 
-					<div>
-						<span>日内/隔夜分布饼状图</span>
-						<span>每日仓位(曲线图)</span>
-						<span>交易频率</span>
-						<span>盈亏效率(曲线图)</span>
+					<div class="jy-fb-type">
+						<span class="active" data="maxReduceRatio" data-name="最大回撤率">最大回撤率:{$info.maxReduceRatio}</span>
+						<span data="winLossRatio" data-name="盈亏比">盈亏比:(曲线图){$info.winLossRatio}</span>
+						<span data="rewardRatio" data-name="风报比">风报比(曲线图):{$info.rewardRatio}</span>
+						<span data="dealFrequency" data-name="交易频率">交易频率:{$info.dealFrequency}</span>
+						<span data="riskRatio" data-name="每天仓位">每天仓位(曲线图):</span>
+					</div>
+
+
+					<div class="jy-fb-type">
+						<span class="active" data="sharpRatio" data-name="夏普比率">夏普比率(曲线图):{$info.sharpRatio}</span>
+						<span data="kamaRatio" data-name="卡玛比率">卡玛比率(曲线图):{$info.kamaRatio}</span>
+					</div>
+
+					<div class="jy-fb-type">
+						<span class="active" data="efficiency" data-name="每日盈亏">每日盈亏-柱状图</span>
+						<span data="monthProfit" data-name="每月盈亏">每月盈亏-柱状图</span>
+						<span data="maxSucWinDeals" data-name="最大连续盈利次数">最大连续盈利次数:{$info.maxSucWinDeals}</span>
+						<span data="maxSucLossDeals" data-name="最大连续亏损次数">最大连续亏损次数:{$info.maxSucLossDeals}</span>
+					</div>
+
+					<div class="jy-fb-type">
+						<span class="active" data="dayinDealDays"  data-name="日内/隔夜分布">日内/隔夜分布-饼状图</span>
+						<span data="riskRatio" data-name="每日仓位">每日仓位(曲线图):{$info.riskRatio}</span>
+						<span data="dealFrequency" data-name="交易频率">交易频率:{$info.dealFrequency}</span>
+						<span data="efficiency" data-name="盈亏效率">盈亏效率(曲线图):{$info.kamaRatio}</span>
+					</div>
+
+					<div class="jy-fb-type">
+						<span class="active" data="prdID_netProfit" data-name="品种净利润">品种净利润-条形图</span>
+						<span data="prdID_winRate" data-name="品种胜率">品种胜率-排序表（从大到小）</span>
+						<span data="prdID_winLossRatio" data-name="品种盈亏比">品种盈亏比-排序表（从大到小）</span>
+						<span data="prdID_deals" data-name="品种交易次数">品种交易次数-排序表（从大到小）</span>
+						<span data="prdID_fee" data-name="品种手续费">品种手续费-排序表（从大到小）</span>
+						<span data="prdID_trdRatio" data-name="品种成交偏好">品种成交偏好-饼状图</span>
+						<span data="prdID_posTimeRatio" data-name="品种持仓偏好">品种持仓偏好-饼状图</span>
+					</div>
+
+					<div class="jy-fb-type">
+
 					</div>
 				</div>
-			
-
-				<div class="js-content">
+				<style type="text/css">
+					th,td{text-align: center;}
+				</style>
+				<div class="js-content" style="min-height: 300px">
 					<div class="js-shaixuan">
 						<span class="pp">筛选:</span>
-						<select>
-							<option>全部</option>
-							<option>一年</option>
-							<option>六个月</option>
-							<option>三个月</option>
+						<select name="slect_time2"  onchange="func2(this)">
+							<option value="all">全部</option>
+							<option value="12">一年</option>
+							<option value="6">六个月</option>
+							<option value="3">三个月</option>
 						</select>
 					</div>
 
 					<div class="zhexiantu">
-			              <div id="chart-aggr"></div>
+						<div class="loading2" style="width: 100%;padding: 100px 0px;text-align: center;">
+							<img src="http://www.51dewen.com/static/admin/plugins/layer/skin/default/loading-1.gif">
+						</div>
+
+			              <div id="chart-composite-2"></div>
+              				<div class="yssj" style="display: none">
+								<table class="table table-striped">
+									<tr>
+									<tr>
+										<th>日期</th>
+										<th>期初结存</th>
+										<th>权益</th>
+										<th>期末结存</th>
+										<th>出入金</th>
+										<th>平仓盈亏</th>
+										<th>持仓盈亏</th>
+										<th>保证金占用</th>
+										<th>风险率</th>
+										<th>追加保证金</th>
+										<th>手续费</th>
+										<th>可用资金</th>
+									</tr>
+									</tr>
+							        <tbody id="content" class="table-b">
+							            <tr>
+							                <td colspan="9" style="text-align: center">
+							                    暂无数据
+							                </td>
+							            </tr>
+							        </tbody>
+								</table>
+								    <!-- 列表底部按钮 -->
+							    <div class="paginations" style="height: 80px">
+							        <div id="pageTool"><p class="count-page"></p></div>
+							    </div>
+							</div>
 					</div>
 				</div>
 
 
-				<div class="js-content">
-					<div class="nomsg">
-						<img src="__STATIC__/index/images/nomsg.png">
-					</div>
-				</div>
+
+	<script id="tpl" type="text/x-jquery-tmpl">
+		<tr>
+			<td>${test0}</td>
+			<td>${test1}</td>
+			<td>${test2}</td>
+			<td>${test3}</td>
+			<td>${test4}</td>
+			<td>${test5}</td>
+			<td>${test6}</td>
+			<td>${test7}</td>
+			<td>${test8}</td>
+			<td>${test9}</td>
+			<td>${test10}</td>
+			<td>${test11}</td>
+
+		</tr>
+	</script>
+
+<script type="text/javascript">
+	var	url = "{:url('ajax_start_data')}";
+	var id = {$_GET['id']};
+    $('#pageTool').page(url+"?id="+id, function (data, obj) {
+        // 分页
+        if (data.data.count > 0) {
+            $("#content").html('');
+            $("#tpl").tmpl(data.data.data).appendTo('#content');
+        } else {
+            var tpl = '<tr><td colspan="9" style="text-align: center">暂无数据</td></tr>';
+            $("#content").html(tpl);
+        }
+    });
 
 
+
+	function func2(obj){
+		time= $(obj).val()
+		get_info2(type,time);
+	}
+
+	$('.jy-fb-type').eq(0).show()
+
+	$('.jy-fb .jy-type button').click(function(){
+		var index = $(this).index()
+		$(this).addClass('active').siblings().removeClass('active');
+		$('.jy-fb-type').eq(index).show().siblings('.jy-fb-type').hide();
+
+		var ppp = $('.jy-fb-type').eq(index).find('.active').attr('data')
+		title2 = $('.jy-fb-type').eq(index).find('.active').attr('data-name')
+		if(index == 6){
+			console.log(index)
+			$('#chart-composite-2').hide();
+			$('.js-shaixuan').hide();
+			$('.yssj').show();
+			return false;
+		}
+		get_info2(ppp)
+
+	})
+
+	$('.jy-fb .jy-fb-type span').click(function(){
+		$(this).addClass('active').siblings().removeClass('active');
+		title2 = $(this).attr('data-name')
+		get_info2($(this).attr('data'))
+	})
+
+	get_info2('mulProfitRatio');
+	function get_info2(type){
+		$('.js-shaixuan').show();
+		$('#chart-composite-2').show();
+		$('.yssj').hide();
+		$.ajax({
+			url:"{:url('Studioinfo/get_info2')}",
+			data:{type:type,id:id,time:time},
+			success:function(res){
+				$('.loading2').hide();
+					console.log(res)
+				if(res.code==0){
+					$('#chart-composite-2').html("<div class='nomsg'><img src='__STATIC__/index/images/nomsg.png'></div>")
+					return false;
+				}
+				if(type=='prdID_trdRatio'||type=="prdID_posTimeRatio" || type == 'dayinDealDays'){
+					chartbing("chart-composite-2",res,title2);
+				}else if(type=="prdID_netProfit"){
+					chartiao("chart-composite-2",res,title2)
+				}else if(type=="prdID_winRate" || type=='prdID_winLossRatio' ||type=="prdID_fee" ||type=="prdID_deals"){
+					$('#chart-composite-2').html(res)
+				}else if(type=="monthProfit"){
+					// $('#chart-composite-2').html(res)
+					chartzhu("chart-composite-2",res,title2);
+				}else{
+					chart1("chart-composite-2",res,title2);
+				}
+				// console.log(typeof(res))
+				// if(type=='prdID_netProfit'){
+				// 	chartzhu("chart-composite-1",res,'title')
+				// }else if(type=='prdID_trdRatio'){
+				// 	//饼状图
+				// 	chartbing("chart-composite-1",res,'title');
+				// }else{
+				// 	// chart1("chart-composite-1",res);
+				// }
+			}
+		})
+	}
+
+</script>
 
 				<script type="text/javascript">
 					$('.studio-type ul li .studion-main').eq(0).css({'background':'#4679bd','color':'#fff'}).find('img').attr('src','__STATIC__/index/images/zs1.png')

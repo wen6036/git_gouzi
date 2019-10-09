@@ -13,6 +13,22 @@
 
 
 
+				<audio src="__STATIC__/index/time1.mp3" id="myaudio" controls="controls"  hidden="true">    </audio>
+    <input type="button" onclick="autoPlay()" value="播放" />
+    <input type="button" onclick="closePlay()" value="关闭" />
+
+			    <script language="javascript" type="text/javascript">
+			        function autoPlay() {
+			            var myAuto = document.getElementById('myaudio');
+			            myAuto.play();
+			        }
+			        function closePlay() {
+			            var myAuto = document.getElementById('myaudio');
+			            myAuto.pause();
+			            // myAuto.load();
+			        }
+			    </script>
+
 
 				<div class="studion-history">
 					<table class="table table-striped">

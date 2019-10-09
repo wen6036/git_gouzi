@@ -1,0 +1,113 @@
+				<style type="text/css">
+					tr td{height: 60px;line-height: 60px !important;vertical-align:inherit;text-align: center;}、
+					tr th{text-align: center;}
+				</style>
+
+				<table class="table table-striped">
+				<tr style="height: 60px">
+					<th>排名</th>
+					<th>交易者</th>
+					<th>品种净利润</th>
+					<th>品种胜率</th>
+					<th>品种盈亏比</th>
+					<th>品种手续费</th>
+
+					<th>品种交易次数</th>
+					<th>品种日均交易次数</th>
+					<th>规模</th>
+					<th>起始时间</th>
+					<th>截止时间</th>
+					<th>订阅人数</th>
+					<th>订阅费</th>
+					<th style="text-align: center;">操作</th>
+				</tr>
+
+				{foreach name="list" item="item" key="key"}
+					<tr style="height: 60px;line-height: 60px">
+						<td style="line-height: inherit !important; ">
+							<span class="sjdyq-number" style="height: 30px;display:inline">{$pagesize*($pagenum-1)+$key+1}</span>
+						</td>
+						<td>{$item.username}</td>
+						<td>{$item.prdID_netProfit}</td>
+						<td>{$item.prdID_winRate}</td>
+						<td>{$item.prdID_winLossRatio}</td>
+						<td>{$item.prdID_fee}元</td>
+
+						<td>{$item.prdID_deals}次</td>
+						<td>{$item.pday}次</td>
+						<td>大型</td>
+						<td>开始日期</td>
+						<td>结束日期</td>
+						<td>{$item.lot}</td>
+						<td>{$item.price}元/月</td>
+						<td>
+							<a href="{:url('index/studioinfo/index',array('id'=>$item['id']))}"><button class="btn" style="background:#fff;color: #4679bd;border:1px solid #4679bd ">详情</button></a>
+							<a href="{:url('index/datasub/order_pay',array('id'=>$item['id']))}"><button class="btn" style="background:#4679bd;color: #fff">订阅</button></a>
+						</td>
+					</tr>
+				{/foreach}
+				</table>
+
+
+<link rel="stylesheet" type="text/css" href="__STATIC__/common/page/css/page.css">
+<div style="text-align: center;">
+	<div id="pager" class="pager clearfix">
+	</div>
+</div>
+<script src="__STATIC__/common/page/js/jquery.z-pager.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+$("#pager").zPager({
+	totalData: {$count|default='1'},
+	htmlBox: $('#wraper'),
+	pageData: {$pagesize}, //每页数据条数
+	pageCount: 0, //总页数
+	current: {$pagenum|default='1'}, //当前页码数
+	btnShow: true,
+	ajaxSetData: false,
+	dataRender: function(data) {
+		// console.log(data + '---data-2');
+		alert(data);
+	},
+});
+
+	// $.fn.zPager.defaults = {
+	// 	totalData: 10, //数据总条数
+	// 	pageData: 20, //每页数据条数
+	// 	pageCount: 0, //总页数
+	// 	current: 1, //当前页码数
+	// 	pageStep: 8, //当前可见最多页码个数
+	// 	minPage: 5, //最小页码数，页码小于此数值则不显示上下分页按钮
+	// 	active: 'current', //当前页码样式
+	// 	prevBtn: 'pg-prev', //上一页按钮
+	// 	nextBtn: 'pg-next', //下一页按钮
+	// 	btnBool: true, //是否显示上一页下一页
+	// 	firstBtn: 'pg-first', //第一页按钮
+	// 	lastBtn: 'pg-last', //最后一页按钮
+	// 	btnShow: true, //是否显示第一页和最后一页按钮
+	// 	disabled: true, //按钮失效样式
+	// 	ajaxSetData: true, //是否使用ajax获取数据 此属性为真时需要url和htmlBox不为空
+	// 	url: '', //ajax路由
+	// 	htmlBox: '' //ajax数据写入容器
+	// }
+// $('#pager a').click(function(){
+// 	var pageid = $(this).attr('page-id');
+// 	console.log(pageid)
+// })
+
+function pagego(id){
+	console.log(id)
+	var pagesize = {$pagesize};
+		var html='<div style="width: 100%;padding: 100px 0px;text-align: center;"><img src="/static/admin/plugins/layer/skin/default/loading-1.gif"></div>'
+			$('.sjdyq .container').html(html)
+
+		$.ajax({
+			url:"{:url('Datasub/varieties_info')}",
+			data:{pagenum:id,pagesize:pagesize,varieties_id:varieties_id},
+			success:function(res){
+				$('.sjdyq .container').html(res)
+			}
+		})
+
+}
+</script>
+

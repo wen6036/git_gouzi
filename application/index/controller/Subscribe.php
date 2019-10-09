@@ -12,41 +12,18 @@ class Subscribe extends Controller
 		if(!$userinfo){
 			$this->redirect('index/login/login');
 		}
-		$uid = $userinfo['id'];
-		$info = Db::table('tz_suborder')->alias('a')->field("a.id,a.uid,a.studio_id,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') as create_time,a.order_time,b.studioname")->join(['tz_studio'=>'b'],'a.studio_id=b.id','left')->where('a.uid='.$uid)->select();
-		foreach ($info as $key => $value) {
-			$m = $value['order_time'];
-			$time = $value['create_time'];
-			$info[$key]['end_time'] = date('Y-m-d', strtotime("$time +$m month"));
 
-			// $time = $info[$key]['end_time'];
-			// $arr = date_parse_from_format("Y年m月日",$time);
-			// $time = mktime(0,0,0,$arr['month'],$arr['day'],$arr['year']);
-			$time = strtotime($info[$key]['end_time']);
-			if(time()>$time){
-				$info[$key]['studio'] = 0;
-			}else{
-				$info[$key]['studio'] = 1;
-			}
-		}
-		// dump($info);
     	$this->assign('title','订阅管理');
 		return $this->fetch();
 	}
 
 	// 订阅管理
 	public function subscribe(){
-
 		return $this->fetch();
 	}
 
 	// 用户订阅得工作室
 	public function studio(){
-		// 查询状态为1的用户数据 并且每页显示10条数据
-		// $list = Db::name('admin_logs')->paginate(10);
-		// // 把分页数据赋值给模板变量list
-		// $this->assign('list', $list);
-		// 渲染模板输出
 		return $this->fetch();
 	}
 
@@ -65,7 +42,6 @@ class Subscribe extends Controller
         }else{
             $where="";
         }
-        
 		$info = Db::table('tz_suborder')->alias('a')->field("a.id,a.uid,a.studio_id,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') as create_time,a.order_time,b.studioname")->join(['tz_studio'=>'b'],'a.studio_id=b.id','left')->where('a.uid='.$uid)->where($where)->page($cur, $size)->select();
 		foreach ($info as $key => $value) {
 			$m = $value['order_time'];
@@ -113,6 +89,13 @@ class Subscribe extends Controller
 
 	// 体验券
 	public function coupon(){
+
+		$time = time();
+		$youxiao = Db::table('tz_ticket')->alias('a')->field("a.*,FROM_UNIXTIME(a.datetime,'%Y年%m月%d') datetime")->join(['tz_userinfo'=>'b'],'b.create_time > a.create_time','left')->where("a.datetime > $time")->select();
+		$wuxiao = Db::table('tz_ticket')->alias('a')->field("a.*,FROM_UNIXTIME(a.datetime,'%Y年%m月%d') datetime")->join(['tz_userinfo'=>'b'],'b.create_time > a.create_time','left')->where("a.datetime < $time")->select();
+
+		$this->assign('youxiao',$youxiao);
+		$this->assign('wuxiao',$wuxiao);
 		return $this->fetch();
 	}
 }

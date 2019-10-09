@@ -19,12 +19,11 @@ class Studio extends Base
             $pageParam['query']['keywords'] = $this->param['keywords'];
             // dump($this->param['keywords']);
             $this->assign('keywords', $this->param['keywords']);
-            $list = Db::table('tz_studio')->alias('a')->field('a.*,b.score,b.mulNetValue,b.netProfit,b.efficiency,b.deals,b.winRate,b.maxReduceRatio')->join(['tz_futures_info'=>'b'],'a.id=b.studio_id','left')->whereLike('a.studioname', "%" . $this->param['keywords'] . "%")->where('a.studiotype=1')->paginate($this->webData['list_rows']);
+            $list = Db::table('tz_studio')->alias('a')->field('a.*,b.score,b.netValue,b.netProfit,b.efficiency,b.lot,b.winRate,b.dealDays,b.maxReduceRatio,b.kamaRatio,b.sharpRatio,b.equity')->join(['tz_futures_info'=>'b'],'a.id=b.studio_id','left')->whereLike('a.studioname', "%" . $this->param['keywords'] . "%")->where('a.studiotype=1')->paginate($this->webData['list_rows']);
             // dump( Db::table('tz_studio')->getLastSql());
         }else{
 
-            $list = Db::table('tz_studio')->alias('a')->field('a.*,b.score,b.mulNetValue,b.netProfit,b.efficiency,b.deals,b.winRate,b.maxReduceRatio')->join(['tz_futures_info'=>'b'],'a.id=b.studio_id','left')->where('a.studiotype=1')->paginate($this->webData['list_rows'], false, $pageParam);
-
+            $list = Db::table('tz_studio')->alias('a')->field('a.*,b.score,b.netValue,b.netProfit,b.efficiency,b.lot,b.winRate,b.dealDays,b.maxReduceRatio,b.kamaRatio,b.sharpRatio,b.equity')->join(['tz_futures_info'=>'b'],'a.id=b.studio_id','left')->where('a.studiotype=1')->paginate($this->webData['list_rows'], false, $pageParam);
         }
 
         // dump($list);
@@ -38,10 +37,9 @@ class Studio extends Base
                 $record['id']              = $item['id'];
                 $record['studioname']            = $item['studioname'];
                 $record['score']            = $item['score'];
-                $record['mulNetValue']            = $item['mulNetValue'];
                 $record['netProfit']            = $item['netProfit'];
                 $record['efficiency']            = $item['efficiency'];
-                $record['deals']            = $item['deals'];
+                $record['lot']            = $item['lot'];
                 $record['winRate']            = $item['winRate'];
                 $record['maxReduceRatio']            = $item['maxReduceRatio'];
                 $body[]                    = $record;

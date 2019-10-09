@@ -47,24 +47,20 @@
 	  		</div>
   		</div>
 
-  		<div class="sjzsq-item">
+  		<div class="sjdyq-item">
 			<div class="container"  style="min-width: 1170px">
 				<span>排序方式:</span>
 				<ul>
-					<li>综合积分</li>
-					<li>净值</li>
-					<li>累计收益率</li>
-					<li>年化收益率</li>
-					<li>胜率</li>
-					<li>最大回撤率</li>
-					<li>盈亏率</li>
-					<li>夏普比率</li>
-					<li>夏普比率规模</li>
-					<li>规模</li>
-					<li>净利润</li>
-					<li>盈亏效率</li>
-					<li>品种盈利额</li>
-					<li>品种胜率</li>
+					<li class="active" data="score">综合积分</li>
+					<li data="netValue">净值</li>
+					<li data="mulProfitRatio">累计收益率</li>
+					<li data="mulProfitRatioPerYear">年化收益率</li>
+					<li data="winRate">胜率</li>
+					<li data="maxReduceRatio">最大回撤率</li>
+					<li data="winLossRatio">盈亏率</li>
+					<li data="sharpRatio">夏普比率</li>
+					<li data="netProfit">规模</li>
+					<li data="netProfit">净利润</li>
 				</ul>
 	  		</div>
   		</div>
@@ -81,11 +77,25 @@
 		{include file="public/footer1" /}
 
 		<script type="text/javascript">
-			$.ajax({
-				url:"{:url('Datashow/info')}",
-				success:function(res){
-					$('.sjzsq .container').html(res)
-				}
+			// let x,y;
+			var type;
+			$('.sjdyq-item .container ul li').click(function(){
+				type = $(this).attr('data');
+				$(this).addClass('active').siblings().removeClass('active')
+				var html='<div style="width: 100%;padding: 100px 0px;text-align: center;"><img src="/static/admin/plugins/layer/skin/default/loading-1.gif"></div>'
+			$('.sjzsq .container').html(html)
+				get_info(type);
 			})
+
+			get_info('score');
+			function get_info(type){
+				$.ajax({
+					url:"{:url('Datashow/info')}",
+					data:{type:type},
+					success:function(res){
+						$('.sjzsq .container').html(res)
+					}
+				})
+			}
 
 		</script>

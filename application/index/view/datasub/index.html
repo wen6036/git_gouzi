@@ -1,4 +1,3 @@
-		
 		{include file="public/header1" /}
 
         <div class="index-banner">
@@ -63,8 +62,8 @@
 					<li data="sharpRatio">夏普比率</li>
 					<li data="netProfit">规模</li>
 					<li data="netProfit">净利润</li>
-					<li data="efficiency">品种盈利额</li>
-					<li data="prdID_winRate">品种胜率</li>
+					<li data="efficiency">盈亏效率</li>
+					<li data="pinzhong">品种排行</li>
 				</ul>
 	  		</div>
   		</div>
@@ -73,18 +72,97 @@
 			<div class="container" style="min-width: 1170px">
 
 				<div style="width: 100%;padding: 100px 0px;text-align: center;">
-					<img src="http://www.51dewen.com/static/admin/plugins/layer/skin/default/loading-1.gif">
+					<img src="/static/admin/plugins/layer/skin/default/loading-1.gif">
 				</div>
 
 			</div>
 		</div>
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="margin-top: 200px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">品种筛选</h4>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+  		<div style="width: 20%;display: inline-block;">品种分类:</div>
+		<div style="width: 30%;display: inline-block;">
+	  		<select class="form-control" onchange="func(this)">
+				<option>请选择</option>
+				{foreach name="vlist" item="item"}
+					<option value="{$item.id}">{$item.v_name}</option>
+				{/foreach}
+	  		</select>
+		</div>
+		<div style="width: 30%;display: inline-block;">
+	  		<select class="form-control varieties" name="varieties">
+				<option value="0">请选择</option>
+	  		</select>
+		</div>
+
+<script type="text/javascript">
+	function func(obj){
+		var vid = $(obj).val()
+		$.ajax({
+			url:"{:url('get_varieties')}",
+			data:{vid:vid},
+			success:function(res){
+				console.log(res)
+				var html='';
+				for (var i = 0; i < res.length; i++) {
+					html += "<option value="+res[i].id+">"+res[i].v_name+"</option>"
+				}
+				$('.varieties').html(html)
+			}
+
+		})	
+
+	}
+</script>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary save_change">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 		{include file="public/footer1" /}
 
 		<script type="text/javascript">
+
+
+
+			var varieties_id; 
+			$('.save_change').click(function(){
+				varieties_id = $('.varieties').val();
+				// console.log(varieties_id)
+				$.ajax({
+					url:"{:url('Datasub/varieties_info')}",
+					data:{varieties_id:varieties_id},
+					success:function(res){
+						$('#myModal').modal('hide')
+						$('.sjdyq .container').html(res)
+					}
+				})
+
+
+			})
+
 			// let x,y;
-			var type;
+			var type='score';
 			$('.sjdyq-item .container ul li').click(function(){
 				type = $(this).attr('data');
+				if(type=='pinzhong'){
+					console.log(1111)
+					$('#myModal').modal('show')
+					return false;
+				}
+
 				$(this).addClass('active').siblings().removeClass('active')
 				var html='<div style="width: 100%;padding: 100px 0px;text-align: center;"><img src="/static/admin/plugins/layer/skin/default/loading-1.gif"></div>'
 			$('.sjdyq .container').html(html)
