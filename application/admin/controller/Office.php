@@ -134,7 +134,6 @@ class Office extends Base
             $con['id'] = $studio_id; 
             $studioinfo = Db::table('tz_studio')->where($con)->find();
             $BrokerId = $studioinfo['BrokerId'];
-            $BrokerId = 6050;
             $uid = $studioinfo['uid'];
             $uid = '81331531';
             $s = Db::table('tz_futures_info')->where('uid='.$uid)->find();

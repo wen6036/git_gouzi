@@ -48,7 +48,6 @@ class Studioinfo extends Controller
             $con['id'] = $studio_id; 
             $studioinfo = Db::table('tz_studio')->where($con)->find();
             $BrokerId = $studioinfo['BrokerId'];
-            $BrokerId = 6050;
             $uid = $studioinfo['uid'];
             $uid = '81331531';
             $s = Db::table('tz_futures_info')->where('uid='.$uid)->find();
@@ -246,7 +245,7 @@ class Studioinfo extends Controller
 			$varieties_arr[$value['code']] = $value['v_name'];
 		}
 
-		
+
 		$param = $this->request->param();
 		$id = $param['id'];
 		$this->save_info($id);
@@ -556,7 +555,7 @@ class Studioinfo extends Controller
         $uid = '81331531'; 
 
 		$url = "http://49.235.36.29/accountPerformance/$BrokerId"."_$uid/stmt.txt";
-	    $str = file_get_contents('http://49.235.36.29/accountPerformance/6050_81331531/stmt.txt');//将整个文件内容读入到一个字符串中
+	    $str = file_get_contents($url);//将整个文件内容读入到一个字符串中
 	    $str_encoding = mb_convert_encoding($str, 'UTF-8', 'UTF-8,GBK,GB2312,BIG5');//转换字符集（编码）
 	    $arr = explode("\r\n", $str_encoding);//转换成数组
 
