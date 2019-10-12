@@ -156,13 +156,50 @@
 					type:'post',
 					data:{id:id,username:username,cardnum:cardnum,bankname:bankname},
 					success:function(res){
-						console.log(res)
-						// layer.msg(res.msg)
+						// console.log(res)
+						layer.msg(res.msg)
+
+						$.ajax({
+							url:"{:url('index/user/usersafe')}",
+							success:function(res){
+								$('.user-edit-info').html(res)
+							}
+						})
+
+						
 					}
 				})
 
 
 			}
+
+			//删除银行卡
+			function del_card(obj){
+				var id = $(obj).parents('.bankinfo').attr('data-id');
+				var username = $(obj).parents('.bankinfo').find('.username').val();
+				var cardnum = $(obj).parents('.bankinfo').find('.cardnum').val();
+				var bankname = $(obj).parents('.bankinfo').find('.bankname').val();
+
+				$.ajax({
+					url:"{:url('user/del_binkcard')}",
+					type:'post',
+					data:{id:id,username:username,cardnum:cardnum,bankname:bankname},
+					success:function(res){
+						layer.msg(res.msg)
+						$(obj).parents('.bankinfo').remove();
+						$.ajax({
+							url:"{:url('index/user/usersafe')}",
+							success:function(res){
+								$('.user-edit-info').html(res)
+							}
+						})
+
+					}
+				})
+
+
+			}
+
 
 			function saveinfo(){
 				var truename = $('input[name=truename]').val();
@@ -191,8 +228,8 @@
 					type:'post',
 					data:{truename:truename,shenfenzheng:shenfenzheng,array:array},
 					success:function(res){
-						console.log(res)
-						// layer.msg(res.msg)
+						// console.log(res)
+						layer.msg(res.msg)
 					}
 				})
 

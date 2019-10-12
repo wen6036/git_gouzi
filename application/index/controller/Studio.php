@@ -9,6 +9,16 @@ class Studio extends Controller
 {
 	// 工作室管理
 	public function index(){
+		$userinfo = session('userinfo');
+		if(!$userinfo){
+			$this->redirect('index/login/login');
+		}
+        $con['id'] = $userinfo['id'];
+        $info = Db::table('tz_userinfo')->where($con)->find();
+		
+		$this->assign('headimg',$info['headimg']);
+		$this->assign('nickname',$info['nickname']);
+
 		$this->assign('title','工作室管理');
 		return $this->fetch();
 	}
@@ -54,6 +64,7 @@ class Studio extends Controller
 	}
 
 
+	// 创建工作室
 	public function savestudio(){
         $userinfo = session('userinfo');
         if(!$userinfo) return json(['code'=>0,'msg'=>'请确定用户登录状态']);
@@ -63,12 +74,15 @@ class Studio extends Controller
 		$uid = $userinfo['id'];
 		$param['uid'] = $userinfo['id'];
 		$pwd = $param['futures_password'];
+		$BrokerId = $param['BrokerId'];
 
-		// // $url = 'http://49.235.36.29/WebFunctions.asmx/qry';
-		// $url = 'http://49.235.36.29/WebFunctions.asmx/cmd';
-		// // $data = 'input=qryPerformance 6050 81331531 20190101';
-		// $data = "app tradeAccount {'isOp':true,'brokerID':'6050','userID':$uid,'password':'$pwd'}";
-		// $a = sendCurlPost($url,$data); 
+
+		// 期货账户 交易密码 期货账户注册
+		// $url = 'http://49.235.36.29/WebFunctions.asmx/qry';
+		$url = 'http://49.235.36.29/WebFunctions.asmx/cmd';
+		// $data = 'input=qryPerformance 6050 81331531 20190101';
+		$data = "app tradeAccount {'isOp':true,'brokerID':'$BrokerId','userID':$uid,'password':'$pwd'}";
+		$a = sendCurlPost($url,$data); 
 		$res = Db::table('tz_studio')->where("uid=".$param['uid'])->find();
 		if($res)  return json(['code'=>0,'msg'=>'已创建了']);
 		
@@ -108,16 +122,18 @@ class Studio extends Controller
 
 		$data['futures_password'] = $param['new_pwd'];
 		$status = Db::table('tz_studio')->where("uid=".$uid)->update($data);
+
 		$pwd = $param['new_pwd'];
+		$brokerID = $res['BrokerID'];
 		$url = 'http://49.235.36.29/WebFunctions.asmx/cmd';
-		$input = "input=app tradeAccount {'isOp':true,'brokerID':'9999','userID':'$uid','password':'$pwd'}";
+		$input = "input=app tradeAccount {'isOp':true,'brokerID':'$brokerID','userID':'$uid','password':'$pwd'}";
 		$info = sendCurlPost($url,$input); 
 		$a = explode('#', $info);
 		$b = str_replace('</string>','', $a[2]);
 
 		$arr = json_decode($b,true);
 		foreach ($arr as $key => $value) {
-			if($value['userID']==$uid && $value['brokerID']=='9999'){
+			if($value['userID']==$uid && $value['brokerID']== $brokerID){
 				$o = $value['password'];
 			} 
 		}
@@ -152,25 +168,22 @@ class Studio extends Controller
 		$con1['status'] = 1;
 		$c = Db::table('tz_subtotle_status')->where($con1)->find();
 
-		if($c['order_num'] != count($list)){
+		if($idarr){	
 			$data['studio_id'] = $info['id'];
 			$data['last_time'] = time();
 			$data['order_num'] = count($list);
 			$data['order_totle'] = $money;
 			$data['idlist'] = json_encode($idarr);
-			if(count($list)){
-				if($c){
-					$data['status'] = 1;
-					Db::table('tz_subtotle_status')->where($con1)->update($data);
-				}else{
-					$data['status'] = 1;
-					Db::table('tz_subtotle_status')->where($con1)->insert($data);
-				}
+			$data['status'] = 1;
+			if($c){
+				Db::table('tz_subtotle_status')->where($con1)->update($data);
+			}else{
+				Db::table('tz_subtotle_status')->where($con1)->insert($data);
 			}
 		}
 
 		// 现在时间小于结束时间 buke提现
-		$list2 = Db::table('tz_suborder')->where("studio_id=".$info['id'])->where("$time < end_time and $time > create_time")->select();
+		$list2 = Db::table('tz_suborder')->where("studio_id=".$info['id'])->where("$time < end_time")->select();
 		$money2 = 0;
 		foreach ($list2 as $key => $value) {
 			$idarr2[] = $value['id']; 
@@ -180,22 +193,17 @@ class Studio extends Controller
 		$con2['studio_id'] = $info['id'];
 		$con2['status'] = 0;
 		$c2 = Db::table('tz_subtotle_status')->where($con2)->find();
-
-		if($c2['order_num'] != count($list2)){
+		if($idarr2){
 			$data2['studio_id'] = $info['id'];
 			$data2['last_time'] = time();
 			$data2['order_num'] = count($list2);
 			$data2['order_totle'] = $money2;
-			$data2['idlist'] = json_encode($idarr2);
-
-			if(count($list2)){
-				if($c2){
-					$data2['status'] = 0;
-					Db::table('tz_subtotle_status')->where($con2)->update($data2);
-				}else{
-					$data2['status'] = 0;
-					Db::table('tz_subtotle_status')->where($con2)->insert($data2);
-				}
+			$data2['idlist'] = json_encode($idarr2); 
+			$data2['status'] = 0;
+			if($c2){
+				Db::table('tz_subtotle_status')->where($con2)->update($data2);
+			}else{
+				Db::table('tz_subtotle_status')->where($con2)->insert($data2);
 			}
 		}
 

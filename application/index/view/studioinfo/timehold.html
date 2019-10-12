@@ -1,18 +1,10 @@
 		{include file="public/header1" /}
-
-		<link rel="stylesheet" type="text/css" href="__STATIC__/common/paging/paging.css">
-<script type="text/javascript" src="__STATIC__/common/paging/paging.js"></script>
-<script type="text/javascript" src="__STATIC__/common/paging/page.js"></script>
-<script type="text/javascript" src="__STATIC__/common/paging/jquery.tmpl.min.js"></script>
 		<div class="studio_introduct">
 			<div class="container" style="min-width:1170px;">
-
 				{include file="public/studio" /}
-
-
-
-
-
+				<style type="text/css">
+					table th,td{text-align: center}
+				</style>
 				<div class="studion-history">
 					<table class="table table-striped">
 						<tr>
@@ -21,61 +13,73 @@
 							<th>多空</th>
 							<th>数量</th>
 							<th>均价</th>
-							<th>盈亏</th>
+							<th>仓位</th>
 							<th>开仓日期</th>
 						</tr>
 						</tr>
 				        <tbody id="content" class="table-b">
-				            <tr>
+					        {if isset($list)}
+					        	{foreach name="list" item="item"}
+						            <tr>
+						                <td>{$item.insID}</td>
+						                <td>{$item.vol}</td>
+						                <td>{$item.pri}</td>
+						                <td>{$item.pri}</td>
+						                <td>{$item.posRatio}</td>
+						                <td>{$item.day}</td>
+						            </tr>
+					            {/foreach}
+				            {/if}
+<!-- 				            <tr>
 				                <td colspan="6" style="text-align: center">
 				                    暂无数据
 				                </td>
-				            </tr>
+				            </tr> -->
 				        </tbody>
 					</table>
 				</div>
-
-    <!-- 列表底部按钮 -->
-    <div class="paginations">
-        <div id="pageTool"><p class="count-page"></p></div>
-    </div>
-
-	<script id="tpl" type="text/x-jquery-tmpl">
-	    <tr>
-			<td>${insID}</td>
-			<td>${vol}</td>
-			<td>${vol}</td>
-			<td>${pri}</td>
-			<td></td>
-			<td>${day}</td>
-		</tr> 
-	</script>
-
-
 				<script type="text/javascript">
-				    $('#pageTool').page("{:url('ajax_hold')}", function (data, obj) {
-				        // 分页
-				        if (data.data.count > 0) {
-				            $("#content").html('');
-				            $("#tpl").tmpl(data.data.data).appendTo('#content');
-				        } else {
-				            var tpl = '<tr><td colspan="6" style="text-align: center">暂无数据</td></tr>';
-				            $("#content").html(tpl);
-				        }
-				        
-				    });
-
-				    function ppp(obj){
-				    	var url = "{:url('index/studioinfo/index')}";
-				    	var id = $(obj).attr('data');
-				    	// window.location.href=;
-				    	window.open(url+"?id="+id);   
-				    	// console.log(url+"?id="+id)
-				    }
-
-
-
 					$('.studio-type ul li .studion-main').eq(2).css({'background':'#4679bd','color':'#fff'}).find('img').attr('src','__STATIC__/index/images/zs1.png')
+					// var brokerID = {$brokerID};
+					// var userID = {$userID};
+					var bro_user = {$brokerID}+'_'+{$userID};
+					console.log(bro_user);
+
+					ws = new WebSocket("ws://www.51dewen.com:2366");
+					ws.onopen = function() {
+					    console.log("连接成功");
+					    ws.send('tom');
+					    // console.log("给服务端发送一个字符串：tom");
+					};
+					ws.onmessage = function(e) {
+
+						var data = e.data;
+						var a;
+						var obj = JSON.parse(data)
+						var arr = [];
+						console.log(data)
+						for (var i = 0; i < obj.length; i++) {
+							if(bro_user==obj[i].name){
+								arr.push(obj[i]);
+							}
+						}
+
+						var html = '';
+						for (var i = 0; i < arr.length; i++) {
+								html+='<tr>'+
+					                '<td>'+arr[i].insID+'</td>'+
+					                '<td>'+arr[i].vol+'</td>'+
+					                '<td>'+parseInt(arr[i].pri)+'</td>'+
+					                '<td>'+parseInt(arr[i].pri)+'</td>'+
+					                '<td>'+arr[i].posRatio+'</td>'+
+					                '<td>'+arr[i].day+'</td>'+
+					            '</tr>';
+						}
+						$('#content').prepend(html)
+						// console.log(obj.length);
+						// console.log(typeof(obj))
+					    // console.log("收到服务端的消息：" + e.data);
+					};
 
 
 				</script>

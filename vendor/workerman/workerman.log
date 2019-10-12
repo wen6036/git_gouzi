@@ -1,0 +1,36 @@
+2019-10-10 04:01:44 pid:1 ArgumentCountError: Too few arguments to function Mysql::__construct(), 0 passed in D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\public\worker.php on line 29 and exactly 4 expected in D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\public\Mysql.php:13
+Stack trace:
+#0 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\public\worker.php(29): Mysql->__construct()
+#1 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Connection\TcpConnection.php(681): {closure}(Object(Workerman\Connection\AsyncTcpConnection), '0#logined#webCe...')
+#2 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Events\Select.php(294): Workerman\Connection\TcpConnection->baseRead(Resource id #19)
+#3 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Worker.php(2382): Workerman\Events\Select->loop()
+#4 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Worker.php(1353): Workerman\Worker->run()
+#5 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Worker.php(1296): Workerman\Worker::forkWorkersForWindows()
+#6 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Worker.php(509): Workerman\Worker::forkWorkers()
+#7 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\public\worker.php(51): Workerman\Worker::runAll()
+#8 {main}
+2019-10-10 04:01:44 pid:1 Worker process terminated
+2019-10-10 15:51:30 pid:1 Exception: You can't send(array) to client, you need to convert it to a string.  in D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Protocols\Websocket.php:236
+Stack trace:
+#0 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Connection\TcpConnection.php(344): Workerman\Protocols\Websocket::encode(Array, Object(Workerman\Connection\TcpConnection))
+#1 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\application\index\controller\Worker.php(21): Workerman\Connection\TcpConnection->send(Array)
+#2 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Connection\TcpConnection.php(658): app\index\controller\Worker->onMessage(Object(Workerman\Connection\TcpConnection), 'tom')
+#3 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Events\Select.php(294): Workerman\Connection\TcpConnection->baseRead(Resource id #142)
+#4 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Worker.php(2382): Workerman\Events\Select->loop()
+#5 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Worker.php(1353): Workerman\Worker->run()
+#6 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Worker.php(1296): Workerman\Worker::forkWorkersForWindows()
+#7 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\workerman\workerman\Worker.php(509): Workerman\Worker::forkWorkers()
+#8 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\vendor\topthink\think-worker\src\Server.php(48): Workerman\Worker::runAll()
+#9 [internal function]: think\worker\Server->__construct()
+#10 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\thinkphp\library\think\App.php(359): ReflectionClass->newInstanceArgs(Array)
+#11 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\thinkphp\library\think\Loader.php(479): think\App::invokeClass('app\\index\\contr...')
+#12 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\thinkphp\library\think\App.php(580): think\Loader::controller('worker', 'controller', false, 'Error')
+#13 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\thinkphp\library\think\App.php(456): think\App::module(Array, Array, true)
+#14 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\thinkphp\library\think\App.php(139): think\App::exec(Array, Array)
+#15 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\thinkphp\start.php(19): think\App::run()
+#16 D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\public\server.php(6): require('D:\\phpStudy\\PHP...')
+#17 {main}
+2019-10-10 15:51:30 pid:1 Worker process terminated
+2019-10-11 10:51:30 pid:1 Worker process terminated
+2019-10-11 10:52:14 pid:1 Worker process terminated
+2019-10-11 11:59:47 pid:1 Worker process terminated

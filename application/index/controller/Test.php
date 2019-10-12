@@ -8,48 +8,37 @@ namespace app\index\controller;
 use \Workerman\Worker;
 use \Workerman\Connection\AsyncTcpConnection;
 use \Workerman\Autoloader;
+use think\Db;
 class Test extends Controller
 {
 	public function index(){
-			$this->assign('title','test');
+		$this->assign('title','test');
+		dump(123);
 
-		$info['uid'] = 81331531;
-		//综合积分
-		$url = "http://49.235.36.29/accountPerformance/6050_81331531/stmt.txt";
-
-	
-	    $str = file_get_contents('http://49.235.36.29/accountPerformance/6050_81331531/dayinDealDays.txt');//将整个文件内容读入到一个字符串中
-	 //    $str_encoding = mb_convert_encoding($str, 'UTF-8', 'UTF-8,GBK,GB2312,BIG5');//转换字符集（编码）
-	 //    $arr = explode("\r\n", $str_encoding);//转换成数组
-
-	 //    //去除值中的空格
-	 //    foreach ($arr as &$row) {
-	 //        $row = trim($row);
-	 //    }
-		// foreach( $arr as $k=>$v){   
-		//     if( !$v ){
-		//     	unset( $arr[$k] );
-		//     }else{
-		//     	$array[$k][] = explode(',',$v);
-		//     }
-		// }   
-
-
-	    // dump($arr);
-	    // dump($array);
-
-        // $score = file_get_contents($url);
-        // dump($str);
-        $a = parse_ini_string($str);
-        $b = end($a);
-        dump($b);
-        // $c = end($b['dayinDealDays']);
-        // dump($c);
-
+		$list = Db::table('tz_varieties')->select();
+		foreach ($list as $key => $value) {
+			$arr[$value['code']] = $value['v_name'];
+		}
+		dump($arr);
 		return $this->fetch();
 	}
 
-
+// $aa='0#tradeCenter#newTrade#{
+//   "name": "6050_81331531",
+//   "brokerID": "6050",
+//   "userID": "81331531",
+//   "tradeID": "[     1690862]",
+//   "date": "20191010",
+//   "time": "10:51:45",
+//   "insID": "ni1911",
+//   "BS": "S",
+//   "OC": "C",
+//   "lot": 1,
+//   "price": 137020.0,
+//   "profit": 28.0,
+//   "fee": 12.0,
+//   "note": ""
+// }~';
 	public function task($task){
 	    // 不支持直接指定http，但是可以用tcp模拟http协议发送数据
 	    // $connection_to_baidu = new AsyncTcpConnection('tcp://49.235.36.29:6871');

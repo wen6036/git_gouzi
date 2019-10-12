@@ -11,33 +11,35 @@ $task = new Worker();
 $task->onWorkerStart = function($task)
 {
     // 不支持直接指定http，但是可以用tcp模拟http协议发送数据
-    $connection_to_baidu = new AsyncTcpConnection('tcp://49.235.36.29:6871');
+    $connection_to_baidu = new AsyncTcpConnection('tcp://49.235.36.29:6871/?a=123');
+
+    // 设置为ssl加密连接
+    // $connection_to_baidu->transport = 'ssl';
     // 当连接建立成功时，发送http请求数据
     $connection_to_baidu->onConnect = function($connection_to_baidu)
     {
-        // $C = new Mysql('111.230.11.122','root','wang6036','www.51dewen.wang');
+        // $C = new Mysql();
         // $data = $C->insert("connect success\n");
-
-        echo "connect success\n";
-        $connection_to_baidu->send("GET 信息");
+        // echo "connect success\n";
+        $connection_to_baidu->send("login webCenter 123");
     };
     
     $connection_to_baidu->onMessage = function($connection_to_baidu, $http_buffer)
     {
-		$C = new Mysql('111.230.11.122','root','wang6036','www.51dewen.wang');
-		$data = $C->insert($http_buffer.'|连接成功');
+		$C = new Mysql();
+		$data = $C->insert($http_buffer);
 
         echo $http_buffer;
     };
     $connection_to_baidu->onClose = function($connection_to_baidu)
     {
-        $C = new Mysql('111.230.11.122','root','wang6036','www.51dewen.wang');
+        $C = new Mysql();
         $data = $C->insert("connection closed\n");
         echo "connection closed\n";
     };
     $connection_to_baidu->onError = function($connection_to_baidu, $code, $msg)
     {
-        $C = new Mysql('111.230.11.122','root','wang6036','www.51dewen.wang');
+        $C = new Mysql();
         $data = $C->insert("Error code:$code msg:$msg\n");
 
         echo "Error code:$code msg:$msg\n";

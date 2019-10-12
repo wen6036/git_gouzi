@@ -1,31 +1,24 @@
 		{include file="public/header1" /}
-
-		<link rel="stylesheet" type="text/css" href="__STATIC__/common/paging/paging.css">
-		<script type="text/javascript" src="__STATIC__/common/paging/paging.js"></script>
-		<script type="text/javascript" src="__STATIC__/common/paging/page.js"></script>
-		<script type="text/javascript" src="__STATIC__/common/paging/jquery.tmpl.min.js"></script>
-		
+		<style type="text/css">
+			table th,td{text-align: center}
+		</style>
 		<div class="studio_introduct">
 			<div class="container" style="min-width:1170px;">
 
 				{include file="public/studio" /}
 
-
-
-
-				<audio src="__STATIC__/index/time1.mp3" id="myaudio" controls="controls"  hidden="true">    </audio>
-    <input type="button" onclick="autoPlay()" value="播放" />
-    <input type="button" onclick="closePlay()" value="关闭" />
+				<audio src="__STATIC__/index/time1.mp3" id="myaudio" controls="controls"  hidden="true"></audio>				
+			    <input type="button" onclick="autoPlay()" value="播放" />
+			    <input type="button" onclick="closePlay()" value="关闭" />
 
 			    <script language="javascript" type="text/javascript">
-			        function autoPlay() {
+			        function autoPlay(){
 			            var myAuto = document.getElementById('myaudio');
 			            myAuto.play();
 			        }
-			        function closePlay() {
+			        function closePlay(){
 			            var myAuto = document.getElementById('myaudio');
 			            myAuto.pause();
-			            // myAuto.load();
 			        }
 			    </script>
 
@@ -33,7 +26,7 @@
 				<div class="studion-history">
 					<table class="table table-striped">
 						<tr>
-							<th>导师</th>
+							<!-- <th>导师</th> -->
 							<th>合约</th>
 							<th>时间</th>
 							<th>方向</th>
@@ -43,55 +36,71 @@
 							<th>仓位</th>
 							<th>平仓盈亏</th>
 						</tr>
-						<tbody>
+
 				        <tbody id="content" class="table-b">
-				            <tr>
-				                <td colspan="9" style="text-align: center">
-				                    暂无数据
-				                </td>
-				            </tr>
-				        </tbody>
+				        {if isset($list)}
+				        	{foreach name="list" item="item"}
+					            <tr>
+					                <td>{$item.insID}</td>
+					                <td>{$item.date} {$item.time}</td>
+					                <td>{if condition="$item.BS eq 'B'"}买入{/if}{if condition="$item.BS eq 'S'"}卖出{/if}</td>
+					                <td>{if condition="$item.OC eq 'O'"}开仓{/if}{if condition="$item.OC eq 'C'"}平仓{/if}</td>
+					                <td>{$item.lot}手</td>
+					                <td>{$item.price}</td>
+					                <td>{$item.price}</td>
+					                <!-- posRatio-->
+					                <td>{$item.profit}</td>
+					            </tr>
+				            {/foreach}
+				            {/if}
 						</tbody>
 					</table>
 				</div>
 
-    <!-- 列表底部按钮 -->
-    <div class="paginations">
-        <div id="pageTool"><p class="count-page"></p></div>
-    </div>
-
-	<script id="tpl" type="text/x-jquery-tmpl">
-		<tr>
-			<td>导师VVV</td>
-			<td>棕榈油P1801</td>
-			<td>2019年7月16日10:20:06</td>
-			<td>买入</td>
-			<td>开仓</td>
-			<td>7</td>
-			<td>5556</td>
-			<td>0.64%</td>
-			<td>0%</td>
-		</tr>
-	</script>
-
-
-
 				<script type="text/javascript">
-				    $('#pageTool').page("{:url('ajax_log')}", function (data, obj) {
-				        // 分页
-				        if (data.data.count > 0) {
-				            $("#content").html('');
-				            $("#tpl").tmpl(data.data.data).appendTo('#content');
-				        } else {
-				            var tpl = '<tr><td colspan="9" style="text-align: center">暂无数据</td></tr>';
-				            $("#content").html(tpl);
-				        }
-				    });
-
 
 					$('.studio-type ul li .studion-main').eq(1).css({'background':'#4679bd','color':'#fff'}).find('img').attr('src','__STATIC__/index/images/zs1.png')
 
+					var bro_user = {$brokerID}+'_'+{$userID};
+					console.log(bro_user);
 
+					ws = new WebSocket("ws://www.51dewen.com:2345");
+					ws.onopen = function() {
+					    console.log("连接成功");
+					    ws.send('tom');
+					    // console.log("给服务端发送一个字符串：tom");
+					};
+					ws.onmessage = function(e) {
+						var data = e.data;
+						var a;
+						var obj = JSON.parse(data)
+
+						var arr = [];
+						for (var i = 0; i < obj.length; i++) {
+							if(bro_user==obj[i].name){
+								arr.push(obj[i]);
+							}
+						}
+
+						var html = '';
+						for (var i = 0; i < arr.length; i++) {
+							html+='<tr>'+
+				                '<td>'+arr[i].insID+'</td>'+
+				                '<td>'+arr[i].date+arr[i].time+'</td>'+
+				                '<td>'+arr[i].BS+'</td>'+
+				                '<td>'+arr[i].OC+'</td>'+
+				                '<td>'+arr[i].lot+'手</td>'+
+				                '<td>'+arr[i].price+'</td>'+
+				                // '<td>'+arr[i].posRatio+'</td>'+
+				                '<td>'+arr[i].profit+'</td>'+
+				            '</tr>';
+						}
+						$('#content').prepend(html)
+							// autoPlay();
+						// console.log(obj.length);
+						// console.log(typeof(obj))
+					    // console.log("收到服务端的消息：" + e.data);
+					};
 
 				</script>
 			</div>

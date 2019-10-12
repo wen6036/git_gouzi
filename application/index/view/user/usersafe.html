@@ -75,6 +75,9 @@
 									<span>开户银行：</span>
 									<input type="text" name="" placeholder="请输入开户银行" class="bankname" value="{$item.bankname}">
 									 <button class="btn btn-xs" onclick="binkcard(this)">绑定</button>
+									 {if count($bankinfo) == 2}
+									 <button class="btn btn-xs add_card btn-danger" onclick="del_card(this)">删除</button>
+									  {/if}
 									 {if count($bankinfo) < 2}
 									 <button class="btn btn-xs add_card" onclick="add_card(this)">添加银行卡</button>
 									 {/if}

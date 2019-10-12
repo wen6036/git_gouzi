@@ -2,17 +2,17 @@
     $.fn.page = function (url, callback) {
         var self=$(this);
         var page=new Paging();
-        var pagesize = 10; //默认10条
+        var pagesize = 20; //默认10条
         var cur = 1;   //默认第一页
         var totalpage = 0; //总页数
         // var search_key=''; //搜索关键字
         var get_data = {cur: cur, size: pagesize};
         page.init({
             target: self,
-            pagesize: 10,
+            pagesize: 20,
             toolbar: true,
             current: 1,
-            pageSizeList: [10, 30, 50, 100],
+            pageSizeList: [20, 30, 50, 100],
             callback: function (curr, size, total) {
                 cur = curr;
                 pagesize = size;

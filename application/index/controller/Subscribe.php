@@ -12,7 +12,11 @@ class Subscribe extends Controller
 		if(!$userinfo){
 			$this->redirect('index/login/login');
 		}
-
+        $con['id'] = $userinfo['id'];
+        $info = Db::table('tz_userinfo')->where($con)->find();
+		
+		$this->assign('headimg',$info['headimg']);
+		$this->assign('nickname',$info['nickname']);
     	$this->assign('title','订阅管理');
 		return $this->fetch();
 	}
@@ -30,8 +34,6 @@ class Subscribe extends Controller
 	public function ajax_studio(){
 		$userinfo = session('userinfo');
 		$uid = $userinfo['id'];
-
-
         $cur = input('get.cur');
         $cur = !empty($cur) ? $cur : 1;
         $size = input("get.size");
@@ -42,14 +44,14 @@ class Subscribe extends Controller
         }else{
             $where="";
         }
-		$info = Db::table('tz_suborder')->alias('a')->field("a.id,a.uid,a.studio_id,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') as create_time,a.order_time,b.studioname")->join(['tz_studio'=>'b'],'a.studio_id=b.id','left')->where('a.uid='.$uid)->where($where)->page($cur, $size)->select();
+		$info = Db::table('tz_suborder')->alias('a')->field("a.id,a.uid,a.studio_id,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') as create_time,FROM_UNIXTIME(a.end_time, '%Y-%m-%d') as end_time,a.order_time,b.studioname")->join(['tz_studio'=>'b'],'a.studio_id=b.id','left')->where('a.uid='.$uid)->where($where)->page($cur, $size)->select();
 		foreach ($info as $key => $value) {
-			$m = $value['order_time'];
-			$time = $value['create_time'];
-			$info[$key]['end_time'] = date('Y-m-d', strtotime("$time +$m month"));
-			$time = strtotime($info[$key]['end_time']);
-			if(time()>$time){
-				$info[$key]['studio'] = '无效';
+			// $m = $value['order_time'];
+			// $time = $value['create_time'];
+			// $info[$key]['end_time'] = date('Y-m-d', strtotime("$time +$m month"));
+			// $time = strtotime($info[$key]['end_time']);
+			if(date('Y-m-d')>$value['end_time']){
+				$info[$key]['studio'] = '过期';
 			}else{
 				$info[$key]['studio'] = '有效';
 			}

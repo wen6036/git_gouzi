@@ -9,12 +9,15 @@
 
 				{include file="public/studio" /}
 
-
+				<style type="text/css">
+					tr th,td{text-align: center}
+				</style>
 
 				<div class="studion-history">
 					<table class="table table-striped">
 						<tr>
 						<tr>
+							<th>合约</th>
 							<th>合约</th>
 							<th>时间</th>
 							<th>方向</th>
@@ -43,21 +46,24 @@
 	<script id="tpl" type="text/x-jquery-tmpl">
 		<tr>
 			<td>导师VVV</td>
-			<td>棕榈油P1801</td>
-			<td>2019年7月16日10:20:06</td>
-			<td>买入</td>
-			<td>开仓</td>
-			<td>7</td>
-			<td>5556</td>
-			<td>0.64%</td>
-			<td>0%</td>
+			<td>${insID}</td>
+			<td>${date} ${time}</td>
+			<td>${BS}</td>
+			<td>${OC}</td>
+			<td>${lot}</td>
+			<td>${price}</td>
+			<td>${posRatio}</td>
+			<td>${profit}</td>
 		</tr>
 	</script>
 
 
 
 				<script type="text/javascript">
-				    $('#pageTool').page("{:url('ajax_log')}", function (data, obj) {
+					var id = {$_GET['id']};
+					// console.log(id)
+					var url = "{:url('ajax_log')}"
+				    $('#pageTool').page(url+'?id='+id, function (data, obj) {
 				        // 分页
 				        if (data.data.count > 0) {
 				            $("#content").html('');

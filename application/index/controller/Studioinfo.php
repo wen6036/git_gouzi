@@ -22,7 +22,7 @@ class Studioinfo extends Controller
 
 
 		$id = $param['id'];
-		$info = Db::table('tz_studio')->alias('a')->field("c.*,LPAD(a.id,6,'0') as id,b.id as uid,b.headimg,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') as create_time,a.studioname,a.shipan,a.celue,a.fangshi,a.zhouqi,a.price,a.futures_account,a.futures_password,a.description")->Join(['tz_userinfo'=>'b'],'b.id=a.uid','left')->Join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where("a.id = $id")->find();
+		$info = Db::table('tz_studio')->alias('a')->field("c.*,LPAD(a.id,6,'0') as id,b.id as uid,b.headimg,b.nickname,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') as create_time,a.studioname,a.shipan,a.celue,a.fangshi,a.zhouqi,a.price,a.futures_account,a.futures_password,a.description")->Join(['tz_userinfo'=>'b'],'b.id=a.uid','left')->Join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where("a.id = $id")->find();
 		if(!$info){
 			$this->assign('title','页面不存在');
 			return $this->fetch('public/error');
@@ -241,6 +241,12 @@ class Studioinfo extends Controller
     }
 	// 图形表 获取数据
 	public function get_info(){
+		$list = Db::table('tz_varieties')->select();
+		foreach ($list as $key => $value) {
+			$varieties_arr[$value['code']] = $value['v_name'];
+		}
+
+		
 		$param = $this->request->param();
 		$id = $param['id'];
 		$this->save_info($id);
@@ -305,8 +311,9 @@ class Studioinfo extends Controller
         file_put_contents($path."\\$type.txt",$score);
         $a = parse_ini_string($score);
         foreach ($a as $key => $value) {
+    		$varieties = isset($varieties_arr[$key])?$varieties_arr[$key]:'';
         	if($type=='prdID_trdRatio' || $type=='prdID_netProfit' || $type=='prdID_winRate'){
-		        	$arr[]=["$key",round($value,2)];
+		        	$arr[]=["$varieties ($key)",round($value,2)];
         	}else{
 	        	if($key>$time){
 		        	$arr[]=["$key",round($value,2)];
@@ -340,6 +347,12 @@ class Studioinfo extends Controller
 	public function get_info2(){
 		$param = $this->request->param();
 		try{
+
+		$list = Db::table('tz_varieties')->select();
+		foreach ($list as $key => $value) {
+			$varieties_arr[$value['code']] = $value['v_name'];
+		}
+
 			$id = $param['id'];
 			$info = Db::table('tz_studio')->field("uid,BrokerId")->where('id='.$id)->find();
 			$type = $param['type'];
@@ -359,7 +372,6 @@ class Studioinfo extends Controller
 				if(!preg_match('/200/',$sarr[0])){ 
 					if(!file_exists($path."\\$type.txt")) return json(['code'=>0,'msg'=>'地址不存在']);
 					$info = file_get_contents($path."\\$type.txt");
-					// return json(['code'=>0,'msg'=>'地址不存在']);
 				}
 
 				$info = file_get_contents($url);
@@ -465,7 +477,8 @@ class Studioinfo extends Controller
 	         // || $type=='prdID_posTimeRatio' 品种持仓偏好
 	        foreach ($a as $key => $value) {
 	        	if($type=='prdID_netProfit'||$type=="prdID_trdRatio"||$type=="prdID_posTimeRatio"){//成交偏好 持仓偏好
-		        	$arr[]=["$key",round($value,2)];
+	        		$varieties = isset($varieties_arr[$key])?$varieties_arr[$key]:'';
+		        	$arr[]=["$varieties ($key)",round($value,2)];
 	        	}elseif ($type=='prdID_winRate' ||$type=="prdID_winLossRatio"||$type=="prdID_fee"||$type=="prdID_deals") {
 		        	$arr[$key]=round($value,2);
 	        	} else{
@@ -481,7 +494,8 @@ class Studioinfo extends Controller
 	        	$html .= '<div class="js-content"><table class="table table-striped" style="width: 80%;margin: 0 auto;"><tr><th>品种</th><th>胜率</th></tr><tbody id="content" class="table-b">';
 
 	        	foreach ($arr as $key => $value) {
-	        		$html.="<tr><td>$key</td><td>$value%</td></tr>";
+	        		$varieties = isset($varieties_arr[$key])?$varieties_arr[$key]:'';
+	        		$html.="<tr><td>$varieties($key)</td><td>$value%</td></tr>";
 	        	}
 	        	$html .= '</tbody></table></div>';
 		        return $html;
@@ -492,7 +506,8 @@ class Studioinfo extends Controller
 	        	$html .= '<div class="js-content"><table class="table table-striped" style="width: 80%;margin: 0 auto;"><tr><th>品种</th><th>盈亏比</th></tr><tbody id="content" class="table-b">';
 
 	        	foreach ($arr as $key => $value) {
-	        		$html.="<tr><td>$key</td><td>$value</td></tr>";
+	        		$varieties = isset($varieties_arr[$key])?$varieties_arr[$key]:'';
+	        		$html.="<tr><td>$varieties($key)</td><td>$value</td></tr>";
 	        	}
 	        	$html .= '</tbody></table></div>';
 		        return $html;
@@ -503,7 +518,8 @@ class Studioinfo extends Controller
 	        	$html .= '<div class="js-content"><table class="table table-striped" style="width: 80%;margin: 0 auto;"><tr><th>品种</th><th>手续费</th></tr><tbody id="content" class="table-b">';
 
 	        	foreach ($arr as $key => $value) {
-	        		$html.="<tr><td>$key</td><td>$value</td></tr>";
+	        		$varieties = isset($varieties_arr[$key])?$varieties_arr[$key]:'';
+	        		$html.="<tr><td>$varieties($key)</td><td>$value</td></tr>";
 	        	}
 	        	$html .= '</tbody></table></div>';
 		        return $html;
@@ -514,7 +530,8 @@ class Studioinfo extends Controller
 	        	$html .= '<div class="js-content"><table class="table table-striped" style="width: 80%;margin: 0 auto;"><tr><th>品种</th><th>品种交易次数</th></tr><tbody id="content" class="table-b">';
 
 	        	foreach ($arr as $key => $value) {
-	        		$html.="<tr><td>$key</td><td>$value</td></tr>";
+	        		$varieties = isset($varieties_arr[$key])?$varieties_arr[$key]:'';
+	        		$html.="<tr><td>$varieties($key)</td><td>$value</td></tr>";
 	        	}
 	        	$html .= '</tbody></table></div>';
 		        return $html;
@@ -590,83 +607,162 @@ class Studioinfo extends Controller
 	// 实时记录
 	public function timelog(){
 		$this->init('实时记录');
+		// ROM_UNIXTIME( datex,  '%Y%m%d' ) =20120711
+		$param = $this->request->param();
+		$id = $param['id'];
+		$studio_info = Db::table('tz_studio')->where("id=$id")->field("BrokerID,uid")->find();
+		$where['brokerID'] = $studio_info['BrokerID'];
+		$where['userID'] = $studio_info['uid'];
+		$where['userID'] = 81331531;
+
+
+	
+		$time = date('Ymd');
+		$list = Db::table('tz_time_info')->where($where)->where("type='newTrade' and FROM_UNIXTIME(create_time,  '%Y%m%d' ) = $time")->order('id','desc')->select();
+		foreach ($list as $key => $value) {
+			$data[$key] = json_decode($value['info'],true);
+		}
+
+
+		$this->assign([
+			'list'=>isset($data)?$data:'',
+			'brokerID'=>$studio_info['BrokerID'],
+			'userID'=>$where['userID']
+			]);
+
 		return $this->fetch();
 	}
 
-	public function ajax_log(){
-        $cur = input('get.cur');
-        $cur = !empty($cur) ? $cur : 1;
-        $size = input("get.size");
-        $size = !empty($size) ? $size : 10;
-        $start = 10*($cur-1);
-        $BrokerId = '6050';
-        $uid = '81331531';
-        $url = 'http://49.235.36.29/WebFunctions.asmx/qry';
-        $input = "input=qryOrd $BrokerId $uid";
-        $info = sendCurlPost($url,$input); 
-        $a = explode('#', $info);
-        $b = str_replace('</string>','', $a[2]);
-        $arr = json_decode($b,true);
-        // dump($arr);
-        $a = array_slice($arr,$start,$size);
-        $data['count'] = count($arr);
-        $data['data'] = $a;
-        return json($data);
-	}
+	// public function ajax_log(){
+ //        $cur = input('get.cur');
+ //        $cur = !empty($cur) ? $cur : 1;
+ //        $size = input("get.size");
+ //        $size = !empty($size) ? $size : 10;
+ //        $start = 10*($cur-1);
+ //        $BrokerId = '6050';
+ //        $uid = '81331531';
+ //        $url = 'http://49.235.36.29/WebFunctions.asmx/qry';
+ //        $input = "input=qryOrd $BrokerId $uid";
+ //        $info = sendCurlPost($url,$input); 
+ //        $a = explode('#', $info);
+ //        $b = str_replace('</string>','', $a[2]);
+ //        $arr = json_decode($b,true);
+ //        // dump($arr);
+ //        $a = array_slice($arr,$start,$size);
+ //        $data['count'] = count($arr);
+ //        $data['data'] = $a;
+ //        return json($data);
+	// }
 
 
 	// 实时持仓
 	public function timehold(){
-		
-         //实时持仓
-        // $info = file_get_contents("http://49.235.36.29/posAll.txt");
-        // dump($info);
-        // // $info = file_get_contents("http://49.235.36.29/accountPerformance/6050_81331531/day.txt");
-        // $r= parse_ini_string($info);
-        // dump($r);
-        // $data['maxSucWinDeals'] = end($r);
-
 		$this->init('实时持仓');
+		$param = $this->request->param();
+		$id = $param['id'];
+		$studio_info = Db::table('tz_studio')->where("id=$id")->field("BrokerID,uid")->find();
+		$where['brokerID'] = $studio_info['BrokerID'];
+		$where['userID'] = $studio_info['uid'];
+		$where['userID'] = 81331531;
+		// dump($id);
+		// ROM_UNIXTIME( datex,  '%Y%m%d' ) =20120711
+		$time = date('Ymd');
+		$list = Db::table('tz_time_info')->where($where)->where("status = 1 and type='positions' and FROM_UNIXTIME(create_time,  '%Y%m%d' ) = $time")->order('id','desc')->select();
+		foreach ($list as $key => $value) {
+			$data[$key] = json_decode($value['info'],true);
+		}
+
+		$this->assign([
+			'list'=>isset($data)?$data:'',
+			'brokerID'=>$studio_info['BrokerID'],
+			'userID'=>$where['userID']
+			]);
 		return $this->fetch();
 	}
-	public function ajax_hold(){
-		// qryPos 9999 071988
-        $cur = input('get.cur');
-        $cur = !empty($cur) ? $cur : 1;
-        $size = input("get.size");
-        $size = !empty($size) ? $size : 10;
-        $start = 10*($cur-1);
-        $BrokerId = '6050';
-        $BrokerId = '9999';
-        $uid = '81331531';
-        $uid = '071988';
-        $url = 'http://49.235.36.29/WebFunctions.asmx/qry';
-        $input = "input=qryPos $BrokerId $uid";
-        $info = sendCurlPost($url,$input); 
-        $a = explode('#', $info);
-        $b = str_replace('</string>','', $a[2]);
-        $arr = json_decode($b,true);
-        $a = array_slice($arr,$start,$size);
-        foreach ($a as $key => $value) {
-        	if($value['vol'] < 0){
-        		$a[$key]['vol']='无仓';
-        	}elseif ($value['vol']==0) {
-        		$a[$key]['vol']='空仓';
-        	}else{
-        		$a[$key]['vol']='多仓';
-        	}
-        }
-        $data['count'] = count($arr);
-        $data['data'] = $a;
-        return json($data);
-	}
+	// public function ajax_hold(){
+	// 	// qryPos 9999 071988
+ //        $cur = input('get.cur');
+ //        $cur = !empty($cur) ? $cur : 1;
+ //        $size = input("get.size");
+ //        $size = !empty($size) ? $size : 10;
+ //        $start = 10*($cur-1);
+ //        $BrokerId = '6050';
+ //        $BrokerId = '9999';
+ //        $uid = '81331531';
+ //        $uid = '071988';
+ //        $url = 'http://49.235.36.29/WebFunctions.asmx/qry';
+ //        $input = "input=qryPos $BrokerId $uid";
+ //        $info = sendCurlPost($url,$input); 
+ //        $a = explode('#', $info);
+ //        $b = str_replace('</string>','', $a[2]);
+ //        $arr = json_decode($b,true);
+ //        $a = array_slice($arr,$start,$size);
+ //        foreach ($a as $key => $value) {
+ //        	if($value['vol'] < 0){
+ //        		$a[$key]['vol']='无仓';
+ //        	}elseif ($value['vol']==0) {
+ //        		$a[$key]['vol']='空仓';
+ //        	}else{
+ //        		$a[$key]['vol']='多仓';
+ //        	}
+ //        }
+ //        $data['count'] = count($arr);
+ //        $data['data'] = $a;
+ //        return json($data);
+	// }
 
 
 	// 历史记录
 	public function historylog(){
 		$this->init('历史记录');
+
 		return $this->fetch();
 	}
+	public function ajax_log(){
+        $cur = input('get.cur');
+        $cur = !empty($cur) ? $cur : 3;
+        $size = input("get.size");
+        $size = !empty($size) ? $size : 10;
+
+
+		$param = $this->request->param();
+		$id = $param['id'];
+		$studio_info = Db::table('tz_studio')->where("id=$id")->field("BrokerID,uid")->find();
+		$where['brokerID'] = $studio_info['BrokerID'];
+		$where['userID'] = $studio_info['uid'];
+		$where['userID'] = 81331531;
+
+
+	
+		$time = date('Ymd');
+		$list = Db::table('tz_time_info')->where($where)->where("type='newTrade'")->page($cur,$size)->order('id','desc')->select();
+
+		$count = Db::table('tz_time_info')->where($where)->where("type='newTrade'")->count();
+
+		foreach ($list as $key => $value) {
+			$arr[$key] = json_decode($value['info'],true);
+		}
+
+        foreach ($arr as $k => $v) {
+            if($v['BS']=='B'){
+                $arr[$k]['BS'] = '买入';
+            }else{
+                $arr[$k]['BS'] = '卖出';
+            }
+
+            if($v['OC']=='）'){
+                $arr[$k]['OC'] = '开仓';
+            }else{
+                $arr[$k]['OC'] = '平仓';
+            }
+        }
+
+
+        $data['count'] = $count;
+        $data['data'] = isset($arr)?$arr:'';
+        return json($data);
+	}
+
 	//工作室简介
 	public function studio_instruct(){
 		$param = $this->request->param();

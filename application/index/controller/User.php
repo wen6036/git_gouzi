@@ -9,13 +9,17 @@ class User  extends Controller
 {
     public function index(){
         $userinfo = session('userinfo');
-
+        if(!$userinfo){
+            $this->redirect('index/login/login');
+        }
+        
         $con['id'] = $userinfo['id'];
         $info = Db::table('tz_userinfo')->where($con)->find();
         $address_id = explode('-', $info['address_id']);
 
 
-        // dump($address_id);
+        $this->assign('headimg',$info['headimg']);
+        $this->assign('nickname',$info['nickname']);
         $this->assign('title','用户管理');
         $this->assign('userinfo', $userinfo);
         return $this->fetch();
@@ -161,7 +165,7 @@ class User  extends Controller
         $id = $userinfo['id'];
 
         $info = Db::table('tz_userinfo')->where("id=$id")->find();
-        if($info['email'] == $param['email']) return json(['code'=>0,'msg'=>'不能和原手机号一致']);
+        if($info['email'] == $param['email']) return json(['code'=>0,'msg'=>'不能和原邮箱一致']);
 
 
         $data['email'] = $param['email'];
@@ -199,8 +203,30 @@ class User  extends Controller
         }else{
             return json(['code'=>0,'msg'=>'修改失败']);
         }
-
     }
+
+    //删除银行卡
+    public function del_binkcard(){
+        $userinfo = session('userinfo');
+        $uid = $userinfo['id'];
+        $param = $this->request->param();
+
+        $id = $param['id'];
+
+        // $con['uid'] = $uid;
+        // $con['username'] = $param['username'];
+        // $con['banknum'] = $param['cardnum'];
+        // $con['bankname'] = $param['bankname'];
+
+        $status = Db::table('tz_user_bank')->where("id=$id")->delete();
+
+        if($status){
+            return json(['code'=>1,'msg'=>'删除成功']);
+        }else{
+            return json(['code'=>0,'msg'=>'删除失败']);
+        }
+    }
+
 
     //保存银行卡 和真实姓名
     public function saveinfo(){
@@ -234,8 +260,9 @@ class User  extends Controller
         }
         if($res || isset($insert)){
              Db::commit();   
-        }else{
+            return json(['code'=>1,'msg'=>'保存成功']);
              Db::rollback();
+            return json(['code'=>0,'msg'=>'保存失败']);
         }
 
     }

@@ -21,17 +21,16 @@ class Office extends Base
         if (isset($this->param['keywords']) && !empty($this->param['keywords'])) {
             $pageParam['query']['keywords'] = $this->param['keywords'];
             // $model->whereLike('studioname', "%" . $this->param['keywords'] . "%");
-            $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,LPAD(a.id,6,'0') as id,LPAD(a.uid,6,'0') as uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->whereLike('a.uid', "%" . $this->param['keywords'] . "%")->where("a.status!=-1")->paginate($this->webData['list_rows'], false, $pageParam);
+            $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,LPAD(a.id,6,'0') as id,LPAD(a.uid,6,'0') as uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->whereLike('a.studioname', "%" . $this->param['keywords'] . "%")->where("a.status!=-1")->paginate($this->webData['list_rows'], false, $pageParam);
             $this->assign('keywords', $this->param['keywords']);
         }else{
             $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,LPAD(a.id,6,'0') as id,LPAD(a.uid,6,'0') as uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->where("a.status!=-1")->paginate($this->webData['list_rows'], false, $pageParam);
         }
-        // dump($list);
         if (isset($this->param['export_data']) && $this->param['export_data'] == 1) {
             if (isset($this->param['keywords']) && !empty($this->param['keywords'])) {
                 $pageParam['query']['keywords'] = $this->param['keywords'];
                 // $model->whereLike('studioname', "%" . $this->param['keywords'] . "%");
-                $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,LPAD(a.id,6,'0') as id,LPAD(a.uid,6,'0') as uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->whereLike('a.uid', "%" . $this->param['keywords'] . "%")->where("a.status!=-1")->select();
+                $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,LPAD(a.id,6,'0') as id,LPAD(a.uid,6,'0') as uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->whereLike('a.studioname', "%" . $this->param['keywords'] . "%")->where("a.status!=-1")->select();
             }else{
                 $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,LPAD(a.id,6,'0') as id,LPAD(a.uid,6,'0') as uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->where("a.status!=-1")->select();
             }
