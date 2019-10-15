@@ -885,11 +885,15 @@ class Studioinfo extends Controller
 		return $this->fetch();
 	}
 	public function ajax_log(){
+
+		$list = Db::table('tz_varieties')->select();
+		foreach ($list as $key => $value) {
+			$varieties_arr[$value['code']] = $value['v_name'];
+		}
         $cur = input('get.cur');
         $cur = !empty($cur) ? $cur : 3;
         $size = input("get.size");
         $size = !empty($size) ? $size : 10;
-
 
 		$param = $this->request->param();
 		$id = $param['id'];
@@ -897,8 +901,6 @@ class Studioinfo extends Controller
 		$where['brokerID'] = $studio_info['BrokerID'];
 		$where['userID'] = $studio_info['uid'];
 		$where['userID'] = 81331531;
-
-
 	
 		$time = date('Ymd');
 		$list = Db::table('tz_time_info')->where($where)->where("type='newTrade'")->page($cur,$size)->order('id','desc')->select();
@@ -910,6 +912,12 @@ class Studioinfo extends Controller
 		}
 
         foreach ($arr as $k => $v) {
+        	// $varieties = isset($varieties_arr[$key])?$varieties_arr[$key]:'';
+        	$str = preg_replace( '/[^a-z]/i', '', $v['insID']);
+        	$varieties = isset($varieties_arr[$str])?$varieties_arr[$str]:'';
+
+        	$arr[$k]['insID'] = $varieties . "(".$v['insID'] . ")";
+
             if($v['BS']=='B'){
                 $arr[$k]['BS'] = '买入';
             }else{

@@ -136,6 +136,7 @@ class Office extends Base
             $BrokerId = $studioinfo['BrokerId'];
             $uid = $studioinfo['uid'];
             $uid = '81331531';
+
             $s = Db::table('tz_futures_info')->where('uid='.$uid)->find();
             if($s){
                 if(time() - $s['last_time'] < 3600*3){
@@ -147,182 +148,250 @@ class Office extends Base
                 $flag = mkdir($path,0777,true);
             }
             //综合积分
-            $score = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/score.txt");
-            file_put_contents($path."\score.txt",$score);
-            $a = parse_ini_string($score);
+            
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/score.txt",1); 
+            if(preg_match('/200/',$sarr[0])){ 
+                $score = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/score.txt");
+                file_put_contents($path."\score.txt",$score);
+                $a = parse_ini_string($score);
+                $data['score_json'] = json_encode($a);
+                $data['score'] = end($a);
+            }
 
-            $data['score_json'] = json_encode($a);
-            $data['score'] = end($a);
+
 
             //每日净值
-            $netValue = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/netValue.txt");
-            file_put_contents($path."\\netValue.txt",$netValue);
-            $b = parse_ini_string($netValue);
-            $data['netValue'] = end($b);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/netValue.txt",1); 
+            if(preg_match('/200/',$sarr[0])){ 
+                $netValue = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/netValue.txt");
+                file_put_contents($path."\\netValue.txt",$netValue);
+                $b = parse_ini_string($netValue);
+                $data['netValue'] = end($b);
 
-            //年化收益率（string）
-            $mulProfitRatioPerYear = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/mulProfitRatioPerYear.txt");
-            file_put_contents($path."\mulProfitRatioPerYear.txt",$mulProfitRatioPerYear);
-            $c = parse_ini_string($mulProfitRatioPerYear);
-            $data['mulProfitRatioPerYear'] = end($c);
-
+                //年化收益率（string）
+                $mulProfitRatioPerYear = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/mulProfitRatioPerYear.txt");
+                file_put_contents($path."\mulProfitRatioPerYear.txt",$mulProfitRatioPerYear);
+                $c = parse_ini_string($mulProfitRatioPerYear);
+                $data['mulProfitRatioPerYear'] = end($c);
+            }
 
             //胜率
-            $winRate = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/winRate.txt");
-            file_put_contents($path."\winRate.txt",$winRate);
-            $d = parse_ini_string($winRate);
-            $data['winRate'] = end($d);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/winRate.txt",1); 
+            if(preg_match('/200/',$sarr[0])){ 
+                $winRate = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/winRate.txt");
+                file_put_contents($path."\winRate.txt",$winRate);
+                $d = parse_ini_string($winRate);
+                $data['winRate'] = end($d);
 
-            //最大回撤率
-            $maxReduceRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/maxReduceRatio.txt");
-            file_put_contents($path."\maxReduceRatio.txt",$maxReduceRatio);
-            $e = parse_ini_string($maxReduceRatio);
-            $data['maxReduceRatio'] = end($e);
+                //最大回撤率
+                $maxReduceRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/maxReduceRatio.txt");
+                file_put_contents($path."\maxReduceRatio.txt",$maxReduceRatio);
+                $e = parse_ini_string($maxReduceRatio);
+                $data['maxReduceRatio'] = end($e);
+            }
 
             //截止每日盈亏比
-            $winLossRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/winLossRatio.txt");
-            file_put_contents($path."\winLossRatio.txt",$winLossRatio);
-            $f = parse_ini_string($winLossRatio);
-            $data['winLossRatio'] = end($f);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/winRate.txt",1); 
+            if(preg_match('/200/',$sarr[0])){ 
+                $winLossRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/winLossRatio.txt");
+                file_put_contents($path."\winLossRatio.txt",$winLossRatio);
+                $f = parse_ini_string($winLossRatio);
+                $data['winLossRatio'] = end($f);
+            }
 
             //截止每日卡玛比率
-            $kamaRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/kamaRatio.txt");
-            file_put_contents($path."\kamaRatio.txt",$kamaRatio);
-            $g = parse_ini_string($kamaRatio);
-            $data['kamaRatio'] = end($g);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/kamaRatio.txt",1); 
+            if(preg_match('/200/',$sarr[0])){ 
+                $kamaRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/kamaRatio.txt");
+                file_put_contents($path."\kamaRatio.txt",$kamaRatio);
+                $g = parse_ini_string($kamaRatio);
+                $data['kamaRatio'] = end($g);
+            }
 
             //截止每日夏普比率
-            $sharpRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/sharpRatio.txt");
-            file_put_contents($path."\sharpRatio.txt",$sharpRatio);
-            $k= parse_ini_string($sharpRatio);
-            $data['sharpRatio'] = end($k);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/sharpRatio.txt",1); 
+            if(preg_match('/200/',$sarr[0])){ 
+                $sharpRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/sharpRatio.txt");
+                file_put_contents($path."\sharpRatio.txt",$sharpRatio);
+                $k= parse_ini_string($sharpRatio);
+                $data['sharpRatio'] = end($k);
+            }
 
             //截止每日夏普比率http://49.235.36.29/accountPerformance/6050_81331531/efficiency.txt //截止每日盈亏效率
-            $sharpRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/efficiency.txt");
-            file_put_contents($path."\sharpRatio.txt",$sharpRatio);
-            $i= parse_ini_string($sharpRatio);
-            $data['efficiency'] = end($i);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/efficiency.txt",1); 
+            if(preg_match('/200/',$sarr[0])){ 
+                $sharpRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/efficiency.txt");
+                file_put_contents($path."\sharpRatio.txt",$sharpRatio);
+                $i= parse_ini_string($sharpRatio);
+                $data['efficiency'] = end($i);
+            }
 
             //交易频率
-            $dealFrequency = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/dealFrequency.txt");
-            file_put_contents($path."\dealFrequency.txt",$dealFrequency);
-            $m= parse_ini_string($dealFrequency);
-            $data['dealFrequency'] = end($m);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/dealFrequency.txt",1); 
+            if(preg_match('/200/',$sarr[0])){ 
+                $dealFrequency = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/dealFrequency.txt");
+                file_put_contents($path."\dealFrequency.txt",$dealFrequency);
+                $m= parse_ini_string($dealFrequency);
+                $data['dealFrequency'] = end($m);
+            }
 
             //交易次数
-            $lot = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/lot.txt");
-            file_put_contents($path."\lot.txt",$lot);
-            $n= parse_ini_string($lot);
-            $data['lot'] = end($n);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/lot.txt",1); 
+            if(preg_match('/200/',$sarr[0])){ 
+                $lot = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/lot.txt");
+                file_put_contents($path."\lot.txt",$lot);
+                $n= parse_ini_string($lot);
+                $data['lot'] = end($n);
+            }
 
             //交易天数
-            $dealDays = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/dealDays.txt");
-            file_put_contents($path."\dealDays.txt",$dealDays);
-            $n= parse_ini_string($dealDays);
-            $data['dealDays'] = end($n);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/dealDays.txt",1); 
+            if(preg_match('/200/',$sarr[0])){ 
+                $dealDays = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/dealDays.txt");
+                file_put_contents($path."\dealDays.txt",$dealDays);
+                $n= parse_ini_string($dealDays);
+                $data['dealDays'] = end($n);
+            }
 
             //风暴比
-            $rewardRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/rewardRatio.txt");
-            file_put_contents($path."\\rewardRatio.txt",$rewardRatio);
-            $o= parse_ini_string($rewardRatio);
-            $data['rewardRatio'] = end($o);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/rewardRatio.txt",1);
+            if(preg_match('/200/',$sarr[0])){  
+                $rewardRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/rewardRatio.txt");
+                file_put_contents($path."\\rewardRatio.txt",$rewardRatio);
+                $o= parse_ini_string($rewardRatio);
+                $data['rewardRatio'] = end($o);
+            }
 
              //风总手续费
-            $fee = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/fee.txt");
-            file_put_contents($path."\\fee.txt",$fee);
-            $p= parse_ini_string($fee);
-            $data['fee'] = end($p);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/fee.txt",1);
+            if(preg_match('/200/',$sarr[0])){  
+                $fee = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/fee.txt");
+                file_put_contents($path."\\fee.txt",$fee);
+                $p= parse_ini_string($fee);
+                $data['fee'] = end($p);
+            }
 
              //风总手续费
-            $equity = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/equity.txt");
-            file_put_contents($path."\\equity.txt",$equity);
-            $q= parse_ini_string($equity);
-            $data['equity'] = end($q);
-
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/equity.txt",1);
+            if(preg_match('/200/',$sarr[0])){ 
+                $equity = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/equity.txt");
+                file_put_contents($path."\\equity.txt",$equity);
+                $q= parse_ini_string($equity);
+                $data['equity'] = end($q);
+            }
 
              //最大盈利次数
-            $maxSucWinDeals = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/maxSucWinDeals.txt");
-            $r= parse_ini_string($maxSucWinDeals);
-            file_put_contents($path."\maxSucWinDeals.txt",$maxSucWinDeals);
-            $data['maxSucWinDeals'] = end($r);
-
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/maxSucWinDeals.txt",1);
+            if(preg_match('/200/',$sarr[0])){ 
+                $maxSucWinDeals = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/maxSucWinDeals.txt");
+                $r= parse_ini_string($maxSucWinDeals);
+                file_put_contents($path."\maxSucWinDeals.txt",$maxSucWinDeals);
+                $data['maxSucWinDeals'] = end($r);
+            }
 
             //最大亏损次数
-            $maxSucLossDeals = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/maxSucLossDeals.txt");
-            file_put_contents($path."\maxSucLossDeals.txt",$maxSucLossDeals);
-            $s= parse_ini_string($maxSucLossDeals);
-            $data['maxSucLossDeals'] = end($s);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/maxSucLossDeals.txt",1);
+            if(preg_match('/200/',$sarr[0])){
+                $maxSucLossDeals = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/maxSucLossDeals.txt");
+                file_put_contents($path."\maxSucLossDeals.txt",$maxSucLossDeals);
+                $s= parse_ini_string($maxSucLossDeals);
+                $data['maxSucLossDeals'] = end($s);
+            }
+
 
             //【每天仓位】
-            $riskRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/riskRatio.txt");
-            file_put_contents($path."\\riskRatio.txt",$riskRatio);
-            $t= parse_ini_string($riskRatio);
-            $data['riskRatio'] = end($t);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/riskRatio.txt",1);
+            if(preg_match('/200/',$sarr[0])){
+                $riskRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/riskRatio.txt");
+                file_put_contents($path."\\riskRatio.txt",$riskRatio);
+                $t= parse_ini_string($riskRatio);
+                $data['riskRatio'] = end($t);
+            }
 
             // 【品种净利】
-            $prdID_netProfit = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_netProfit.txt");
-            file_put_contents($path."\prdID_netProfit.txt",$prdID_netProfit);
-            $aa= parse_ini_string($prdID_netProfit,true);
-            $data['prdID_netProfit'] = json_encode(end($aa));
-
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_netProfit.txt",1);
+            if(preg_match('/200/',$sarr[0])){
+                $prdID_netProfit = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_netProfit.txt");
+                file_put_contents($path."\prdID_netProfit.txt",$prdID_netProfit);
+                $aa= parse_ini_string($prdID_netProfit,true);
+                $data['prdID_netProfit'] = json_encode(end($aa));
+            }
             // 【品种胜率】
-            $prdID_winRate = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_winRate.txt");
-            file_put_contents($path."\prdID_winRate.txt",$prdID_winRate);
-            $bb= parse_ini_string($prdID_winRate,true);
-            $data['prdID_winRate'] = json_encode(end($bb));
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_winRate.txt",1);
+            if(preg_match('/200/',$sarr[0])){
+                $prdID_winRate = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_winRate.txt");
+                file_put_contents($path."\prdID_winRate.txt",$prdID_winRate);
+                $bb= parse_ini_string($prdID_winRate,true);
+                $data['prdID_winRate'] = json_encode(end($bb));
+            }
 
             //【品种盈亏比】
-            $prdID_winLossRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_winLossRatio.txt");
-            file_put_contents($path."\prdID_winLossRatio.txt",$prdID_winLossRatio);
-            $cc= parse_ini_string($prdID_winLossRatio,true);
-            $data['prdID_winLossRatio'] = json_encode(end($cc));
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_winLossRatio.txt",1);
+            if(preg_match('/200/',$sarr[0])){
+                $prdID_winLossRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_winLossRatio.txt");
+                file_put_contents($path."\prdID_winLossRatio.txt",$prdID_winLossRatio);
+                $cc= parse_ini_string($prdID_winLossRatio,true);
+                $data['prdID_winLossRatio'] = json_encode(end($cc));
+            }
 
             //【品种手续费】
-            $prdID_fee = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_fee.txt");
-            file_put_contents($path."\prdID_fee.txt",$prdID_fee);
-            $dd= parse_ini_string($prdID_fee,true);
-            $data['prdID_fee'] = json_encode(end($dd));
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_fee.txt",1);
+            if(preg_match('/200/',$sarr[0])){
+                $prdID_fee = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_fee.txt");
+                file_put_contents($path."\prdID_fee.txt",$prdID_fee);
+                $dd= parse_ini_string($prdID_fee,true);
+                $data['prdID_fee'] = json_encode(end($dd));
 
-            //每日日内交易天数
-            $dayinDealDays = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/dayinDealDays.txt");
-            file_put_contents($path."\dayinDealDays.txt",$dayinDealDays);
-            $ee= parse_ini_string($dayinDealDays);
-            $data['dayinDealDays'] = end($ee);
+                //每日日内交易天数
+                $dayinDealDays = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/dayinDealDays.txt");
+                file_put_contents($path."\dayinDealDays.txt",$dayinDealDays);
+                $ee= parse_ini_string($dayinDealDays);
+                $data['dayinDealDays'] = end($ee);
+            }
 
 
 
             //截止每日各品种交易次数
-            $prdID_deals = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_deals.txt");
-            file_put_contents($path."\prdID_deals.txt",$prdID_deals);
-            $gg= parse_ini_string($prdID_deals,true);
-            $data['prdID_deals'] = json_encode(end($gg));
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_deals.txt",1);
+            if(preg_match('/200/',$sarr[0])){
+                $prdID_deals = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/prdID_deals.txt");
+                file_put_contents($path."\prdID_deals.txt",$prdID_deals);
+                $gg= parse_ini_string($prdID_deals,true);
+                $data['prdID_deals'] = json_encode(end($gg));
+            }
 
 
 
             //每日初始资金、每日出入金、每日净利润、每日净利率、每日手续费、每日交易次数、每日成交额
-            $day = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/day.txt");
-            file_put_contents($path."\day.txt",$day);
-            // dump($day);
-            $h = parse_ini_string($day,true);
-            // 净利润
-            $data['netProfit'] = end($h['netProfit']);
-            // 出入金
-            $data['deposit'] = end($h['deposit']);
-            // 资金规模（每日初始资金）
-            $data['initialFund'] = end($h['initialFund']);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/day.txt",1);
+            if(preg_match('/200/',$sarr[0])){
+                $day = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/day.txt");
+                file_put_contents($path."\day.txt",$day);
+                // dump($day);
+                $h = parse_ini_string($day,true);
+                // 净利润
+                $data['netProfit'] = end($h['netProfit']);
+                // 出入金
+                $data['deposit'] = end($h['deposit']);
+                // 资金规模（每日初始资金）
+                $data['initialFund'] = end($h['initialFund']);
+            }
 
 
             //leiji收益率（string）
-            $mulProfitRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/mulProfitRatio.txt");
-            $l = parse_ini_string($mulProfitRatio);
-            $data['mulProfitRatio'] = end($l);
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/mulProfitRatio.txt",1);
+            if(preg_match('/200/',$sarr[0])){
+                $mulProfitRatio = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/mulProfitRatio.txt");
+                file_put_contents($path."\day.txt",$mulProfitRatio);
+                $l = parse_ini_string($mulProfitRatio);
+                $data['mulProfitRatio'] = end($l);
+            }
             $data['last_time'] = time();
             if($s){
                 $status = Db::table('tz_futures_info')->where('uid='.$uid)->update($data); 
             }else{
                 $status = Db::table('tz_futures_info')->insert($data); 
             }
-
     }
 
 

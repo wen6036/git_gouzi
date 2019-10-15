@@ -16,39 +16,36 @@ class Subscription extends Base
     {
         $this->showDataHeaderAddButton = false;
         $this->showDataHeaderDeleteButton = false;
-        $pageParam = ['query' => []];
-        if (isset($this->param['keywords']) && !empty($this->param['keywords'])) {
-            $pageParam['query']['keywords'] = $this->param['keywords'];
-
-            $this->assign('keywords', $this->param['keywords']);
-            $list = Db::table('tz_suborder')->alias('a')->field('a.*,FROM_UNIXTIME(a.create_time, "%Y-%m-%d %H:%i:%s") AS create_time,b.id as uid,b.username,c.studioname,c.price')->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->join(['tz_studio'=>'c'],'a.studio_id = c.id','left')->whereLike('c.studioname', "%" . $this->param['keywords'] . "%")->where("a.status=1")->paginate($this->webData['list_rows']);
-        }else{
-           $list = Db::table('tz_suborder')->alias('a')->field('a.*,FROM_UNIXTIME(a.create_time, "%Y-%m-%d %H:%i:%s") AS create_time,b.id as uid,b.username,c.studioname,c.price')->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->join(['tz_studio'=>'c'],'a.studio_id = c.id','left')->where("a.status=1")->paginate($this->webData['list_rows']); 
-        }
-
+        // $pageParam = ['query' => []];
+        $keywords = isset($this->param['keywords'])?$this->param['keywords']:'';
 
         if (isset($this->param['export_data']) && $this->param['export_data'] == 1) {
             $header = ['订阅日期', '用户名称', '用户UID', '订阅工作室名称','工作室UID','订阅期限', '订阅状态', '订阅费', '支付方式','支付时间','支付金额'];
             $body   = [];
-            $data   = $list;
+
+
+            $data = Db::table('tz_suborder')->alias('a')->field('a.*,FROM_UNIXTIME(a.create_time, "%Y-%m-%d %H:%i:%s") AS create_time,FROM_UNIXTIME(a.end_time, "%Y-%m-%d") AS end_time,b.id as uid,b.username,c.studioname,c.price')->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->join(['tz_studio'=>'c'],'a.studio_id = c.id','left')->whereLike('c.studioname', "%" . $keywords . "%")->where("a.status = 1")->select();
+
+            // $data   = $list;
             foreach ($data as $item) {
                 $record                    = [];
-                 $record['create_time']  = $item['create_time'];
-                 $record['username']  = $item['username'];
-                 $record['uid']  = $item['uid'];
-                 $record['studioname']  = $item['studioname'];
-                 $record['studio_id']  = $item['studio_id'];
-                 $record['order_time']  = $item['order_time'];
-                 $record['price']  = $item['price'];
-                 $record['status']  = '有效';
-                 $record['paytype']  = $item['paytype'];
-                 $record['create_time1']  = $item['create_time'];
-                 $record['pay_money']  = $item['pay_money'];
+                $record['create_time']  = $item['create_time'];
+                $record['username']  = $item['username'];
+                $record['uid']  = $item['uid'];
+                $record['studioname']  = $item['studioname'];
+                $record['studio_id']  = $item['studio_id'];
+                $record['order_time']  = $item['order_time'];
+                $record['price']  = $item['price'];
+                $record['status']  = '有效';
+                $record['paytype']  = $item['paytype'];
+                $record['end_time']  = $item['end_time'];
+                $record['pay_money']  = $item['pay_money'];
                 $body[]                    = $record;
             }
             return $this->export($header, $body, "订阅管理-" . date('Y-m-d-H-i-s'), '2007');
         }
-
+        $list = Db::table('tz_suborder')->alias('a')->field('a.*,FROM_UNIXTIME(a.create_time, "%Y-%m-%d %H:%i:%s") AS create_time,FROM_UNIXTIME(a.end_time, "%Y-%m-%d") AS end_time,b.id as uid,b.username,c.studioname,c.price')->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->join(['tz_studio'=>'c'],'a.studio_id = c.id','left')->whereLike('c.studioname', "%" . $keywords . "%")->where("a.status > 0")->paginate($this->webData['list_rows']);
+        $this->assign('keywords',$keywords);
         $this->assign([
             'list'      => $list,
             'total'     => $list->total(),
@@ -72,8 +69,6 @@ class Subscription extends Base
     public function detail_exl()
     {
         $id = $this->id;
-
-
         $info = Db::table('tz_suborder')->alias('a')->field('a.*,FROM_UNIXTIME(a.create_time, "%Y-%m-%d %H:%i:%s") AS create_time,b.id as uid,b.username,c.studioname,c.price')->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->join(['tz_studio'=>'c'],'a.studio_id = c.id','left')->where("a.id=$id")->find(); 
 
              $header = ['订阅日期', '用户名称', '用户UID', '订阅工作室名称','工作室UID','订阅期限', '订阅状态', '订阅费', '支付方式','支付时间','支付金额'];
@@ -103,5 +98,35 @@ class Subscription extends Base
         }
         return $this->error('删除失败');
     }
+
+    public function cancel(){
+        $id = $this->id;
+        Db::table('tz_suborder')->startTrans();
+        $info = Db::table('tz_suborder')->where("id=$id")->find();
+        if(time() > $info['end_time']){
+            return $this->error('已过期 无法取消');
+        }
+
+        $status = Db::table('tz_suborder')->where("id=$id")->update(['status'=>2]);
+        $con['status'] = 0;
+        $con['studio_id'] = $info['studio_id'];
+        $res = Db::table('tz_subtotle_status')->where($con)->setDec('order_totle',$info['pay_money']);
+        if($status && $res){
+            Db::commit();
+            return $this->success();
+        }else{
+            Db::rollback();;
+            return $this->error('操作失败');
+        }
+
+        // dump($id);
+        // $con['status'] = -1;
+        // $status = Db::table('tz_suborder')->where("id=$id")->update($con);
+        // if ($status) {
+        //     return $this->deleteSuccess();
+        // }
+        // return $this->error('删除失败');
+    }
+
 
 }

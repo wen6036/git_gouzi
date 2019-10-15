@@ -5,7 +5,7 @@
                 <form class="form-inline" name="searchForm" id="searchForm" action="" method="GET">
                     <div class="form-group">
                         <input value="{$keywords ? $keywords : '' ;}"
-                               name="keywords" id="keywords" class="form-control input-sm" placeholder="帐号/昵称/手机号/邮箱">
+                               name="keywords" id="keywords" class="form-control input-sm" placeholder="工作室名称">
                     </div>
 
 
@@ -66,9 +66,9 @@
                         <td>{$item.username}</td>
                         <td>{$item.uid}</td>
                         <td>{$item.usertel}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{$newarr[$item.uid]['username']}</td>
+                        <td>{$newarr[$item.uid]['banknum']}</td>
+                        <td>{$newarr[$item.uid]['bankname']}</td>
                         <td>{$item.order_num}</td>
                         <td>{$item.price}</td>
                         <td>{if condition="$item.status eq 2"}
@@ -81,9 +81,9 @@
                         <td>{$item.last_time}</td>
 
                         <td class="td-do">
-                            <button>
+                             <a  href="detail_exl/id/{$item.id}" target="_blank"  data-id="{$item.id}"  class="btn btn-default btn-xs" title="导出" data-toggle="tooltip">
                                 导出
-                            </button>
+                            </a>
                         </td>
                     </tr>
                     {/foreach}

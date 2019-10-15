@@ -5,7 +5,7 @@
                 <form class="form-inline" name="searchForm" id="searchForm" action="" method="GET">
                     <div class="form-group">
                         <input value="{$keywords ? $keywords : '' ;}"
-                               name="keywords" id="keywords" class="form-control input-sm" placeholder="帐号/昵称/手机号/邮箱">
+                               name="keywords" id="keywords" class="form-control input-sm" placeholder="工作室名称">
                     </div>
 
 
@@ -49,7 +49,7 @@
                         <th>订阅费</th>
                         <th>支付方式</th>
                         <!-- <th>用户支付账户</th> -->
-                        <th>支付时间</th>
+                        <th>到期时间</th>
                         <th>支付金额</th>
                         <th>操作</th>
                     </tr>
@@ -63,17 +63,24 @@
                         <td>{$item.uid}</td>
                         <td>{$item.studioname}</td>
                         <td>{$item.studio_id}</td>
-                        <td>{$item.price}</td>
-                        <td>{$item.order_time}个月</td>
-                        <td>有效</td>
+                        <td>{$item.order_time}</td>
+                        <td>{if condition="$item.status eq 1"}有效
+                        {else /}已取消{/if}</td>
+                        <td>{$item.price}元/月</td>
                         <td>{if $item.paytype==1}支付宝{elseif $item.paytype==2}微信{else /}体验券{/if}</td>
-                        <td>{$item.create_time}</td>
+                        <td>{$item.end_time}</td>
                         <td>{$item.pay_money}</td>
 
                         <td class="td-do">
-                            <button  data-url="del.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-success btn-xs" title="取消排名" data-toggle="tooltip">
-                                取消排名
+                            {if condition="$item.status eq 1"}
+                            <button  data-url="cancel.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-success btn-xs" title="取消订阅" data-toggle="tooltip">
+                                取消订阅
                             </button>
+                            {else /}
+                                <button  data-id="{$item.id}"  class=" btn btn-defalut btn-xs" title="已取消" data-toggle="tooltip">
+                                    已取消
+                                </button>
+                            {/if}
 
                             <button  data-url="del.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-danger btn-xs" title="删除" data-toggle="tooltip">
                                 删除
