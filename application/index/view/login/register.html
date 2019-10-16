@@ -225,6 +225,10 @@
 					data:$('form').serialize(),
 					type:'post',
 					success:function(res){
+						if(res.code==0){
+							layer.msg(res.msg)
+							return false;
+						}
 						layer.msg(res.msg,{
                             time:1000,
                             end:function () {

@@ -145,8 +145,10 @@ class Datasub extends Controller
 			$time = 2;
 		}else if($index==3){
 			$time = 3;
-		}else{
+		}else if($index==4){
 			$time = 6;
+		}else{
+			$time = 0;
 		}
 		$info = Db::table('tz_studio')->where("id=".$param['id'])->find();
 
@@ -181,6 +183,17 @@ class Datasub extends Controller
 		$userId =  Db::table('tz_suborder')->getLastInsID();
 		$userId = 1;
 		if($userId){
+
+			$con1['date'] = date("Y-m-d");
+			$registerdata = Db::table('tz_sub_data')->where($con1)->find();
+			if($registerdata){
+				Db::table('tz_sub_data')->where($con1)->setInc('num',$data['pay_money']);
+			}else{
+				$con1['num'] = $data['pay_money'];
+				Db::table('tz_sub_data')->insert($con1);
+			}
+
+
 			$this->subtotle($data['studio_id']);
 			return json(['code'=>1,'msg'=>'购买成功','info'=>$userId]);
 		}else{

@@ -32,22 +32,22 @@ class Mysql{
             // $sql = "insert into tz_time_info (info,create_time) values ('{$content}','{$time}')";
             // $info=mysqli_query($this->link,$sql);
             // 
-//             $content = '0#tradeCenter#newTrade#{
-//   "name": "6050_81331531",
-//   "brokerID": "6050",
-//   "userID": "81331531",
-//   "tradeID": "[     1690862]",
-//   "date": "20191010",
-//   "time": "10:51:45",
-//   "insID": "ni1911",
-//   "BS": "S",
-//   "OC": "C",
-//   "lot": 1,
-//   "price": 137020.0,
-//   "profit": 28.0,
-//   "fee": 12.0,
-//   "note": ""
-// }~';
+        //             $content = '0#tradeCenter#newTrade#{
+        //   "name": "6050_81331531",
+        //   "brokerID": "6050",
+        //   "userID": "81331531",
+        //   "tradeID": "[     1690862]",
+        //   "date": "20191010",
+        //   "time": "10:51:45",
+        //   "insID": "ni1911",
+        //   "BS": "S",
+        //   "OC": "C",
+        //   "lot": 1,
+        //   "price": 137020.0,
+        //   "profit": 28.0,
+        //   "fee": 12.0,
+        //   "note": ""
+        // }~';
             $b = explode('#', $content);
             $type = $b[2];
 
@@ -62,19 +62,21 @@ class Mysql{
                 $info = json_encode($c);
 
                 $sql = "insert into tz_time_info (brokerID,userID,info,type,create_time) values ($brokerID,$userID,'{$info}','{$type}','{$time}')";
-                 $status=mysqli_query($this->link,$sql);
+                $status=mysqli_query($this->link,$sql);
 
             }else if(strpos($type,'positions') !== false){ 
                 $type = 'positions';
                 $d = substr($b[3],0,strlen($b[3])-1);
                 $c = json_decode($d,true);
                 $time =time();
-                foreach ($c as $key => $value) {
-                    $brokerID = $value['brokerID'];
-                    $userID = $value['userID'];
-                    $info = json_encode($value);
-                    $sql = "insert into tz_time_info (brokerID,userID,info,type,create_time) values ($brokerID,$userID,'{$info}','{$type}','{$time}')";
-                    $status=mysqli_query($this->link,$sql);
+                if(is_array($c)){
+                    foreach ($c as $key => $value) {
+                        $brokerID = $value['brokerID'];
+                        $userID = $value['userID'];
+                        $info = json_encode($value);
+                        $sql = "insert into tz_time_info (brokerID,userID,info,type,create_time) values ($brokerID,$userID,'{$info}','{$type}','{$time}')";
+                        $status=mysqli_query($this->link,$sql);
+                    }
                 }
             }else{
                 $time =time();
@@ -83,6 +85,7 @@ class Mysql{
                 $status=mysqli_query($this->link,$sql);
             }
 
+            $status = isset($status)?$status:0;
 	        return $status;	
 	   }
 }

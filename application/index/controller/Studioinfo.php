@@ -173,7 +173,7 @@ class Studioinfo extends Controller
 			}else{
 	            $efficiency = file_get_contents("http://49.235.36.29/accountPerformance/".$BrokerId."_" .$uid."/efficiency.txt");
 			}
-            file_put_contents($path."\efficiency.txt",$efficiency);
+            file_put_contents($path."\\efficiency.txt",$efficiency);
             $i= parse_ini_string($efficiency);
             $data['efficiency'] = end($i);
 

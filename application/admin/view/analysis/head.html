@@ -1,0 +1,41 @@
+
+    <script src="__PUBLIC__/highcharts-plugins/highcharts.js"></script>
+    <script src="__PUBLIC__/highcharts-plugins/exporting.js"></script>
+    <script src="__PUBLIC__/highcharts-plugins/oldie.js"></script>
+    <script src="__PUBLIC__/highcharts-plugins/highcharts-zh_CN.js"></script>
+
+<script src="__PUBLIC__/highcharts-plugins/char.js"></script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+        <style type="text/css">
+            li{list-style: none;}
+            .website ul li{padding: 5px 10px;display: inline-block;font-size: 16px;}
+            .website ul .active{color: red}
+        </style>
+            <div class="box-body website">
+                <ul>
+                    <a href="{:url('admin/analysis/index')}"><li>每日在线用户数</li></a>
+                    <a href="{:url('admin/analysis/dayregnumber')}" ><li>每日注册用户数</li></a>
+                    <a href="{:url('admin/analysis/subfree')}" ><li>每日订阅费用</li></a>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+var length = $('.website ul a').length;
+// console.log(length)
+var url = window.location.href;
+// console.log(url)
+// (str.indexOf("2") != -1); // true
+for (var i = 0; i < length; i++) {
+    if(url.indexOf($('.website ul a').eq(i).attr('href')) != -1){
+        $('.website ul a').eq(i).find('li').addClass('active')
+    }
+}
+
+</script>
