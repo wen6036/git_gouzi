@@ -24,20 +24,25 @@ class Studioinfo extends Controller
 		$id = $param['id'];
 		$info = Db::table('tz_studio')->alias('a')->field("c.*,LPAD(a.id,6,'0') as id,b.id as uid,b.headimg,b.nickname,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') as create_time,a.studioname,a.shipan,a.celue,a.fangshi,a.zhouqi,a.price,a.futures_account,a.futures_password,a.description")->Join(['tz_userinfo'=>'b'],'b.id=a.uid','left')->Join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where("a.id = $id")->find();
 		if(!$info){
-			$this->assign('title','页面不存在');
-			return $this->fetch('public/error');
+			return '';
+			// $this->assign('title','页面不存在');
+			// return $this->fetch('public/error');
 		}
 		$userinfo = session('userinfo');
 		$this->assign('info',$info);
 		$this->assign('user',$userinfo);
 		$this->assign('uid',$info['uid']);
 		$this->assign('title',$title);
+		return true;
 
 	}
 	// 工作室管理
 	public function index(){
-
-		$this->init('工作室管理');
+		$info = $this->init('工作室管理');
+		if(!$info){
+			$this->assign('title','页面不存在');
+			return $this->fetch('public/error');	
+		}
 		return $this->fetch();
 	}
 
@@ -924,7 +929,7 @@ class Studioinfo extends Controller
                 $arr[$k]['BS'] = '卖出';
             }
 
-            if($v['OC']=='）'){
+            if($v['OC']=='O'){
                 $arr[$k]['OC'] = '开仓';
             }else{
                 $arr[$k]['OC'] = '平仓';
