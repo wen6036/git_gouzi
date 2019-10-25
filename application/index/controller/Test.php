@@ -13,13 +13,37 @@ class Test extends Controller
 {
 	public function index(){
 		$this->assign('title','test');
-		dump(123);
+            $path = getcwd()."\data"."\\"."6050_81331531";
+            if(!is_dir($path)){
+                $flag = mkdir($path,0777,true);
+            }
+            //每日初始资金、每日出入金、每日净利润、每日净利率、每日手续费、每日交易次数、每日成交额
+            $sarr = get_headers("http://49.235.36.29/accountPerformance/6050_81331531/lot.txt",1);
+            if(preg_match('/200/',$sarr[0])){
+                $day = file_get_contents("http://49.235.36.29/accountPerformance/6050_81331531/lot.txt");
+                
+                file_put_contents($path."\day.txt",$day);
+                $n= parse_ini_string($day);
+                $lot = end($n);
 
-		$list = Db::table('tz_varieties')->select();
-		foreach ($list as $key => $value) {
-			$arr[$value['code']] = $value['v_name'];
-		}
-		dump($arr);
+                dump($lot);
+                // dump($h['lot']);
+                // $totle = 0;
+                // // dump($h['netProfit']);
+                // foreach ($h['netProfit'] as $key => $value) {
+                // 	$totle = $totle + $value;
+                // }
+                // dump($totle);
+
+                // $b = array_sum($h['netProfit']);
+                // dump($b);
+                // $data['netProfit'] = end($h['netProfit']);
+                // // 出入金
+                // $data['deposit'] = end($h['deposit']);
+                // // 资金规模（每日初始资金）
+                // $data['initialFund'] = end($h['initialFund']);
+            }
+
 		return $this->fetch();
 	}
 

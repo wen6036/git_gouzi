@@ -1,60 +1,121 @@
 		{include file="public/header" /}
 		<div class="fuwuneirong">
 			<div class="container">
-				<div class="fw-content">
-					<ul>
-						
-						<li>
-							<div>
-								<a href="{:url('index/webpage/service_fxpm')}"><img src="__STATIC__/index/images/fu1.png"></a>
-								<p>数据分析排名</p>
-							</div>
-						</li>
-						<li>
-							<div>
-								<a href="{:url('index/webpage/service_sjyj')}"><img src="__STATIC__/index/images/fu2.png"></a>
-								<p>数据研究</p>
-							</div>
-						</li>
-						<li>
-							<div>
-								<a href="{:url('index/webpage/service_dyfw')}"><img src="__STATIC__/index/images/fu3.png"></a>
-								<p>订阅服务</p>
-							</div>
-						</li>
-						<li>
-							<div>
-								<a href="{:url('index/webpage/service_zsfw')}"><img src="__STATIC__/index/images/fu4.png"></a>
-								<p>展示服务</p>
-							</div>
-						</li>
-						<li>
-							<div>
-								<a href="{:url('index/webpage/service_psfw')}"><img src="__STATIC__/index/images/fu5.png"></a>
-								<p>盘手服务</p>
-							</div>
-						</li>
-						<li>
-							<div>
-								<a href="{:url('index/webpage/service_djfw')}"><img src="__STATIC__/index/images/fu6.png"></a>
-								<p>对接服务</p>
-							</div>
-						</li>
-						<li>
-							<div>
-								<a href="{:url('index/webpage/service_dzfw')}"><img src="__STATIC__/index/images/fu7.png"></a>
-								<p>定制服务</p>
-							</div>
-						</li>
-						<li>
-							<div>
-								<a href="{:url('index/webpage/service_qtfw')}"><img src="__STATIC__/index/images/fu8.png"></a>
-								<p>其他服务</p>
-							</div>
-						</li>
 
-					</ul>
-				</div>
+
+                <div class="fw-content">
+                    <ul>
+                        
+                        <li>
+                            <div>
+                                <a href="{:url('index/webpage/service_fxpm')}"><img src="__STATIC__/index/images/fu1.png" width="100"></a>
+                                <p>数据分析排名</p>
+                                <p class="fucontent">
+                                    数据分析排名介绍
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="{:url('index/webpage/service_sjyj')}"><img src="__STATIC__/index/images/fu2.png" width="100"></a>
+                                <p>数据研究</p>
+                            </div>
+                            <p class="fucontent">
+                                数据分析排名介绍
+                            </p>
+
+                        </li>
+                        <li>
+                            <div>
+                                <a href="{:url('index/webpage/service_dyfw')}"><img src="__STATIC__/index/images/fu3.png" width="100"></a>
+                                <p>订阅服务</p>
+                                <p class="fucontent">
+                                    数据分析排名介绍
+                                </p>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="{:url('index/webpage/service_zsfw')}"><img src="__STATIC__/index/images/fu4.png" width="100"></a>
+                                <p>展示服务</p>
+                                <p class="fucontent">
+                                    数据分析排名介绍
+                                </p>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="{:url('index/webpage/service_psfw')}"><img src="__STATIC__/index/images/fu5.png" width="100"></a>
+                                <p>盘手服务</p>
+                                <p class="fucontent">
+                                    数据分析排名介绍
+                                </p>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="{:url('index/webpage/service_djfw')}"><img src="__STATIC__/index/images/fu6.png" width="100"></a>
+                                <p>对接服务</p>
+                                <p class="fucontent">
+                                    数据分析排名介绍
+                                </p>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="{:url('index/webpage/service_dzfw')}"><img src="__STATIC__/index/images/fu7.png" width="100"></a>
+                                <p>定制服务</p>
+                                <p class="fucontent">
+                                    数据分析排名介绍
+                                </p>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="{:url('index/webpage/service_qtfw')}"><img src="__STATIC__/index/images/fu8.png" width="100"></a>
+                                <p>其他服务</p>
+                                <p class="fucontent">
+                                    数据分析排名介绍数据分析排名介绍数据分析排名介绍</p>
+
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+                <script type="text/javascript">
+
+                    $('.fw-content ul li div').mouseover(function(){
+                        var index = $(this).parent('li').index()+1;
+
+                        var src = $(this).find('img').attr('src');
+
+                        var z = "fu"+index+".png";
+                        var nz = "fuzx"+index+".png";
+                        if(src.indexOf(z) >= 0 ) { 
+                            var newsrc =  src.replace(z,nz)
+                            $(this).find('img').attr('src',newsrc);
+                           
+                        }
+                    })
+                    $('.fw-content ul li div').mouseout(function(){
+                        var index = $(this).parent('li').index()+1;
+
+                        var src = $(this).find('img').attr('src');
+
+                        var nz = "fuzx"+index+".png";
+                        var z = "fu"+index+".png";
+                        if(src.indexOf(nz) >= 0 ) { 
+                            var newsrc =  src.replace(nz,z)
+                            $(this).find('img').attr('src',newsrc);
+                           
+                        }
+                    })
+                </script>
 				<script type="text/javascript">
 
 					$('.fw-content ul li div').mouseover(function(){

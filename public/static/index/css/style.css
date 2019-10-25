@@ -12,7 +12,10 @@
 .index .container ul li .index-main{width: 85%;float: left;text-align: center;	padding: 20px 30px;
    box-shadow: #c8cace 0px 0px 15px;}
 .index .container ul li .index-main:hover{background: #4679bd;color: #fff;cursor: pointer;}
-.index .container ul li .index-main p{font-size: 17px;font-weight: bold;margin-top: 5px;margin-bottom: -3px;}
+.index .container ul li .index-main p{font-size: 21px;font-weight: bold;margin-top: 5px;margin-bottom: -3px;}
+.index_server{padding-top: 80px;}
+.index_server p{font-size: 35px;color: #4679bd;text-align:center; }
+.indexproduct{padding-top: 80px;font-size: 35px;text-align: center;}
 
 .index-link{height: 120px;background: #f5f5f5;width: 100%;}
 .index-link .link-title{width: 120px;float: left;height: 120px;text-align: center;padding-top: 30px;}
@@ -74,7 +77,7 @@
 /*数据排名订阅区*/
 .sjdyq-des{line-height: 60px;font-size: 15px;color: #1b335f;font-weight: 600;text-align: center;}
 .sjdyq-title .container{border-bottom: 2px solid #4679bd;padding: 0;}
-.sjdyq-title .container .button{background: #4679bd;color: #fff}
+.sjdyq-title .container .button{background: #4679bd;color: #fff;font-size: 21px;font-weight: bold;}
 .sjdyq-item{padding: 20px 0px;}
 .sjdyq-item ul{display: inline-block;float: left;margin-left: 15px;}
 .sjdyq-item span{font-weight: bold;font-size:15px;display: inline-block;float: left;}
@@ -142,7 +145,8 @@
 .fuwuneirong{margin-top: 60px;margin-bottom: 100px;}
 .fw-content ul li{width: 25%;float: left;margin-top: 50px;text-align: center;cursor: pointer;}
 .xyzx-content ul li{width: 20%;float: left;margin-top: 50px;text-align: center;}
-.fw-content ul li p{line-height: 45px;}
+.fw-content ul li p{line-height: 45px;font-size: 23px}
+.fw-content ul li .fucontent{height: 60px line-height: 25px;font-size: 16px;line-height:30px;padding: 0 40px;color: #999}
 
 /*订阅管理*/
 

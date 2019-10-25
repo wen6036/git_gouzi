@@ -146,7 +146,7 @@ function chart1(element,arr,title){
 }
 
 
-function chartzhu(element,data,title){
+function chartzhu(element,data,title,unit=''){
     console.log(data)
     var x= [],y= [];
     for (var i = 0; i < data.length; i++) {

@@ -1,0 +1,14 @@
+[initialFund]
+
+[deposit]
+
+[netProfit]
+
+[profitRatio]
+
+[fee]
+
+[deals]
+
+[trdAmt]
+

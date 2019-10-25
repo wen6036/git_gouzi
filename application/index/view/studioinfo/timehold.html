@@ -40,9 +40,7 @@
 				</div>
 				<script type="text/javascript">
 					$('.studio-type ul li .studion-main').eq(2).css({'background':'#4679bd','color':'#fff'}).find('img').attr('src','__STATIC__/index/images/zs1.png')
-					// var brokerID = {$brokerID};
-					// var userID = {$userID};
-					var bro_user = {$brokerID}+'_'+{$userID};
+					var bro_user = {$futures_company}+'_'+{$userID};
 					console.log(bro_user);
 
 					ws = new WebSocket("ws://www.51dewen.com:2366");

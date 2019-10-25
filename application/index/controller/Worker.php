@@ -84,6 +84,9 @@ class Worker extends Server
                         }else{
                             $data[$k]['OC'] = '平仓';
                         }
+                        $posRatio = isset($v['posRatio'])?$v['posRatio']:0;
+                        $arr[$k]['posRatio'] = round($posRatio * 100,2)."%";
+                        
                     }
                     // 遍历当前进程所有的客户端连接，发送当前服务器的时间
                     foreach($worker->connections as $connection)

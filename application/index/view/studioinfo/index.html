@@ -34,7 +34,7 @@
 						<li data="prdID_netProfit" data-name="品种净利润">品种净利润(图)</li>
 						<li data="prdID_winRate" data-name="品种胜率">品种胜率(图)</li>
 						<li data="dealDays" data-name="总交易天数">总交易天数(图)：{$info.dealDays}</li>
-						<li data="lot" data-name="总交易次数">总交易次数(图)：{$info.lot}</li>
+						<li data="deals" data-name="总交易次数">总交易次数(图)：{$info.deals}</li>
 						<li data="dealFrequency" data-name="交易频率">交易频率(图)：{$info.dealFrequency}</li>
 					</ul>
 				</div>
@@ -90,10 +90,10 @@
 								}
 
 
-								if(type=='prdID_trdRatio'||type=="prdID_winRate"){
+								if(type=='prdID_trdRatio'){
 									chartbing("chart-composite-1",res,title);
-								}else if(type=="prdID_netProfit"){
-									chartzhu("chart-composite-1",res,title)
+								}else if(type=="prdID_netProfit" || type=="prdID_winRate"){
+									chartzhu("chart-composite-1",res,title,'%')
 								}else{
 									chart1("chart-composite-1",res,title);
 									console.log(res)
@@ -243,6 +243,7 @@
 	</script>
 
 <script type="text/javascript">
+	// 原始数据
 	var	url = "{:url('ajax_start_data')}";
 	var id = {$_GET['id']};
     $('#pageTool').page(url+"?id="+id, function (data, obj) {

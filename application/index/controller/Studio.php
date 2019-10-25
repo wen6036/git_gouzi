@@ -45,9 +45,12 @@ class Studio extends Controller
 
 	// 已建期货工作室
 	public function hasstudio(){
+        $futures_company = Db::table('tz_futures_company')->select();
+
 		$userinfo = session('userinfo');
 		$con['uid'] = $userinfo['id'];
 		$info = Db::table('tz_studio')->field("*,LPAD(id,6,'0') as id")->where($con)->find();
+		$this->assign('futures_company',$futures_company);
 		$this->assign('info',$info);
 		$this->assign('id',$info['id']);
 		return $this->fetch();
@@ -72,6 +75,13 @@ class Studio extends Controller
 		// dump($param );exit;
 		unset($param['agreement']);
 		$uid = $userinfo['id'];
+
+
+		$res = Db::table('tz_studio')->where("uid=".$uid)->find();
+		if($res)  return json(['code'=>0,'msg'=>'已创建了']);
+
+		
+		$futures_account = $userinfo['futures_account'];
 		$param['uid'] = $userinfo['id'];
 		$pwd = $param['futures_password'];
 		$BrokerId = $param['BrokerId'];
@@ -81,10 +91,9 @@ class Studio extends Controller
 		// $url = 'http://49.235.36.29/WebFunctions.asmx/qry';
 		$url = 'http://49.235.36.29/WebFunctions.asmx/cmd';
 		// $data = 'input=qryPerformance 6050 81331531 20190101';
-		$data = "app tradeAccount {'isOp':true,'brokerID':'$BrokerId','userID':$uid,'password':'$pwd'}";
+		$data = "app tradeAccount {'isOp':true,'brokerID':'$BrokerId','userID':$futures_account,'password':'$pwd'}";
 		$a = sendCurlPost($url,$data); 
-		$res = Db::table('tz_studio')->where("uid=".$param['uid'])->find();
-		if($res)  return json(['code'=>0,'msg'=>'已创建了']);
+
 		
 		$param['create_time'] = time();
 		$param['futures_password'] = $pwd;
@@ -109,38 +118,42 @@ class Studio extends Controller
         }else{
             return json(['code'=>0,'msg'=>'编辑失败']);
         }
-
 	}
 	public function edit_pwd(){
 		$param = $this->request->param();
 		$userinfo = session('userinfo');
+		// $con['futures_password'] = $param['old_pwd'];
 		$uid = $userinfo['id'];
-		$con['futures_password'] = $param['old_pwd'];
-		$con['uid'] = $uid;
+		$con['uid'] = $userinfo['id'];
 		$res = Db::table('tz_studio')->where($con)->find();
-		if(!$res) return json(['code'=>0,'msg'=>'原密码不正确','id'=>$uid]);
+		if(!$res) return json(['code'=>0,'msg'=>'工作室不存在','id'=>$uid]);
 
+		$futures_account = $param['futures_account'];
+		$data['futures_company'] = $param['futures_company'];
+		$data['futures_account'] = $param['futures_account'];
+		$data['BrokerId'] = $param['BrokerId'];
 		$data['futures_password'] = $param['new_pwd'];
 		$status = Db::table('tz_studio')->where("uid=".$uid)->update($data);
 
 		$pwd = $param['new_pwd'];
-		$brokerID = $res['BrokerID'];
+		$brokerID = $param['BrokerId'];
 		$url = 'http://49.235.36.29/WebFunctions.asmx/cmd';
-		$input = "input=app tradeAccount {'isOp':true,'brokerID':'$brokerID','userID':'$uid','password':'$pwd'}";
+		$input = "input=app tradeAccount {'isOp':true,'brokerID':'$brokerID','userID':'$futures_account','password':'$pwd'}";
 		$info = sendCurlPost($url,$input); 
 		$a = explode('#', $info);
 		$b = str_replace('</string>','', $a[2]);
 
 		$arr = json_decode($b,true);
 		foreach ($arr as $key => $value) {
-			if($value['userID']==$uid && $value['brokerID']== $brokerID){
+			if($value['userID']==$futures_account && $value['brokerID']== $brokerID){
 				$o = $value['password'];
 			} 
 		}
 		if($o==$pwd){
 			$true = true;
 		}
-		// dump($o);
+		// dump($status);
+		// dump($true);
         if($status && $true){
             return json(['code'=>1,'msg'=>'编辑成功']);
         }else{

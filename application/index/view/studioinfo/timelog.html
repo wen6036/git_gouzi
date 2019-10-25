@@ -47,7 +47,7 @@
 					                <td>{if condition="$item.OC eq 'O'"}开仓{/if}{if condition="$item.OC eq 'C'"}平仓{/if}</td>
 					                <td>{$item.lot}手</td>
 					                <td>{$item.price}</td>
-					                <td>{$item.price}</td>
+					                <td>{$item.posRatio}</td>
 					                <!-- posRatio-->
 					                <td>{$item.profit}</td>
 					            </tr>
@@ -61,7 +61,7 @@
 
 					$('.studio-type ul li .studion-main').eq(1).css({'background':'#4679bd','color':'#fff'}).find('img').attr('src','__STATIC__/index/images/zs1.png')
 
-					var bro_user = {$brokerID}+'_'+{$userID};
+					var bro_user = {$futures_company}+'_'+{$userID};
 					console.log(bro_user);
 
 					ws = new WebSocket("ws://www.51dewen.com:2345");

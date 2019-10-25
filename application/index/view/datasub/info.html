@@ -63,9 +63,9 @@
 							<span class="user-uid">UID：{$item.uid}</span>
 						</td>
 						<td style="width: 180px;position: relative;padding-right: 10px; height: 100px">
+							<span style="display: inline-block;position: absolute; width: 100%;text-align: center;line-height: 28px;top: 10px">净值图</span>
 							<div id="container{$key}" style="height: 100px"></div>
 							<script type="text/javascript">
-
 							// console.log({$item.data})
 							highcharts("container{$key}",{$item.data});
 							</script>
@@ -102,8 +102,8 @@
 						<td class="sjdyq-dynum">
 							<p class="num">订阅人数</p>
 								<p>{$item.lot}</p>
-								<p>
-									<a href="{:url('index/studioinfo/index',array('id'=>$item['id']))}">详情</a>
+								<p style="padding-top: 5px">
+									<a href="{:url('index/studioinfo/index',array('id'=>$item['id']))}" style="font-size: 16px;font-weight: bold;">详情</a>
 								</p>
 						</td>
 						<td class="sjdyq-dingyue">
