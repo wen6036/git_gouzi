@@ -14,6 +14,8 @@ class Controller extends Tk
 	public function _initialize(){
     	$userinfo = session('userinfo');
 
+		$menuList = Db::table('tz_menu')->where('status=1')->order('order','asc')->select();
+		$this->assign('menuList',$menuList);
     	$companyinfo = Db::table('tz_company')->where('id=1')->find();
     	$this->assign('companyinfo',$companyinfo);
 		if($userinfo){

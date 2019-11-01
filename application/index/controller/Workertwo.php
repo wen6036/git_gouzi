@@ -76,21 +76,6 @@ class Workertwo extends Server
                     }
                 }
 
-
-                // foreach ($data as $k => $v) {
-                //     if($v['BS']=='B'){
-                //         $data[$k]['BS'] = '买入';
-                //     }else{
-                //         $data[$k]['BS'] = '卖出';
-                //     }
-                //     if($v['OC']=='）'){
-                //         $data[$k]['OC'] = '开仓';
-                //     }else{
-                //         $data[$k]['OC'] = '平仓';
-                //     }
-                // }
-
-            // 
         });
 
     }

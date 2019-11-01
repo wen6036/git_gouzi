@@ -71,8 +71,11 @@
                         <td>{$newarr[$item.uid]['bankname']}</td>
                         <td>{$item.order_num}</td>
                         <td>{$item.price}</td>
-                        <td>{if condition="$item.status eq 2"}
+                        <td>
+                        {if condition="$item.status eq 3"}
                                 已提现
+                        {elseif condition="$item.status eq 2"}
+                                <a class="label label-success AjaxButton" data-toggle="tooltip" title="点击确定提现？" data-id="{$item.id}" data-confirm="1" data-url="apply.html">提现中</a>
                         {elseif condition="$item.status eq 1" /}
                                 可提现
                         {elseif condition="$item.status eq 0" /}

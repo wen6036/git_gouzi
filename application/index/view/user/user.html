@@ -201,7 +201,29 @@
 			}
 
 
+
+			let agreement = 0;
+
+			function agreement1(obj){
+					var src = $(obj).attr('src');
+					if(src.indexOf("no-check.png") >= 0 ) { 
+					    var newsrc =  src.replace('/no-check.png','/check.png')
+					    $(obj).attr('src',newsrc);
+					    $(obj).parents('li').siblings().find('.check img').attr('src',src);
+					    agreement = 1;
+					} else{
+					    var newsrc = src.replace('/check.png','/no-check.png')
+					    agreement = 0;
+					     $(obj).attr('src',newsrc);
+				    }
+			}
+
+
 			function saveinfo(){
+				if(agreement==0){
+					layer.msg('请查看用户协议');
+					return false;
+				}
 				var truename = $('input[name=truename]').val();
 				var shenfenzheng = $('input[name=shenfenzheng]').val();
 				var length = $('.bankinfo').length;

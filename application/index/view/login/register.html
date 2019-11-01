@@ -188,23 +188,6 @@
 			    }
 			}
 
-
-
-
-			$('.agreement-check img').click(function(){
-					var src = $(this).attr('src');
-					if(src.indexOf("no-check.png") >= 0 ) { 
-					    var newsrc =  src.replace('/no-check.png','/check.png')
-					    $(this).attr('src',newsrc);
-					    $(this).parents('li').siblings().find('.check img').attr('src',src);
-					    agreement = 1;
-					} else{
-					    var newsrc = src.replace('/check.png','/no-check.png')
-					    agreement = 0;
-					     $(this).attr('src',newsrc);
-				    }
-			})
-
 			$('.register').click(function(){
 				if(!agreement){
 					layer.msg('请确定投资协议 ！');

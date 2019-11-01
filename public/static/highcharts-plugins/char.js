@@ -1,8 +1,7 @@
-function chart1(element,arr,title){
+function chart1(element,arr,title,title2,unit){
         var chart = null;
         var data = arr;
         // var data =[[1370131200000, 0.7695],[1370217600000, 0.7648],[1370304000000, 0.7645],[1370390400000, 0.7638],[1370476800000, 0.7549],[1370563200000, 0.7562],[1370736000000, 0.7574],[1370822400000, 0.7543],[1370908800000, 0.751]];
-
             chart = Highcharts.chart(element, {
                 //版权信息
                 credits: {
@@ -21,7 +20,7 @@ function chart1(element,arr,title){
                     backgroundColor: 'rgba(0,0,0,0)'
                 },
                 title: {
-                    text: title,
+                    text: title+'图',
                     floating: true,
                     // y: 0,
                     style:{
@@ -29,11 +28,11 @@ function chart1(element,arr,title){
                         "font-weight":"bold"
                     },
                 },
-                subtitle: {
-                    text: document.ontouchstart === undefined ?
-                    '鼠标拖动可以进行缩放' : '手势操作进行缩放',
-                    y: 30,
-                },
+                // subtitle: {
+                //     text: document.ontouchstart === undefined ?
+                //     '鼠标拖动可以进行缩放' : '手势操作进行缩放',
+                //     y: 30,
+                // },
                 // 分类x坐标
                 xAxis: {
                     type: 'category',
@@ -63,12 +62,13 @@ function chart1(element,arr,title){
                     //     month: '%Y-%m',
                     //     year: '%Y'
                     // }
-                    pointFormatter: function() {
-                        return '<span style="color: '+ this.series.color + '">\u25CF</span> '+this.series.name+': <b>'+ this.y +'</b><br/>'
-                    },
+                    // pointFormatter: functionzhu
+                    // () {
+                    //     return '<span style="color: '+ this.series.color + '">\u25CF</span> '+this.series.name+': <b>'+ this.y +'</b><br/>'
+                    // },
 
                     pointFormatter: function() {
-                        return '<span style="color: '+ this.series.color + '">\u25CF</span> '+this.series.name+': <b>'+ this.y +'</b><br/>'
+                        return '<span style="color: '+ this.series.color + '">\u25CF</span> '+title+': <b>'+ this.y +unit+'</b><br/>'
                     },
 
 
@@ -127,13 +127,12 @@ function chart1(element,arr,title){
                 },
                 series: [{
                     type: 'area',
-                    name: title,
+                    name: title2,
                     data: data,
                     // lineWidth:2,
                     // lineColor: '#FF0000',//线颜色
                     color: '#666666',//点颜色线颜色
                     // cursor: 'pointer',
-
                 }],
 
                 //是否允许下载
@@ -146,7 +145,7 @@ function chart1(element,arr,title){
 }
 
 
-function chartzhu(element,data,title,unit=''){
+function chartzhu(element,data,title,title2,unit=''){
     console.log(data)
     var x= [],y= [];
     for (var i = 0; i < data.length; i++) {
@@ -165,21 +164,78 @@ function chartzhu(element,data,title,unit=''){
             type: 'column'
         },
         title: {
-            text: title
+            text: title+'图'
         },
+        yAxis: {
+            title: {
+                text: title
+            },
+            allowDecimals:Boolean,
+            // visible:false,//y坐标显示
+            // labels: {
+            //     formatter:function(){
+            //       if(this.value <=100) { 
+            //         return "第("+this.value*100+"%)";
+            //       }else if(this.value >100 && this.value <=200) { 
+            //         return "第("+this.value*100+"%)"; 
+            //       }else { 
+            //         return "第("+this.value*100+"%)";
+            //       }
+            //     }
+            // }
+
+        },
+        // 提示框
+        tooltip: {
+            enabled: true,
+            // dateTimeLabelFormats: {
+            //     millisecond: '%H:%M:%S.%L',
+            //     second: '%H:%M:%S',
+            //     minute: '%H:%M',
+            //     hour: '%H:%M',
+            //     day: '%Y-%m-%d',
+            //     week: '%m-%d',
+            //     month: '%Y-%m',
+            //     year: '%Y'
+            // }
+            // pointFormatter: functionzhu
+            // () {
+            //     return '<span style="color: '+ this.series.color + '">\u25CF</span> '+this.series.name+': <b>'+ this.y +'</b><br/>'
+            // },
+
+            pointFormatter: function() {
+                return '<span style="color: '+ this.series.color + '">\u25CF</span> '+title+': <b>'+ this.y +unit+'</b><br/>'
+            },
+
+
+            // enabled:false//x坐标显示
+        },
+        
         xAxis: {
             categories: x
         },
         series: [{
-            name: title,
+            name: title2,
             data: y
-        }]
+        }],
+
+        //是否允许下载
+        navigation: {
+            buttonOptions: {
+                enabled: false
+            }
+        },
     });    
 }
 
 
 function chartbing(element,data,title){
     Highcharts.chart(element, {
+            //版权信息
+            credits: {
+                enabled: false
+            },
+        
             chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -209,7 +265,14 @@ function chartbing(element,data,title){
                     name: 'Brands',
                     colorByPoint: true,
                     data: data
-            }]
+            }],
+
+            //是否允许下载
+            navigation: {
+                buttonOptions: {
+                    enabled: false
+                }
+            },
     });
 }
 
@@ -248,7 +311,14 @@ function charthuan(element){
                             ['橙子', 1],
                             ['葡萄 (串)', 1]
                     ]
-            }]
+            }],
+
+            //是否允许下载
+            navigation: {
+                buttonOptions: {
+                    enabled: false
+                }
+            },
     });
 }
 
@@ -316,6 +386,13 @@ function chartiao(element,data,title){
     series: [{
         name: title,
         data: y
-    }]
+    }],
+
+    //是否允许下载
+    navigation: {
+        buttonOptions: {
+            enabled: false
+        }
+    },
 });
 }

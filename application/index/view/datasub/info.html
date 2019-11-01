@@ -59,15 +59,17 @@
 							<span class="sjdyq-number">{$pagesize*($pagenum-1)+$key+1}</span>
 						</td>
 						<td class="user-info">
-							<span class="user-name">{$item.username}</span>
-							<span class="user-uid">UID：{$item.uid}</span>
+							<span class="user-name">{$item.studioname}</span>
+							<!-- <span class="user-name">{$item.username}</span> -->
+							<!-- <span class="user-uid">UID：{$item.uid}</span> -->
+							<span class="user-uid">UID：{$item.id}</span>
 						</td>
 						<td style="width: 180px;position: relative;padding-right: 10px; height: 100px">
 							<span style="display: inline-block;position: absolute; width: 100%;text-align: center;line-height: 28px;top: 10px">净值图</span>
 							<div id="container{$key}" style="height: 100px"></div>
 							<script type="text/javascript">
-							// console.log({$item.data})
-							highcharts("container{$key}",{$item.data});
+								console.log({$item.data})
+								highcharts("container{$key}",{$item.data});
 							</script>
 						</td>
 						<td style="width: 620px" class="datadetail">
@@ -101,9 +103,9 @@
 						</td>
 						<td class="sjdyq-dynum">
 							<p class="num">订阅人数</p>
-								<p>{$item.lot}</p>
+								<p>{$item.deals}</p>
 								<p style="padding-top: 5px">
-									<a href="{:url('index/studioinfo/index',array('id'=>$item['id']))}" style="font-size: 16px;font-weight: bold;">详情</a>
+									<a href="{:url('index/studioinfo/index',array('id'=>$item['id']))}" style="font-weight: bold;background:#fff;color: #4679bd;border:1px solid #4679bd ;height: 30px;line-height: 17px" class="btn">详情</a>
 								</p>
 						</td>
 						<td class="sjdyq-dingyue">

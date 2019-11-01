@@ -9,10 +9,11 @@
 </style>
 <table>
 	<tr>
-		<th>工作室名称</th>
+        <th>工作室名称</th>
+		<th>工作室UID</th>
 		<th>有效期</th>
 		<th>状态</th>
-		<th>接受实时记录</th>
+		<th>接收实时记录</th>
 	</tr>
 
 
@@ -30,7 +31,7 @@
 		<td>2019年8月6号-2019年9月5号</td>
 		<td>有效</td>
 		<td>
-			<button class="btn btn-xs btn-info">接受</button>
+			<button class="btn btn-xs btn-info">接收</button>
 			<button class="btn btn-xs">关闭</button>
 		</td>
 	</tr>	 -->						
@@ -45,11 +46,12 @@
 
 <script id="tpl" type="text/x-jquery-tmpl">
     <tr class="table-b1">
-		<td>${studioname}</td>
+        <td>${studioname}</td>
+		<td>${studio_id}</td>
 		<td>${create_time}至${end_time}</td>
 		<td>${studio}</td>
 		<td>
-			<button class="btn btn-xs btn-info" data="${studio_id}" onclick = "ppp(this)">接受</button>
+			<button class="btn btn-xs btn-info" data="${studio_id}" onclick = "ppp(this)">接收</button>
 			<!-- <button class="btn btn-xs">关闭</button> -->
 		</td>
 </script>

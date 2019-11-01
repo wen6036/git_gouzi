@@ -1,0 +1,63 @@
+<div class="row">
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+			{if $showDataHeader}
+			<div class="box-header">
+			    <div>
+			        {if $showDataHeaderAddButton}
+			        <a title="新增" data-toggle="tooltip" class="btn btn-primary btn-sm" href="add_link.html">
+			            新增
+			        </a>
+			        {/if}
+			        {if $showDataHeaderDeleteButton}
+			        <a class="btn btn-danger btn-sm AjaxButton" data-toggle="tooltip" title="批量删除，谨慎使用" data-id="checked" data-url="del.html">删除</a>
+			        {/if}
+			    </div>
+			</div>
+			{/if}
+            <div class="box-body table-responsive">
+                <table class="table table-hover table-bordered datatable" width="100%">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>名称</th>
+                        <th>地址</th>
+                        <th>排序</th>
+                        <th>是否启用</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name='list' item='list'}
+                    <tr>
+                        <td>{$list.id}</td>
+                        <td>{$list.title}</td>
+                        <td>{$list.url}</td>
+                        <td>{$list.order}</td>
+                        <td>
+                        {if $list.status==1}
+                            <a class="label label-success AjaxButton" data-toggle="tooltip" title="点击禁用" data-id="{$list.id}" data-confirm="1" data-url="disable_link.html">正常</a>
+                                                    {else/}
+                            <a class="label label-danger AjaxButton" data-toggle="tooltip" title="点击启用" data-id="{$list.id}" data-confirm="1" data-url="disable_link.html">禁用</a>
+                        {/if} 
+                        </td>
+                        <td>
+                             <a href="edit_link.html?id={$list.id}"
+                                       class="btn btn-primary btn-xs" title="修改" data-toggle="tooltip">
+                                        <i class="fa fa-pencil"></i>
+                            </a>
+
+                        </td>
+
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+            <!-- {include file="template/data_footer" /} -->
+        </div>
+ 

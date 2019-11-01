@@ -94,5 +94,10 @@
 		float: left;
 		height: 230px;
 	}
+	.fw-content ul li p{
+		height: 90px;
+		overflow: hidden;
+		padding: 5px 15px;
+	}
 
 }

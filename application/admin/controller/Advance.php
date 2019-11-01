@@ -22,7 +22,6 @@ class Advance extends Base
         $info = Db::table('tz_user_bank')->field('distinct(uid),username,banknum,bankname')->select();
         $temp_key = array_column($info,'uid');  //键值
         $Newarr= array_combine($temp_key,$info);
-
         if (isset($this->param['export_data']) && $this->param['export_data'] == 1) {
             $header = ['工作室名称','工作室id','用户名称', '用户UID', '手机号','银行开户人','银行卡卡号','开户行','订阅次数','订阅费','状态','最后操作日期'];
             $body   = [];
@@ -33,7 +32,9 @@ class Advance extends Base
                 }elseif ($item['status'] == 1) {
                     $a = '可提现';
                 }elseif ($item['status'] == 2) {
-                    $a = '可提现';
+                    $a = '提现中';
+                }elseif ($item['status'] == 3) {
+                    $a = '已提现';
                 }
                 $record                    = [];
                 $record['id']              = $item['studioname'];
@@ -56,6 +57,7 @@ class Advance extends Base
         // $list = $model->paginate($this->webData['list_rows'], false, $pageParam);
         // dump($list->toArray());
         $list = Db::table('tz_subtotle_status')->alias('a')->distinct(true)->field('a.*,FROM_UNIXTIME(a.last_time, "%Y-%m-%d") AS last_time,b.id studio_id,b.price,b.studioname,c.id uid,c.username,c.usertel')->join(['tz_studio'=>'b'],'a.studio_id = b.id','left')->join(['tz_userinfo'=>'c'],'b.uid = c.id','left')->paginate($this->webData['list_rows']);
+
 
         $this->assign('newarr',$Newarr);
 
@@ -101,5 +103,15 @@ class Advance extends Base
                 $record['last_time']              = $info['last_time'];
                 $body[]                    = $record;
             return $this->export($header, $body, $info['studioname']."工作室-" . date('Y-m-d-H-i-s'), '2007');
+    }
+
+    // 点击提现
+    public function apply(){
+        $id = $this->id;
+        $result = Db::table('tz_subtotle_status')->where("id = $id")->update(['status'=>3]);
+        if ($result) {
+            return $this->success();
+        }
+        return $this->error();
     }
 }

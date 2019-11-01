@@ -13,36 +13,18 @@ class Test extends Controller
 {
 	public function index(){
 		$this->assign('title','test');
-            $path = getcwd()."\data"."\\"."6050_81331531";
-            if(!is_dir($path)){
-                $flag = mkdir($path,0777,true);
-            }
-            //每日初始资金、每日出入金、每日净利润、每日净利率、每日手续费、每日交易次数、每日成交额
-            $sarr = get_headers("http://49.235.36.29/accountPerformance/6050_81331531/lot.txt",1);
-            if(preg_match('/200/',$sarr[0])){
-                $day = file_get_contents("http://49.235.36.29/accountPerformance/6050_81331531/lot.txt");
-                
-                file_put_contents($path."\day.txt",$day);
-                $n= parse_ini_string($day);
-                $lot = end($n);
+            $url = "http://49.235.36.29/accountPerformance/上期SimNow_071988/trd_20190801-20191025.txt";
+            $enurl = iconv('utf-8','gbk',$url);
+            $info = @file_get_contents($enurl);
+            $str_encoding = mb_convert_encoding($info, 'UTF-8', 'UTF-8,GBK,GB2312,BIG5');//转换字符集（编码）
+            dump($str_encoding);
+             $arr = explode("\r\n", $str_encoding);//转换成数组
+            //  unset($arr[0]);
+            // dump($arr);
 
-                dump($lot);
-                // dump($h['lot']);
-                // $totle = 0;
-                // // dump($h['netProfit']);
-                // foreach ($h['netProfit'] as $key => $value) {
-                // 	$totle = $totle + $value;
-                // }
-                // dump($totle);
-
-                // $b = array_sum($h['netProfit']);
-                // dump($b);
-                // $data['netProfit'] = end($h['netProfit']);
-                // // 出入金
-                // $data['deposit'] = end($h['deposit']);
-                // // 资金规模（每日初始资金）
-                // $data['initialFund'] = end($h['initialFund']);
-            }
+             $str = "20190823  rb1910 卖开1手于3726，手续费3.73元";
+             $b = explode(' ', $str);
+             dump($b);
 
 		return $this->fetch();
 	}

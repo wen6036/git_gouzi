@@ -36,7 +36,8 @@ class Datashow extends Controller
  		$list = Db::table('tz_studio')->alias('a')->field("c.*,LPAD(b.id,6,'0') as uid,a.id,a.studioname,a.price,b.username,a.ranking")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1 and is_sub = 1 and studiotype=2')->order("c.$type desc")->limit($pagestart,$size)->select();
 		$arr=[];
  		foreach ($list as $key => $value) {
- 			if(is_array(json_decode($value['netValue_json']))){
+ 			if($value['netValue_json']){
+ 				$arr = [];
 	 			foreach (json_decode($value['netValue_json']) as $k => $v) {
 	 				$arr[]=[$k, round($v,2)];
 	 			}

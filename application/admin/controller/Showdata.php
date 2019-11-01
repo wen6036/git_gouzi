@@ -20,10 +20,10 @@ class Showdata extends Base
             $pageParam['query']['keywords'] = $this->param['keywords'];
             // dump($this->param['keywords']);
             $this->assign('keywords', $this->param['keywords']);
-            $list = Db::table('tz_studio')->alias('a')->field('a.*,b.score,b.netValue,b.netProfit,b.efficiency,b.lot,b.winRate,b.dealDays,b.maxReduceRatio,b.kamaRatio,b.sharpRatio,b.equity')->join(['tz_futures_info'=>'b'],'a.id=b.studio_id','left')->whereLike('a.studioname', "%" . $this->param['keywords'] . "%")->where('a.studiotype=2')->paginate($this->webData['list_rows']);
+            $list = Db::table('tz_studio')->alias('a')->field('a.*,b.score,b.netValue,b.netProfit,b.efficiency,b.lot,b.winRate,b.dealDays,b.maxReduceRatio,b.kamaRatio,b.sharpRatio,b.equity')->join(['tz_futures_info'=>'b'],'a.id=b.studio_id','left')->whereLike('a.studioname', "%" . $this->param['keywords'] . "%")->where('a.status=1 and  a.studiotype=2')->paginate($this->webData['list_rows']);
             // dump( Db::table('tz_studio')->getLastSql());
         }else{
-            $list = Db::table('tz_studio')->alias('a')->field('a.*,b.score,b.netValue,b.netProfit,b.efficiency,b.lot,b.winRate,b.dealDays,b.maxReduceRatio,b.kamaRatio,b.sharpRatio,b.equity')->join(['tz_futures_info'=>'b'],'a.id=b.studio_id','left')->where('a.studiotype=2')->paginate($this->webData['list_rows'], false, $pageParam);
+            $list = Db::table('tz_studio')->alias('a')->field('a.*,b.score,b.netValue,b.netProfit,b.efficiency,b.lot,b.winRate,b.dealDays,b.maxReduceRatio,b.kamaRatio,b.sharpRatio,b.equity')->join(['tz_futures_info'=>'b'],'a.id=b.studio_id','left')->where('a.status=1 and a.studiotype=2')->paginate($this->webData['list_rows'], false, $pageParam);
         }
 
         if (isset($this->param['export_data']) && $this->param['export_data'] == 1) {

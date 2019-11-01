@@ -125,7 +125,7 @@
         </div>
 
         <div class="fuwuneirong">
-            <div class="container" style="width: 1350px">
+            <div class="container">
                 <div class="fw-content">
                     <ul>
                         
@@ -173,7 +173,7 @@
                                 <a href="{:url('index/webpage/service_psfw')}"><img src="__STATIC__/index/images/fu5.png" width="100"></a>
                                 <p>盘手服务</p>
                                 <p class="fucontent">
-                                    数据分析排名介绍
+                                    数据分析排名介绍数据分析排名介绍数据分析排名介绍
                                 </p>
 
                             </div>
@@ -234,8 +234,7 @@
                         var z = "fu"+index+".png";
                         if(src.indexOf(nz) >= 0 ) { 
                             var newsrc =  src.replace(nz,z)
-                            $(this).find('img').attr('src',newsrc);
-                           
+                            $(this).find('img').attr('src',newsrc);                           
                         }
                     })
                 </script>
@@ -248,23 +247,24 @@
                 <div class="link-title">友情链接</div>
                 <div class="link-item">
                     <div>
-                        <a target="_blank" href="https://www.yicai.com"><span>第一财经</span></a>
+                        {foreach name="linklist" item="item"}
+                        <a target="_blank" href="{$item.url}"><span>{$item.title}</span></a>
+                        {/foreach}
+
+<!--                         <a target="_blank" href="https://www.yicai.com"><span>第一财经</span></a>
                         <a target="_blank" href="http://www.hexun.com"><span>和讯网</span></a>
                         <a target="_blank" href="https://finance.sina.com.cn"><span>新浪期货</span></a>
                         <a target="_blank" href="http://www.stcn.com"><span>证券时报</span></a>
                         <a target="_blank" href="http://www.dce.com.cn"><span>大商所</span></a>
                         <a target="_blank" href="http://www.sse.com.cn"><span>证交所</span></a>
                         <a target="_blank" href="http://www.szse.cn"><span>深交所</span></a>
-                    </div>
-<!-- highcharts-container -->
-                    <div>
                         <a target="_blank" href="http://www.cfmmc.com"><span>中国期货保证金监控中心</span></a>
                         <a target="_blank" href="http://www.jrj.com.cn"><span>金融界</span></a>
                         <a target="_blank" href="http://www.qhrb.com.cn"><span>期货日报</span></a>
                         <a target="_blank" href="http://www.shfe.com.cn"><span>上期所</span></a>
                         <a target="_blank" href="http://www.cffex.com.cn"><span>中金所</span></a>
                         <a target="_blank" href="http://www.ine.cn"><span>能源所</span></a>
-                        <a target="_blank" href="http://2016.sse.com.cn"><span>上交所</span></a>
+                        <a target="_blank" href="http://2016.sse.com.cn"><span>上交所</span></a> -->
                     </div>
                 </div>
             </div>

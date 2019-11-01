@@ -91,13 +91,33 @@ class Subscribe extends Controller
 
 	// 体验券
 	public function coupon(){
-
+		$userinfo = session('userinfo');
+		$uid = $userinfo['id'];
 		$time = time();
 		$youxiao = Db::table('tz_ticket')->alias('a')->field("a.*,FROM_UNIXTIME(a.datetime,'%Y年%m月%d') datetime")->join(['tz_userinfo'=>'b'],'b.create_time > a.create_time','left')->where("a.datetime > $time")->select();
+
+		foreach ($youxiao as $key => $value) {
+			$youxiaoarr[$value['id']] = $value;
+		}
+
 		$wuxiao = Db::table('tz_ticket')->alias('a')->field("a.*,FROM_UNIXTIME(a.datetime,'%Y年%m月%d') datetime")->join(['tz_userinfo'=>'b'],'b.create_time > a.create_time','left')->where("a.datetime < $time")->select();
 
-		$this->assign('youxiao',$youxiao);
-		$this->assign('wuxiao',$wuxiao);
+		foreach ($wuxiao as $key => $value) {
+			$wuxiaoarr[$value['id']] = $value;
+		}
+
+		$use = Db::table('tz_suborder')->where("uid=$uid and paytype = 3 and status = 1")->select();
+
+		foreach ($use as $key => $value) {
+			$usearr[] = $value['act_id'];
+			unset($youxiaoarr[$value['act_id']]);
+			unset($wuxiaoarr[$value['act_id']]);
+		}
+		$shiyong = Db::table('tz_ticket')->field("*,FROM_UNIXTIME(datetime,'%Y年%m月%d') datetime")->whereIn('id',$usearr)->select();
+
+		$this->assign('youxiao',$youxiaoarr);
+		$this->assign('shiyong',$shiyong);
+		$this->assign('wuxiao',$wuxiaoarr);
 		return $this->fetch();
 	}
 }

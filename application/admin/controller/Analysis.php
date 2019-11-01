@@ -28,12 +28,17 @@ class Analysis extends Base
 		}
 		$arr = isset($arr)?$arr:[];
 		$this->assign('arr',json_encode($arr));
-        return $this->fetch();
     	return $this->fetch();
     }
 
     public function subfree(){
     	// 每日订阅费用
+		$list = Db::table('tz_sub_data')->select();
+		foreach ($list as $key => $value) {
+			$arr[] = [$value['date'],$value['num']];
+		}
+		$arr = isset($arr)?$arr:[];
+		$this->assign('arr',json_encode($arr));
     	return $this->fetch();
     }
 

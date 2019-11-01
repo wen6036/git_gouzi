@@ -7,20 +7,9 @@ namespace app\index\controller;
 use think\Db;
 class Datasub extends Controller
 {
-	// public function _initialize(){
-  //   	$userinfo = session('userinfo');
-		// if($userinfo){
-		// 	$this->assign('userinfo',$userinfo);
-		// 	$this->assign('status',1);
-		// }else{
-		// 	$this->assign('status',2);
-		// }
-	// }
-
 	public function index(){
-    	$list = Db::table('tz_banner')->where('type=2')->select();
-        $this->assign('list',$list);  
-
+    	// $list = Db::table('tz_banner')->where('type=2')->select();
+     //    $this->assign('list',$list);  
         $vlist = Db::table('tz_varieties')->where('pid=0')->select();
     	$this->assign('title','数据排名订阅区');
     	$this->assign('vlist',$vlist);
@@ -48,7 +37,7 @@ class Datasub extends Controller
  		$list = Db::table('tz_studio')->alias('a')->field("c.*,LPAD(b.id,6,'0') as uid,a.id,a.studioname,a.price,b.username,a.ranking")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1 and is_sub = 1 and studiotype=1')->order("c.$type desc")->limit($pagestart,$size)->select();
 		$arr=[];
  		foreach ($list as $key => $value) {
- 			if(is_array(json_decode($value['netValue_json']))){
+ 			if($value['netValue_json']){
 	 			foreach (json_decode($value['netValue_json']) as $k => $v) {
 	 				$arr[]=[$k, round($v,2)];
 	 			}
@@ -100,9 +89,12 @@ class Datasub extends Controller
 
 			$f = json_decode($value['prdID_deals'],true);
 			$list[$key]['prdID_deals'] = isset($f[$v_code])?$f[$v_code]:0;
-
-
-			$list[$key]['pday'] = ceil($list[$key]['prdID_deals']/$value['dayinDealDays']);
+			if($list[$key]['prdID_deals'] != 0){
+				$dayindeal = (int)$value['dayinDealDays'];
+				$list[$key]['pday'] = ($list[$key]['prdID_deals']/$dayindeal);
+			}else{
+				$list[$key]['pday'] = 0;
+			}
 		}
 
         $this->assign('pagesize',$size); //每页显示数量 
@@ -171,6 +163,7 @@ class Datasub extends Controller
 		$data['pay_money'] = $info['price'] * $time;
 		$data['paytype'] = $param['paytype'];
 		$data['studio_id'] = $param['id'];//订阅房间id
+		$data['act_id'] = $param['act_id'];//订阅房间id
 		$data['uid'] = $uid;
 		$data['create_time'] = $at;
 		$data['status'] = 1;

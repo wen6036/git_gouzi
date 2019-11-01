@@ -61,17 +61,22 @@
 					<div class="studio-collect">
 					{if isset($collect)}
 						<button class="btn cancle_collect" data-id="{$info.studio_id}">已收藏</button>
-						<p>订阅人数：{$info.lot}人</p>
+						<p>订阅人数：{$info.deals}人</p>
 					{else /}
 						<button class="btn collect" {if condition="$uid eq $user['id']"}disabled="disabled"{/if} data-id="{$info.studio_id}">收藏</button>
-						<p>订阅人数：{$info.lot}人</p>
+						{if $info.studiotype == 1}
+							<p style="padding: 5px 10px">订阅人数：{$info.deals}人</p>
+						{/if}
 					{/if}
 					</div>
+
+					{if $info.studiotype == 1}
 					<div class="studio-dingyue">
 						<a href="{:url('index/datasub/order_pay',array('id'=>$info.studio_id))}"><button class="btn" {if condition="$uid eq $user['id']"}disabled="disabled"{/if}>订阅</button></a>
 						<p>订阅费:{$info.price}元/月</p>
 						<!-- <p class="studio-status">该账户几个月未交易，请谨慎订阅</p> -->
 					</div>
+					{/if}
 
 				</div>
 
@@ -81,12 +86,12 @@
 				<div class="studio-type">
 					<ul>
 						<li>
-						<a href="{:url('index/studioinfo/index',array('id'=>$info.studio_id))}">
-							<div class="studion-main">
-								<img src="__STATIC__/index/images/z1.png">
-								<p>账户分析</p>
-							</div>
-						</a>
+							<a href="{:url('index/studioinfo/index',array('id'=>$info.studio_id))}">
+								<div class="studion-main">
+									<img src="__STATIC__/index/images/z1.png">
+									<p>账户分析</p>
+								</div>
+							</a>
 						</li>
 
 

@@ -56,7 +56,7 @@
 		<div class="form-group">
 			 <span>收费价格：</span>
 			 <div class="sub-money"><input type="number" name="price" value="{$info.price}"> /30天</div><button class="btn btn-xs edit_price" style="background: #4679bd;margin-left: 20px;color: #fff">修改</button>
-			 <span class="sub-notice">范围:100-5000元/30天，取100的整数倍，展示区不需要填写</span>
+			 <span class="sub-notice">范围:200-10000元/30天，取100的整数倍，展示区不需要填写</span>
 		</div>
 
 		 <div class="form-group">
@@ -71,7 +71,7 @@
 			 <span>期货账户 ：</span>
 			
 			<div class="sub-zhanghao">
-				<input type="text" name="futures_account" value="{$info.futures_account}">
+				<input type="text" name="futures_account" value="{$info.futures_account}" disabled="disabled">
 			</div>
 
 		</div>
@@ -85,11 +85,13 @@
 		<div class="form-group">
 			 <span>开户期货公司 ：</span>
 			<div class="selected futures_company" >
-				<select name="BrokerId">
+				<input type="text" name="futures_account" value="{$info.futures_company}" disabled="disabled">
+
+<!-- 				<select name="BrokerId">
 					{foreach name="futures_company" item="item"}
 						<option value="{$item.BrokerId}" data-name="{$item.BrokerName}">{$item.BrokerName}</option>
 					{/foreach}
-				</select>
+				</select> -->
 				<input type="hidden" name="futures_company">
 			</div>
 		</div>
@@ -97,7 +99,8 @@
 		<div class="form-group">
 			 <span>期货交易原密码 ：</span>
 			<div class="sub-zhanghao">
-				<input type="text" name="old_pwd" value="{$info.futures_password}">
+				<input type="text" name="old_pwd" value="">
+				<!-- <input type="text" name="old_pwd" value="{$info.futures_password}"> -->
 			</div>
 		</div>
 		<div class="form-group">

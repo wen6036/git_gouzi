@@ -11,8 +11,9 @@ class Index extends Controller
 {
     public function index()
     {
-    	// $userinfo = session('userinfo');
     	$list = Db::table('tz_banner')->where('type=1')->select();
+        $linklist = Db::table('tz_link')->where('status=1')->select();
+        $this->assign('linklist',$linklist);    
         $this->assign('list',$list);    
         $this->assign('title','首页');    
         return $this->fetch();

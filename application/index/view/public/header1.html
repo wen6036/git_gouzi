@@ -45,20 +45,26 @@
                 </div>
                 <div class="nav">
                     <ul>
+
                         <li><a href="{:url('index/index/index')}">首页</a></li>
+                        {foreach name="menuList" item="item"}
+                            <li><a href="{:url($item.url)}">{$item.title}</a></li>
+                        {/foreach}
+                        
+<!--                         <li><a href="{:url('index/index/index')}">首页</a></li>
                         <li><a href="{:url('index/datasub/index')}">数据排名订阅区</a></li>
                         <li><a href="{:url('index/datashow/index')}">数据排名展示区</a></li>
                         <li><a href="{:url('index/service/content')}">服务内容</a></li>
                         <li><a href="{:url('index/service/research')}">学研中心</a></li>
-                        <li><a href="{:url('index/service/guide')}">新手指南</a></li>
+                        <li><a href="{:url('index/service/guide')}">新手指南</a></li> -->
                     </ul>
                 </div>
 
 
                 {if condition="$status eq 1"}
                     <div class="login-user">
-                        <span><a href="{:url('index/Subscribe/index')}" class="reg">{$userinfo.username} ,你好</a></span> 
-                        <button class="btn btn-xs"><a href="{:url('index/login/loginout')}">退出登录</a></button>
+                        <span><a href="{:url('index/Subscribe/index')}" class="reg">{$userinfo.username} ,用户中心</a></span> 
+                        <button class="btn btn-xs"><a href="{:url('index/login/loginout')}">退出</a></button>
                     </div>
 
                 {elseif condition="$status eq 3" /}
