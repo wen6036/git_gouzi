@@ -26,10 +26,39 @@
 				    legend: {
 				        enabled: false
 				    },
+
+                 //    plotOptions: {
+	                //     area: {
+	                //         fillColor: {
+	                //             linearGradient: {
+	                //                 x1: 0,
+	                //                 y1: 0,
+	                //                 x2: 0,
+	                //                 y2: 1
+	                //             },
+	                //             stops: [
+	                //                 // [0, Highcharts.getOptions().colors[0]],
+	                //                 [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+	                //             ],
+	                //             color: '#FF0000'
+	                //         },
+	                //         // marker: {
+	                //         //     radius: 2
+	                //         // },
+	                //         lineWidth: 1,
+	                //         states: {
+	                //             hover: {
+	                //                 lineWidth: 1
+	                //             }
+	                //         },
+	                //         threshold: null
+	                //     }
+	                // },
 				    series: [{
 				        data: elevationData,
 				        lineColor: Highcharts.getOptions().colors[1],
 				        color: Highcharts.getOptions().colors[2],
+				         // color: '#4679bd',//点颜色线颜色
 				        fillOpacity: 0.5,
 				        marker: {
 				            enabled: false
@@ -66,7 +95,7 @@
 						</td>
 						<td style="width: 180px;position: relative;padding-right: 10px; height: 100px">
 							<span style="display: inline-block;position: absolute; width: 100%;text-align: center;line-height: 28px;top: 10px">净值图</span>
-							<div id="container{$key}" style="height: 100px"></div>
+							<div id="container{$key}" style="height: 80px;margin-top: 20px"></div>
 							<script type="text/javascript">
 								console.log({$item.data})
 								highcharts("container{$key}",{$item.data});
@@ -96,7 +125,7 @@
 
 							</div>
 							<div class="sjdyq-td-des">
-								<span>累计收益率：{$item.mulProfitRatio} </span>
+								<span style="padding-left: 10px">累计收益率：{$item.mulProfitRatio} </span>
 								<span>净利润：{$item.netProfit}</span>
 								<span>资金规模：{$item.initialFund}</span>
 							</div>
@@ -115,10 +144,10 @@
 								{if $studio_id ==$item.id}
 									<p><a disabled="disabled"><button class="btn btn-default" style="background: #ccc;color: #333">禁止订阅</button></a></p>
 								{else /}
-									<p><a href="{:url('index/datasub/order_pay',array('id'=>$item['id']))}"><button class="btn">订阅</button></a></p>
+									<p><a href="{:url('index/datasub/order_pay',array('id'=>$item['id']))}"><button class="btn" {if $item.is_sub==0} disabled="disabled" {/if}>订阅</button></a></p>
 								{/if}
 							{else /}
-								<p><a href="{:url('index/datasub/order_pay',array('id'=>$item['id']))}"><button class="btn">订阅</button></a></p>
+								<p><a href="{:url('index/datasub/order_pay',array('id'=>$item['id']))}"><button class="btn" {if $item.is_sub==0} disabled="disabled" {/if}>订阅</button></a></p>
 							{/if}
 						</td>
 					</tr>

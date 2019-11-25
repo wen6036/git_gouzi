@@ -39,6 +39,7 @@ class Login extends Controller
 			$data['username'] = $param['username'];
 			$data['usertel'] = $param['usertel'];
 			$data['password'] = md5(md5($param['password']));
+			$data['create_time'] = time();
 			$captcha = $param['yzm'];
 			if(!captcha_check($captcha)){
 				 return json(['code'=>0,'msg'=>'验证码错误']);
@@ -88,6 +89,11 @@ class Login extends Controller
 
 		$this->assign('title','注册');
 		return $this->fetch();
+	}
+
+	public function ajax_agreement(){
+		$info = Db::table('tz_agreement')->field('content')->where("id=1")->find();
+		return json($info);
 	}
 
 	//验证是否存在

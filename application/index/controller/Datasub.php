@@ -32,9 +32,9 @@ class Datasub extends Controller
  		$size = 20;
  		$pagestart = ($pagenum-1)*$size;
  		// dump($pages);
- 		$count = Db::table('tz_studio')->alias('a')->field("a.id")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1 and is_sub = 1 and studiotype=1')->order('c.score desc')->count();
+ 		$count = Db::table('tz_studio')->alias('a')->field("a.id")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1 and studiotype=1')->order('c.score desc')->count();
 
- 		$list = Db::table('tz_studio')->alias('a')->field("c.*,LPAD(b.id,6,'0') as uid,a.id,a.studioname,a.price,b.username,a.ranking")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1 and is_sub = 1 and studiotype=1')->order("c.$type desc")->limit($pagestart,$size)->select();
+ 		$list = Db::table('tz_studio')->alias('a')->field("c.*,b.id as uid,a.id,a.studioname,a.price,b.username,a.ranking,a.is_sub")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1 and studiotype=1')->order("c.$type desc")->limit($pagestart,$size)->select();
 		$arr=[];
  		foreach ($list as $key => $value) {
  			if($value['netValue_json']){
@@ -72,7 +72,7 @@ class Datasub extends Controller
  		$pagestart = ($pagenum-1)*$size;
 		$count = Db::table('tz_studio')->alias('a')->field("a.id")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1 and is_sub = 1 and studiotype=1')->order('c.score desc')->count();
 
-		$list = Db::table('tz_studio')->alias('a')->field("c.*,LPAD(b.id,6,'0') as uid,a.id,a.studioname,a.price,b.username,a.ranking")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1 and is_sub = 1 and studiotype=1')->order("c.id asc")->limit($pagestart,$size)->select();
+		$list = Db::table('tz_studio')->alias('a')->field("c.*,b.id as uid,a.id,a.studioname,a.price,b.username,a.ranking")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1 and is_sub = 1 and studiotype=1')->order("c.id asc")->limit($pagestart,$size)->select();
 		$arr=[];
  		foreach ($list as $key => $value) {
 			$a = json_decode($value['prdID_netProfit'],true);
@@ -110,13 +110,47 @@ class Datasub extends Controller
 		}
 		$userinfo = session('userinfo');
 		$uid = $userinfo['id'];//用户id
+
+		$info = Db::table('tz_userinfo')->where("id = $uid")->find();
+		$time = $info['create_time'];
+
+		$time1 = $time+15*24*60*60;
+		$date1 = date('Y-m-d',$time1);
+
+		$wuxiao = [];
+		$youxiao = [];
+		$youxiaoarr = [];
+
+		if(time() <= $time1){
+			// 15天有效
+			$a['datetime']  =$date1;
+			$a['type']  =1;
+			$youxiao[] = $a;
+		}
+
+		$time2 = $time+30*24*60*60;
+		$date2 = date('Y-m-d',$time2);
+
+		if(time()<=$time2){
+			$b['datetime']  =$date2;
+			$b['type']  =2;
+			$youxiao[] = $b;
+			// 30天有效
+		}
+		$orderinfo = Db::table('tz_suborder')->field('act_id')->where("pay_money=0 and status =1 and uid = $uid")->find();
+
+		foreach ($youxiao as $key => $value) {
+			$youxiaoarr[$value['type']] = $value;
+		}
+
+		if($youxiaoarr && $orderinfo){
+			unset($youxiaoarr[$orderinfo['act_id']]);
+		}
+
 		$param = $this->request->param();
 		$id = $param['id'];
 		$info = Db::table('tz_studio')->field('id,uid,price')->where('id='.$id)->find();
-
-
-		$time = time();
-		$titck_list = Db::table('tz_ticket')->where("$time < datetime")->select();
+		$titck_list = $youxiaoarr;
 
 		// dump($titck_list);
 		if(!$info || $info['uid'] == $uid){
@@ -163,14 +197,14 @@ class Datasub extends Controller
 		$data['pay_money'] = $info['price'] * $time;
 		$data['paytype'] = $param['paytype'];
 		$data['studio_id'] = $param['id'];//订阅房间id
-		$data['act_id'] = $param['act_id'];//订阅房间id
+		$data['act_id'] = $param['act_id'];
 		$data['uid'] = $uid;
 		$data['create_time'] = $at;
 		$data['status'] = 1;
 		if($param['paytype']==3){
-			$day = $param['day'];
+			$day = 15;
 			$data['end_time'] = strtotime("+$day day");
-			$data['order_time'] = '试用'.$day.'天';
+			$data['order_time'] = '试用15天';
 		}else{
 			$data['end_time'] = strtotime("+$time month");
 			$data['order_time'] = $time.'个月';

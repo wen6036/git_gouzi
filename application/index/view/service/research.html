@@ -1,19 +1,31 @@
 		
-		{include file="public/header" /}
+		{include file="public/header1" /}
         <div class="index-banner">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                 <div class="item">
-                  <img src="{$menuList[3['headimg']}">
+                  <img src="{$menuList[3]['headimg']}">
                 </div>
              </div>
         </div>
 		
-		<div class="fuwuneirong">
+		<div class="fuwuneirong-copy">
 			<div class="container">
-				<div class="fw-content xyzx-content">
+				<div class="fw-content-copy xyzx-content">
 					<ul>
-						
-						<li>
+	
+						{foreach name="xueyanlist" item="item"}
+							<li>
+								<div>
+								<a href="{:url($item.pageurl)}">
+									<img src="__STATIC__/images/xueyan/{$key+1}.png" height="100">
+									<p>{$item.title}</p>
+								</a>
+								</div>
+							</li>
+
+						{/foreach}
+
+<!-- 						<li>
 							<div>
 							<a href="{:url('index/webpage/research_sdwz')}">
 								<img src="__STATIC__/index/images/xy1.png" height="100">
@@ -52,7 +64,7 @@
 								<p>培训活动</p>
 							</a>
 							</div>
-						</li>
+						</li> -->
 
 
 					</ul>

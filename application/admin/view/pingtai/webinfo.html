@@ -33,10 +33,10 @@
 
             <div class="form-group" style="height: 120px">
                 <label for="name" class="col-sm-2 control-label">网站logo</label>
-                <div class="col-sm-6 col-md-6">
+                <div class="col-sm-6 col-md-6" style="background:#ccc">
                     <div class="input-group">
                         
-                        <img style="width: 120px;height:120px;cursor: pointer;border-radius: 50%;" onclick="upload_pic(this)" src="{$info.logo|default='__PUBLIC__/index/images/headimg.png'}"><em style="padding-left: 10px;display: inline-block;line-height: 34px;color: #a94442;font-style: normal;font-size: 12px;" class="help-block"></em>
+                        <img style="cursor: pointer;" onclick="upload_pic(this)" src="{$info.logo|default='__PUBLIC__/index/images/headimg.png'}"><em style="padding-left: 10px;display: inline-block;line-height: 34px;color: #a94442;font-style: normal;font-size: 12px;" class="help-block"></em>
                         <input type="hidden" name="logo" class="image_url" value="{$info.logo|default=''}" >
                         <input type="file" id="file_image" style="display: none;">
 

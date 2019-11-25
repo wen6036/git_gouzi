@@ -14,15 +14,16 @@ class User extends Base
     public function index()
     {
         $model = new UserInfo();
+
+        $pagenum = isset($this->param['page'])?$this->param['page']:1;
         $this->showDataHeaderAddButton = false;
+        $this->showDataHeaderDeleteButton = false;
         $pageParam = ['query' => []];
         if (isset($this->param['keywords']) && !empty($this->param['keywords'])) {
             $pageParam['query']['keywords'] = $this->param['keywords'];
-            $model->whereLike('username|nickname|email|usertel', "%" . $this->param['keywords'] . "%");
+            $model->whereLike('username|id|email|usertel', "%" . $this->param['keywords'] . "%");
             $this->assign('keywords', $this->param['keywords']);
         }
-
-
         if (isset($this->param['_order_']) && !empty($this->param['_order_'])) {
             $pageParam['query']['_order_'] = $this->param['_order_'];
             $order                         = $this->param['_order_'];
@@ -51,32 +52,42 @@ class User extends Base
         }
 
         if (isset($this->param['export_data']) && $this->param['export_data'] == 1) {
-            $header = ['ID', '帐号', '昵称', '手机', '邮箱','注册时间', '最后登录时间', '其他电话','地址','真实姓名','身份证','性别','微信'];
+            $header = ['用户名称','用户UID', '手机号', '邮箱', '昵称', '微信号','姓名', '身份证号', '注册时间','最后登录时间','性别','其他电话','地址','开户人1','银行卡号','开户银行','开户人2','银行卡号','开户银行'];
             $body   = [];
             $data   = $model->select();
             foreach ($data as $item) {
                 $record                    = [];
+                $record['username']        = $item->username;
                 $record['id']              = $item->id;
-                $record['username']            = $item->username;
-                $record['nickname']        = $item->nickname;
-                $record['usertel']          = $item->usertel;
+                $record['usertel']         = $item->usertel;
                 $record['email']           = $item->email;
-                $record['create_time']        = $item->create_time;
-                $record['last_login_time'] = $item->last_login_time;
-                $record['other_phone']          = $item->other_phone;
-                $record['address_detail']          = $item->address_detail;
+                $record['nickname']           = $item->nickname;
+                $record['wx_num']          = $item->wx_num;
                 $record['truename']          = $item->truename;
                 $record['shenfenzheng']          = $item->shenfenzheng;
+                $record['create_time']        = $item->create_time;
+                $record['last_login_time'] = $item->last_login_time;
                 $record['sex']          = $item->sex==1?'男':'女';
-                $record['wx_num']          = $item->wx_num;
+                $record['other_phone']          = $item->other_phone;
+                $record['address_detail']          = $item->address_detail;
+                if($item->bankinfo){
+                    foreach (json_decode($item->bankinfo) as $k => $v) {
+                        $record['kaihuren'.$k]          = $v[0];
+                        $record['yinhangkai'.$k]          = $v[1];
+                        $record['kaihubank'.$k]          = $v[2];
+                    }
+                }
+
                 $body[]                    = $record;
             }
-            return $this->export($header, $body, "User-" . date('Y-m-d-H-i-s'), '2007');
+            return $this->export($header, $body, "用户-" . date('Y-m-d-H-i-s'), '2007');
         }
-
+        // $this->webData['list_rows'] = 2;
         $list = $model->where("status != -1")->paginate($this->webData['list_rows'], false, $pageParam);
-        // dump($list->toArray());
+
+        $startnumber = $this->webData['list_rows'] * ($pagenum-1);
         $this->assign([
+            'startnumber'   => $startnumber,
             'list'      => $list,
             'total'     => $list->total(),
             'page'      => $list->render()
@@ -158,13 +169,9 @@ class User extends Base
 
     public function detail()
     {
-        // $this->showLeftMenu = false;
         $id = $this->id;
-        // dump($id);exit;
-        $info = Db::table('tz_userinfo')->field("*,FROM_UNIXTIME(create_time, '%Y-%m-%d') as create_time")->where("id=$id")->find();
-        $bankinfo = Db::table('tz_user_bank')->where("uid=$id")->select();
-        $info['bankinfo'] = $bankinfo;
-        // dump($info);
+        $info = Db::table('tz_userinfo')->field("*,FROM_UNIXTIME(create_time, '%Y-%m-%d') as create_time,FROM_UNIXTIME(last_login_time, '%Y-%m-%d') as last_login_time")->where("id=$id")->find();
+        $info['bankinfo'] = json_decode($info['bankinfo']);
         $this->assign('info',$info);
         return $this->fetch();
     }
@@ -173,16 +180,18 @@ class User extends Base
         // $this->showLeftMenu = false;
         $id = $this->id;
         $info = Db::table('tz_userinfo')->field("*,FROM_UNIXTIME(create_time, '%Y-%m-%d') as create_time,FROM_UNIXTIME(last_login_time, '%Y-%m-%d') as last_login_time")->where("id=$id")->find();
-        $bankinfo = Db::table('tz_user_bank')->where("uid=$id")->select();
-        $info['bankinfo'] = $bankinfo;
-            $header = ['ID', '帐号', '昵称', '手机', '邮箱','注册时间', '最后登录时间', '其他电话','地址','真实姓名','身份证','性别','微信','银行卡姓名1','银行卡1','所属银行1','银行卡姓名2','银行卡2','所属银行2'];
+
+
+        $bankinfo = json_decode($info['bankinfo']);
+
+            $header = ['用户名称', '用户UID','手机', '昵称',  '邮箱','注册时间', '最后登录时间', '其他电话','地址','真实姓名','身份证','性别','微信','银行卡姓名1','银行卡1','所属银行1','银行卡姓名2','银行卡2','所属银行2'];
             $body   = [];
 
                 $record                    = [];
-                $record['id']              = $info['id'];
                 $record['username']            = $info['username'];
-                $record['nickname']        = $info['nickname'];
+                $record['id']              = $info['id'];
                 $record['usertel']          = $info['usertel'];
+                $record['nickname']        = $info['nickname'];
                 $record['email']           = $info['email'];
                 $record['create_time']        = $info['create_time'];
                 $record['last_login_time'] = $info['last_login_time'];
@@ -192,10 +201,12 @@ class User extends Base
                 $record['shenfenzheng']          = $info['shenfenzheng'];
                 $record['sex']          = $info['sex']==1?'男':'女';
                 $record['wx_num']          = $info['wx_num'];
-                foreach ($bankinfo as $key => $value) {
-                    $record['bankusername'.$key]          = $value['username'];
-                    $record['banknum'.$key]          = $value['banknum'];
-                    $record['bankname'.$key]          = $value['bankname'];
+                if($bankinfo){
+                    foreach ($bankinfo as $key => $value) {
+                        $record['bankusername'.$key]          = $value[0];
+                        $record['banknum'.$key]          = $value[1];
+                        $record['bankname'.$key]          = $value[2];
+                    }                   
                 }
                 $body[]                    = $record;
             return $this->export($header, $body, $info['username']. date('Y-m-d-H-i-s'), '2007');
@@ -210,9 +221,6 @@ class User extends Base
         $con['status']= -1;
         $con['delete_time'] = time();
         $result = Db::table('tz_userinfo')->whereIn('id', $id)->update($con);
-        // $result = UserInfo::destroy(function ($query) use ($id) {
-        //     $query->whereIn('id', $id);
-        // });
         if ($result) {
             return $this->deleteSuccess();
         }

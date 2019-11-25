@@ -2,7 +2,11 @@
 							button{background: orange;color: #fff;margin-left: 10px;}
 							i{padding-left: 15px}
 						</style>
-						<div class="sub-title">工作室设置
+						<div class="sub-title">用户设置
+						</div>
+
+						<div class="form-group">
+							<span>登录密码修改</span>
 						</div>
 
 						 <div class="form-group">
@@ -25,14 +29,14 @@
 
 						 <div class="form-group">
 							<span>绑定手机号：</span>
-							<input type="text" name="usertel" value="{$info.usertel}">
-							<button class="btn btn-xs" onclick="edit_tel()">绑定</button><i>(此手机号用于登录 请谨慎处理)</i>
+							<input type="text" name="usertel" value="{$info.usertel}" disabled="disabled">
+							<!-- <button class="btn btn-xs" onclick="edit_tel()">绑定</button><i>(此手机号用于登录 请谨慎处理)</i> -->
 						 </div>
 
 						 <div class="form-group">
 							<span>其他电话：</span>
 							<input type="text" name="other_phone" value="{$info.other_phone}">
-							<button class="btn btn-xs"  onclick="other_phone()">修改</button>
+							<button class="btn btn-xs"  onclick="other_phone()">绑定</button>
 						 </div>
 						 <div class="form-group">
 							<span>绑定邮箱：</span>
@@ -60,23 +64,23 @@
 						{if condition="$bankinfo"}
 
 						{volist name="bankinfo" id="item"}
-							<div class="bankinfo" data-id="{$item.id}">
+							<div class="bankinfo">
 								 <div class="form-group">
 									<span>开户人：</span>
-									<input type="text" name="" placeholder="请输入开户人" class="username" value="{$item.username}">
+									<input type="text" name="" placeholder="请输入开户人" class="username" value="{$item[0]}">
 								 </div>
 
 								 <div class="form-group">
 									<span>卡号：</span>
-									<input type="text" name="" placeholder="请输入卡号" class="cardnum" value="{$item.banknum}">
+									<input type="text" name="" placeholder="请输入卡号" class="cardnum" value="{$item[1]}">
 								 </div>
 
 								 <div class="form-group">
 									<span>开户银行：</span>
-									<input type="text" name="" placeholder="请输入开户银行" class="bankname" value="{$item.bankname}">
+									<input type="text" name="" placeholder="请输入开户银行" class="bankname" value="{$item[2]}">
 									 <button class="btn btn-xs" onclick="binkcard(this)">绑定</button>
 									 {if count($bankinfo) == 2}
-									 <button class="btn btn-xs add_card btn-danger" onclick="del_card(this)">删除</button>
+									 <!-- <button class="btn btn-xs btn-danger" onclick="del_card(this)">删除</button> -->
 									  {/if}
 									 {if count($bankinfo) < 2}
 									 <button class="btn btn-xs add_card" onclick="add_card(this)">添加银行卡</button>
@@ -88,7 +92,7 @@
 							<div class="bankinfo">
 								 <div class="form-group">
 									<span>开户人：</span>
-									<input type="text" name="" placeholder="请输入开户人" class="name">
+									<input type="text" name="" placeholder="请输入开户人" class="username">
 								 </div>
 
 								 <div class="form-group">
@@ -104,12 +108,37 @@
 								 </div>
 							</div>
 						{/if}
-						<div class="agreement-check" style="margin-top: 30px;padding-left: 20px"><img src="__STATIC__/index/images/no-check.png" onclick="agreement1(this)"> 我已阅读并同意<span>投资界用户服务协议</span></div>
+						<div class="agreement-check" style="margin-top: 30px;padding-left: 20px"><img src="__STATIC__/index/images/no-check.png" onclick="agreement1(this)"> 我已阅读并同意<a onclick="agreementfuwu()" style="color: #337ab7;cursor: pointer;" >《投资界用户服务协议》</a></div>
 
 						<div class="sub-button" style="margin-top:20px">
 							<button class="btn" onclick="saveinfo()">保存</button>
 						</div>
 
+
+<!-- 启动数据库 -->
+<div class="modal fade" id="Service" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="margin-top: 200px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">《投资界用户服务协议》</h4>
+      </div>
+      <div class="modal-body">
+		<div id="content"></div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	$('.bankinfo').eq(0).find('.btn-danger').remove();
+
+
+</script>
 
 
 

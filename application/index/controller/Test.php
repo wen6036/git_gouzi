@@ -13,38 +13,32 @@ class Test extends Controller
 {
 	public function index(){
 		$this->assign('title','test');
-            $url = "http://49.235.36.29/accountPerformance/上期SimNow_071988/trd_20190801-20191025.txt";
-            $enurl = iconv('utf-8','gbk',$url);
-            $info = @file_get_contents($enurl);
-            $str_encoding = mb_convert_encoding($info, 'UTF-8', 'UTF-8,GBK,GB2312,BIG5');//转换字符集（编码）
-            dump($str_encoding);
-             $arr = explode("\r\n", $str_encoding);//转换成数组
-            //  unset($arr[0]);
-            // dump($arr);
+            // $str_encoding = mb_convert_encoding($con, 'UTF-8', 'UTF-8,GBK,GB2312,BIG5');//转换字符集（编码）
+            // dump($str_encoding);
+$a = file_get_contents("D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\public\\test.txt");
+             $arr = explode("\r\n", $a);//转换成数组
+foreach ($arr as $key => $value) {
+	$a = explode(' ', $value);
 
-             $str = "20190823  rb1910 卖开1手于3726，手续费3.73元";
-             $b = explode(' ', $str);
-             dump($b);
-
+	$data['BrokerName'] = $a[0];
+	$data['BrokerId'] = isset($a[1])?$a[1]:'';
+	Db::table('tz_futures_company')->insert($data);
+}
 		return $this->fetch();
 	}
 
-// $aa='0#tradeCenter#newTrade#{
-//   "name": "6050_81331531",
-//   "brokerID": "6050",
-//   "userID": "81331531",
-//   "tradeID": "[     1690862]",
-//   "date": "20191010",
-//   "time": "10:51:45",
-//   "insID": "ni1911",
-//   "BS": "S",
-//   "OC": "C",
-//   "lot": 1,
-//   "price": 137020.0,
-//   "profit": 28.0,
-//   "fee": 12.0,
-//   "note": ""
-// }~';
+            // $url = "http://49.235.36.29/accountPerformance/上期SimNow_071988/trd_20190801-20191025.txt";
+            // $enurl = iconv('utf-8','gbk',$url);
+            // $info = @file_get_contents($enurl);
+            // $str_encoding = mb_convert_encoding($info, 'UTF-8', 'UTF-8,GBK,GB2312,BIG5');//转换字符集（编码）
+            // dump($str_encoding);
+            //  $arr = explode("\r\n", $str_encoding);//转换成数组
+            // //  unset($arr[0]);
+            // // dump($arr);
+
+            //  $str = "20190823  rb1910 卖开1手于3726，手续费3.73元";
+            //  $b = explode(' ', $str);
+            //  dump($b);
 	public function task($task){
 	    // 不支持直接指定http，但是可以用tcp模拟http协议发送数据
 	    // $connection_to_baidu = new AsyncTcpConnection('tcp://49.235.36.29:6871');

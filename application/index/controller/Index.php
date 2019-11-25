@@ -12,7 +12,11 @@ class Index extends Controller
     public function index()
     {
     	$list = Db::table('tz_banner')->where('type=1')->select();
-        $linklist = Db::table('tz_link')->where('status=1')->select();
+        $linklist = Db::table('tz_link')->where('status=1')->order("order",'asc')->select();
+
+        $fuwulist = Db::table('tz_webpage')->where('type=2')->select();
+
+        $this->assign('fuwulist',$fuwulist);    
         $this->assign('linklist',$linklist);    
         $this->assign('list',$list);    
         $this->assign('title','首页');    

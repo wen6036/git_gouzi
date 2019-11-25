@@ -91,33 +91,80 @@ class Subscribe extends Controller
 
 	// 体验券
 	public function coupon(){
+
+		$youxiaoarr = [];
+		$wuxiaoarr=[];
+		$shiyong=[];
 		$userinfo = session('userinfo');
 		$uid = $userinfo['id'];
-		$time = time();
-		$youxiao = Db::table('tz_ticket')->alias('a')->field("a.*,FROM_UNIXTIME(a.datetime,'%Y年%m月%d') datetime")->join(['tz_userinfo'=>'b'],'b.create_time > a.create_time','left')->where("a.datetime > $time")->select();
+		$info = Db::table('tz_userinfo')->where("id = $uid")->find();
+		$time = $info['create_time'];
 
+		$time1 = $time+15*24*60*60;
+		$date1 = date('Y-m-d',$time1);
+
+		$wuxiao = [];
+		$youxiao = [];
+		if(time()>$time1){
+			$a['datetime']  =$date1;
+			$a['type']  =1;
+			$wuxiao[]=$a ;
+			// 15天已过期：
+		}
+		if(time() <= $time1){
+			// 15天有效
+			$a['datetime']  =$date1;
+			$a['type']  =1;
+			$youxiao[] = $a;
+		}
+
+		$time2 = $time+30*24*60*60;
+		$date2 = date('Y-m-d',$time2);
+
+		if(time()>$time2){
+			$b['datetime']  =$date2;
+			$b['type']  =2;
+			$wuxiao[]= $b;
+			// 30天已过期：
+		}
+		if(time()<=$time2){
+			$b['datetime']  =$date2;
+			$b['type']  =2;
+			$youxiao[] = $b;
+			// 30天有效
+		}
 		foreach ($youxiao as $key => $value) {
-			$youxiaoarr[$value['id']] = $value;
+			$youxiaoarr[$value['type']] = $value;
 		}
-
-		$wuxiao = Db::table('tz_ticket')->alias('a')->field("a.*,FROM_UNIXTIME(a.datetime,'%Y年%m月%d') datetime")->join(['tz_userinfo'=>'b'],'b.create_time > a.create_time','left')->where("a.datetime < $time")->select();
-
 		foreach ($wuxiao as $key => $value) {
-			$wuxiaoarr[$value['id']] = $value;
+			$wuxiaoarr[$value['type']] = $value;
 		}
 
-		$use = Db::table('tz_suborder')->where("uid=$uid and paytype = 3 and status = 1")->select();
+		$idlist = Db::table('tz_suborder')->field('act_id')->where("paytype = 3 and uid=$uid")->select();
 
-		foreach ($use as $key => $value) {
-			$usearr[] = $value['act_id'];
-			unset($youxiaoarr[$value['act_id']]);
-			unset($wuxiaoarr[$value['act_id']]);
+		if($idlist){
+			foreach ($idlist as $key => $value) {
+				if(isset($youxiaoarr)){
+					unset($youxiaoarr[$value['act_id']]);
+				}
+				if (isset($wuxiaoarr)) {
+					unset($wuxiaoarr[$value['act_id']]);
+				}
+
+				if($value['act_id']==1){
+					$c['datetime']  =$date1;
+					$shiyong[] = $c;
+				}
+				if($value['act_id']==2){
+					$c['datetime']  =$date2;
+					$shiyong[] = $c;
+				}
+			}
 		}
-		$shiyong = Db::table('tz_ticket')->field("*,FROM_UNIXTIME(datetime,'%Y年%m月%d') datetime")->whereIn('id',$usearr)->select();
 
+		$this->assign('wuxiao',$wuxiaoarr);
 		$this->assign('youxiao',$youxiaoarr);
 		$this->assign('shiyong',$shiyong);
-		$this->assign('wuxiao',$wuxiaoarr);
 		return $this->fetch();
 	}
 }

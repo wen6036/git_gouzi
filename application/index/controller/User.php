@@ -75,7 +75,10 @@ class User  extends Controller
         }
     }
 
-
+    public function ajax_agreement(){
+        $info = Db::table('tz_agreement')->field('content')->where("id=3")->find();
+        return json($info);
+    }
 
     // 用户安全
     public function usersafe(){
@@ -83,7 +86,7 @@ class User  extends Controller
         $con['id'] = $userinfo['id'];
         $info = Db::table('tz_userinfo')->where($con)->find();
 
-        $bankinfo = Db::table('tz_user_bank')->where("uid=".$con['id'])->select();
+        $bankinfo = json_decode($info['bankinfo']);
 
         $length = count($bankinfo);
 
@@ -181,51 +184,28 @@ class User  extends Controller
 
     //绑定银行卡
     public function binkcard(){
+        Db::startTrans();
         $userinfo = session('userinfo');
-        $uid = $userinfo['id'];
-        $param = $this->request->param();
+        $id = $userinfo['id'];
+        if(!$id){return json(['code'=>0,'msg'=>'请确定用户是否在线']);}
 
-        $id = $param['id'];
-
-        $con['uid'] = $uid;
-        $con['username'] = $param['username'];
-        $con['banknum'] = $param['cardnum'];
-        $con['bankname'] = $param['bankname'];
-
-        if($id){
-            $status = Db::table('tz_user_bank')->where("id=$id")->update($con);
-        }else{
-            $status = Db::table('tz_user_bank')->insert($con);
+        try {
+            $param = $this->request->param();
+            $data['bankinfo'] = json_encode($param['array']);
+            $res = Db::table('tz_userinfo')->where("id=$id")->update($data);
+            if($res){
+                 Db::commit();   
+                return json(['code'=>1,'msg'=>'保存成功']);
+                 Db::rollback();
+                return json(['code'=>0,'msg'=>'保存失败']);
+            }
+        } catch (Exception $e) {
+                 Db::rollback();
+                return json(['code'=>0,'msg'=>'保存失败']);
         }
 
-        if($status){
-            return json(['code'=>1,'msg'=>'修改成功']);
-        }else{
-            return json(['code'=>0,'msg'=>'修改失败']);
-        }
     }
 
-    //删除银行卡
-    public function del_binkcard(){
-        $userinfo = session('userinfo');
-        $uid = $userinfo['id'];
-        $param = $this->request->param();
-
-        $id = $param['id'];
-
-        // $con['uid'] = $uid;
-        // $con['username'] = $param['username'];
-        // $con['banknum'] = $param['cardnum'];
-        // $con['bankname'] = $param['bankname'];
-
-        $status = Db::table('tz_user_bank')->where("id=$id")->delete();
-
-        if($status){
-            return json(['code'=>1,'msg'=>'删除成功']);
-        }else{
-            return json(['code'=>0,'msg'=>'删除失败']);
-        }
-    }
 
 
     //保存银行卡 和真实姓名
@@ -235,35 +215,23 @@ class User  extends Controller
         $id = $userinfo['id'];
         if(!$id){return json(['code'=>0,'msg'=>'请确定用户是否在线']);}
 
-        $param = $this->request->param();
-        $data['truename'] = $param['truename'];
-        $data['shenfenzheng'] = $param['shenfenzheng'];
-
-        $res = Db::table('tz_userinfo')->where("id=$id")->update($data);
-
-        $arr = $param['array'];
-        $con['uid'] = $id;
-        foreach ($arr as $key => $value) {
-            $id= $value[0];
-            $con['username'] = $value[1];
-            $con['banknum'] = $value[2];
-            $con['bankname'] = $value[3];
-            if($id){
-                $status = Db::table('tz_user_bank')->where('id='.$id)->update($con);
-            }else{
-                $status = Db::table('tz_user_bank')->insert($con);
+        try {
+            $param = $this->request->param();
+            $data['truename'] = $param['truename'];
+            $data['shenfenzheng'] = $param['shenfenzheng'];
+            $data['bankinfo'] = json_encode($param['array']);
+            $res = Db::table('tz_userinfo')->where("id=$id")->update($data);
+            if($res){
+                 Db::commit();   
+                return json(['code'=>1,'msg'=>'保存成功']);
+                 Db::rollback();
+                return json(['code'=>0,'msg'=>'保存失败']);
             }
+        } catch (Exception $e) {
+                 Db::rollback();
+                return json(['code'=>0,'msg'=>'保存失败']);
+        }
 
-            if($status){
-                $insert = true;
-            }
-        }
-        if($res || isset($insert)){
-             Db::commit();   
-            return json(['code'=>1,'msg'=>'保存成功']);
-             Db::rollback();
-            return json(['code'=>0,'msg'=>'保存失败']);
-        }
 
     }
 

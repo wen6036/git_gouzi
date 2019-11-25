@@ -5,7 +5,7 @@
                 <form class="form-inline" name="searchForm" id="searchForm" action="" method="GET">
                     <div class="form-group">
                         <input value="{$keywords ? $keywords : '' ;}"
-                               name="keywords" id="keywords" class="form-control input-sm" placeholder="工作室名称">
+                               name="keywords" id="keywords" class="form-control input-sm" placeholder="工作室名称/工作室UID">
                     </div>
 
 
@@ -43,15 +43,16 @@
                             <input id="data-checkall" type="checkbox" onclick="check_all(this)" class="checkbox" placeholder="全选/取消">
                         </th> -->
                         <th>工作室名称</th>
-                        <th>工作室ID</th>
+                        <th>工作室UID</th>
                         <th>用户名称</th>
                         <th>用户UID</th>
+                        <th>姓名</th>
                         <th>手机号</th>
                         <th>银行开户人</th>
                         <th>银行卡卡号</th>
                         <th>开户行</th>
                         <th>订阅次数</th>
-                        <th>订阅费</th>
+                        <th>订阅费(汇总)</th>
                         <th>状态</th>
                         <th>提现日期</th>
                         <th>操作</th>
@@ -65,6 +66,7 @@
                         <td>{$item.studio_id}</td>
                         <td>{$item.username}</td>
                         <td>{$item.uid}</td>
+                        <td>{$item.truename}</td>
                         <td>{$item.usertel}</td>
                         <td>{$newarr[$item.uid]['username']}</td>
                         <td>{$newarr[$item.uid]['banknum']}</td>
@@ -81,7 +83,11 @@
                         {elseif condition="$item.status eq 0" /}
                                 不可提现
                         {/if}</td>
-                        <td>{$item.last_time}</td>
+                        <td>
+                        {if condition="$item.status eq 3"}
+                            {$item.last_time}
+                        {/if}
+                    </td>
 
                         <td class="td-do">
                              <a  href="detail_exl/id/{$item.id}" target="_blank"  data-id="{$item.id}"  class="btn btn-default btn-xs" title="导出" data-toggle="tooltip">

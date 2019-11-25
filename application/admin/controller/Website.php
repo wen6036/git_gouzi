@@ -197,6 +197,24 @@ class Website extends Base
         return $this->fetch();
     }
 
+    public function personnel(){
+        // $info = Webpage::get($this->id);
+        if ($this->request->isPost()) {
+            $this->param['create_time'] = time();
+            $this->param['webcontent'] = $_POST['editorValue'];
+            if (Db::table('tz_webpage')->where("id=34")->update($this->param)) {
+                return $this->success('操作成功','admin/website/personnel');
+            }
+            return $this->error();
+        }
+
+        $info = Db::table('tz_webpage')->where("id=34")->find();
+        $this->assign([
+            'info'       => $info,
+        ]);
+
+        return $this->fetch();
+    }
     // 内容編輯頁面
     public  function web_content(){
         

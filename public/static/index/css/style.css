@@ -53,7 +53,7 @@
 .text-input .input-icon img{margin-top: 4px;}
 .text-input .input{width: 80%;float: left;height: 35px;border: 1px solid #ccc;border-radius: 4px;margin-top: 1px}
 .reg-text-input .input{width: 68%;float: left;height: 35px;border: 1px solid #ccc;border-radius: 4px;margin-top: 1px}
-.text-input .input input{border: none;width: 100%;height: 95%;text-indent: 5px;border-radius: 2px;margin-top: 1px;}
+.text-input .input input{border: none;width: 99%;height: 95%;text-indent: 5px;border-radius: 2px;margin-top: 1px;}
 .reg-text-input .input input{border: none;width: 99%;height: 95%;text-indent: 5px;border-radius: 2px;margin-top: 1px;margin-left: 1px}
 
 .text-input .yzm{width: 32%;float: left;height: 35px;border: 1px solid #ccc;border-radius: 4px;}
@@ -142,11 +142,14 @@
 
 /*服务内容*/
 /*fuwuneirong*/
-.fuwuneirong{margin-top: 60px;margin-bottom: 100px;}
-.fw-content ul li{width: 25%;float: left;margin-top: 50px;text-align: center;cursor: pointer;}
+.fuwuneirong{margin-top: -60px;margin-bottom: 100px;}
+.fuwuneirong-copy{margin-top: 60px;margin-bottom: 100px;}
+.fw-content ul li{width: 50%;float: left;margin-top: 100px;cursor: pointer;}
+.fw-content-copy ul li{width: 25%;float: left;margin-top: 100px;cursor: pointer;}
 .xyzx-content ul li{width: 20%;float: left;margin-top: 50px;text-align: center;}
-.fw-content ul li p{line-height: 45px;font-size: 23px}
-.fw-content ul li .fucontent{overflow: hidden; height: 60px;font-size: 16px;line-height:30px;padding: 0 20px;color: #999}
+.fw-content-copy ul li div{text-align: center;}
+.fw-content-copy ul li p{width: 100%; line-height: 75px;font-size: 23px;text-align: center;color: #000}
+.fw-content ul li .fucontent{overflow: hidden; font-size: 18px;line-height:30px;padding: 15px 40px 0 0;color: #999}
 
 /*订阅管理*/
 

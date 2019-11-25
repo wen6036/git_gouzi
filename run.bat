@@ -1,0 +1,1 @@
+"D:\phpStudy\PHPTutorial\php\php-7.2.1-nts\php.exe" -f "D:\phpStudy\PHPTutorial\WWW\www.51dewen.wang\public\worker.php"

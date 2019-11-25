@@ -16,27 +16,32 @@ class Office extends Base
         $model = new Offices();
         $this->showDataHeaderAddButton = false;
         $this->showDataHeaderDeleteButton = false;
-
+// whereLike('a.studioname', "%" . $this->param['keywords'] . "%")->
         $pageParam = ['query' => []];
         if (isset($this->param['keywords']) && !empty($this->param['keywords'])) {
             $pageParam['query']['keywords'] = $this->param['keywords'];
+            $keywords =  $this->param['keywords'];
             // $model->whereLike('studioname', "%" . $this->param['keywords'] . "%");
-            $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,LPAD(a.id,6,'0') as id,LPAD(a.uid,6,'0') as uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->whereLike('a.studioname', "%" . $this->param['keywords'] . "%")->where("a.status!=-1")->paginate($this->webData['list_rows'], false, $pageParam);
-            $this->assign('keywords', $this->param['keywords']);
+            $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.fangshi,a.celue,a.zhouqi,a.studiotype,a.is_sub,a.status,a.price,b.username,a.id,a.uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->where("a.studioname like '%$keywords%' or a.id like '%$keywords%'")->where("a.status!=-1")->paginate($this->webData['list_rows'], false, $pageParam);
+            // echo Db::table('tz_studio')->getLastSql();
+            $this->assign('keywords', $keywords);
         }else{
-            $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,LPAD(a.id,6,'0') as id,LPAD(a.uid,6,'0') as uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->where("a.status!=-1")->paginate($this->webData['list_rows'], false, $pageParam);
+            $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.fangshi,a.celue,a.zhouqi,a.studiotype,a.is_sub,a.status,a.price,b.username,a.id,a.uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->where("a.status!=-1")->paginate($this->webData['list_rows'], false, $pageParam);
         }
+
+
+
         if (isset($this->param['export_data']) && $this->param['export_data'] == 1) {
             if (isset($this->param['keywords']) && !empty($this->param['keywords'])) {
+                $keywords =  $this->param['keywords'];
                 $pageParam['query']['keywords'] = $this->param['keywords'];
-                // $model->whereLike('studioname', "%" . $this->param['keywords'] . "%");
-                $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,LPAD(a.id,6,'0') as id,LPAD(a.uid,6,'0') as uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->whereLike('a.studioname', "%" . $this->param['keywords'] . "%")->where("a.status!=-1")->select();
+                $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.fangshi,a.celue,a.zhouqi,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,a.id,a.uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->where("a.studioname like '%$keywords%' or a.id like '%$keywords%'")->where("a.status!=-1")->select();
             }else{
-                $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,LPAD(a.id,6,'0') as id,LPAD(a.uid,6,'0') as uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->where("a.status!=-1")->select();
+                $list = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.fangshi,a.celue,a.zhouqi,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,a.id,a.uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->where("a.status!=-1")->select();
             }
 
 
-            $header = ['创建日期', '工作室名称', '工作室UID', '用户名称','收费价格','期货账户','开户供货公司','类型','状态','是否禁止订阅'];
+            $header = ['创建日期', '工作室名称', '工作室UID', '用户名称','用户UID','交易方式','交易策略','交易周期','收费价格','期货账户','开户期货公司','类型','状态','是否禁止订阅'];
             $body   = [];
             $data   = $list;
             foreach ($data as $item) {
@@ -45,18 +50,52 @@ class Office extends Base
                 $record['studioname']            = $item['studioname'];
                 $record['id']            = $item['id'];
                 $record['username']            = $item['username'];
+                $record['uid']            = $item['uid'];
+                if($item['fangshi']==1){
+                    $record['fangshi']  = '主观';
+                }else{
+                    $record['fangshi']  = '量化';
+                }
+
+                if($item['celue']==1){
+                    $record['celue']  = '趋势';
+                }else{
+                    $record['celue']  = '套利对冲';
+                }
+
+                if($item['zhouqi']==1){
+                    $record['zhouqi']  = '日内短线';
+                }elseif ($item['zhouqi']==2) {
+                    $record['zhouqi']  = '隔夜短线';
+                }elseif ($item['zhouqi']==3) {
+                    $record['zhouqi']  = '中短线';
+                }elseif ($item['zhouqi']==4) {
+                    $record['zhouqi']  = '中长线';
+                }else{
+                    $record['zhouqi']  = '长线';
+                }
                 $record['price']            = $item['price'];
                 $record['futures_account']            = $item['futures_account'];
                 $record['futures_company']            = $item['futures_company'];
-                $record['studiotype']            = $item['studiotype']>0 ?'订阅区':'展示区';
-                $record['status']            = $item['status']>0 ?'审核成功':'待审核';
+                $record['studiotype']            = $item['studiotype']>1 ?'展示区':'订阅区';
+
+                if($item['status']==1){
+                    $record['status']  = '审核成功';
+                }elseif($item['status']==0){
+                    $record['status']  = '待审核';
+                }else{
+                    $record['status']  = '异常';
+                }
+
                 $record['is_sub']            = $item['is_sub']>0 ?'允许':'禁止';;
                 $body[]                    = $record;
             }
             return $this->export($header, $body, "工作室-" . date('Y-m-d-H-i-s'), '2007');
         }
-
+        $pagenum = isset($this->param['page'])?$this->param['page']:1;
+        $startnumber = $this->webData['list_rows'] * ($pagenum-1);
         $this->assign([
+            'startnumber'   => $startnumber,
             'list'      => $list,
             'total'     => $list->total(),
             'page'      => $list->render()
@@ -123,9 +162,9 @@ class Office extends Base
     public function save_service(){
         $con['id'] = (int)$this->param['id'];
         $this->save_info($con['id']);
-        $data['start_time'] = strtotime($this->param['start_time']);
+        // $data['start_time'] = strtotime($this->param['start_time']);
 
-        $status = Db::table('tz_studio')->where($con)->update($data);
+        // $status = Db::table('tz_studio')->where($con)->update($data);
     }
 
 
@@ -479,22 +518,53 @@ class Office extends Base
         $id = $this->id;
         // $info = Db::table('tz_userinfo')->field("*,FROM_UNIXTIME(create_time, '%Y-%m-%d') as create_time")->where("id=$id")->find();
 
-        $info = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,LPAD(a.id,6,'0') as id,LPAD(a.uid,6,'0') as uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->where("a.id=$id")->find();
+        $info = Db::table('tz_studio')->alias('a')->field("a.futures_account,a.futures_company,a.fangshi,a.celue,a.zhouqi,a.studioname,a.studiotype,a.is_sub,a.status,a.price,b.username,a.id,a.uid,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') AS create_time")->join(['tz_userinfo'=>'b'],'a.uid=b.id','left')->where("a.id=$id")->find();
 
 
 
-            $header = ['创建日期', '工作室名称', '工作室UID', '用户名称','用户UID', '收费价格','期货账户', '开户供货公司', '类型','状态','是否禁止订阅'];
+            $header = ['创建日期', '工作室名称', '工作室UID', '用户名称','用户UID','交易方式','交易策略','交易周期','收费价格','期货账户','开户期货公司','类型','状态','是否禁止订阅'];
             $body   = [];
                 $record['create_time']              = $info['create_time'];
                 $record['studioname']            = $info['studioname'];
                 $record['id']            = $info['id'];
                 $record['username']            = $info['username'];
                 $record['uid']            = $info['uid'];
+
+                if($info['fangshi']==1){
+                    $record['fangshi']  = '主观';
+                }else{
+                    $record['fangshi']  = '量化';
+                }
+
+                if($info['celue']==1){
+                    $record['celue']  = '趋势';
+                }else{
+                    $record['celue']  = '套利对冲';
+                }
+
+                if($info['zhouqi']==1){
+                    $record['zhouqi']  = '日内短线';
+                }elseif ($info['zhouqi']==2) {
+                    $record['zhouqi']  = '隔夜短线';
+                }elseif ($info['zhouqi']==3) {
+                    $record['zhouqi']  = '中短线';
+                }elseif ($info['zhouqi']==4) {
+                    $record['zhouqi']  = '中长线';
+                }else{
+                    $record['zhouqi']  = '长线';
+                }
+
                 $record['price']            = $info['price'];
                 $record['futures_account']            = $info['futures_account'];
                 $record['futures_company']            = $info['futures_company'];
-                $record['studiotype']            = $info['studiotype']>0 ?'订阅区':'展示区';
-                $record['status']            = $info['status']>0 ?'审核成功':'待审核';
+                $record['studiotype']            = $info['studiotype']>1 ?'展示区':'订阅区';
+                if($info['status']==1){
+                    $record['status']  = '审核成功';
+                }elseif($info['status']==0){
+                    $record['status']  = '待审核';
+                }else{
+                    $record['status']  = '异常';
+                }
                 $record['is_sub']            = $info['is_sub']>0 ?'允许':'禁止';;
 
                 $body[]                    = $record;

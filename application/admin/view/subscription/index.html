@@ -5,7 +5,7 @@
                 <form class="form-inline" name="searchForm" id="searchForm" action="" method="GET">
                     <div class="form-group">
                         <input value="{$keywords ? $keywords : '' ;}"
-                               name="keywords" id="keywords" class="form-control input-sm" placeholder="工作室名称">
+                               name="keywords" id="keywords" class="form-control input-sm" placeholder="工作室名称/工作室UID/用户名称/用户UID" style="width: 320px">
                     </div>
 
 
@@ -43,14 +43,15 @@
                         <th>用户名称</th>
                         <th>用户UID</th>
                         <th>订阅工作室名称</th>
-                        <th>工作室UID</th>
+                        <th>订阅工作室UID</th>
                         <th>订阅期限</th>
                         <th>订阅状态</th>
                         <th>订阅费</th>
-                        <th>支付方式</th>
-                        <!-- <th>用户支付账户</th> -->
                         <th>到期时间</th>
+                        <th>支付方式</th>
+                        <th>支付时间</th>
                         <th>支付金额</th>
+                        <th>支付订单号</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -67,24 +68,28 @@
                         <td>{if condition="$item.status eq 1"}有效
                         {else /}已取消{/if}</td>
                         <td>{$item.price}元/月</td>
-                        <td>{if $item.paytype==1}支付宝{elseif $item.paytype==2}微信{else /}体验券{/if}</td>
                         <td>{$item.end_time}</td>
+                        <td>{if $item.paytype==1}支付宝{elseif $item.paytype==2}微信{else /}体验券{/if}</td>
+                        <td>{$item.create_time}</td>
                         <td>{$item.pay_money}</td>
+                        <td></td>
 
                         <td class="td-do">
-                            {if condition="$item.status eq 1"}
-                            <button  data-url="cancel.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-success btn-xs" title="取消订阅" data-toggle="tooltip">
-                                取消订阅
-                            </button>
-                            {else /}
-                                <button  data-id="{$item.id}"  class=" btn btn-defalut btn-xs" title="已取消" data-toggle="tooltip">
-                                    已取消
+                            {if  $item.paytype != 3}
+                                {if condition="$item.status eq 1"}
+                                <button  data-url="cancel.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-success btn-xs" title="取消订阅" data-toggle="tooltip">
+                                    取消订单
                                 </button>
+                                {else /}
+                                    <button  data-id="{$item.id}"  class=" btn btn-defalut btn-xs" title="已取消" data-toggle="tooltip">
+                                        已取消
+                                    </button>
+                            {/if}
                             {/if}
 
-                            <button  data-url="del.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-danger btn-xs" title="删除" data-toggle="tooltip">
+<!--                             <button  data-url="del.html?id={$item.id}" data-id="{$item.id}"  class="AjaxButton btn btn-danger btn-xs" title="删除" data-toggle="tooltip">
                                 删除
-                            </button>
+                            </button> -->
                             <a  href="detail_exl/id/{$item.id}" target="_blank"  data-id="{$item.id}"  class="btn btn-default btn-xs" title="导出" data-toggle="tooltip">
                                 导出
                             </a>

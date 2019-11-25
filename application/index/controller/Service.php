@@ -18,24 +18,33 @@ class Service extends Controller
 	// }
 
 	public function content(){
-    	$list = Db::table('tz_banner')->where('type=1')->select();
-        $this->assign('list',$list);    
 
+        $fuwulist = Db::table('tz_webpage')->where('type=2')->select();
+
+        $this->assign('fuwulist',$fuwulist);  
     	$this->assign('title','服务内容');
 		return $this->fetch();
 	}
 	public function research(){
-    	$list = Db::table('tz_banner')->where('type=1')->select();
-        $this->assign('list',$list);    
-
+         $xueyanlist = Db::table('tz_webpage')->where('type=3')->select();
+        $this->assign('xueyanlist',$xueyanlist);  
     	$this->assign('title','学研中心');
 		return $this->fetch();
 	}
 	public function guide(){
-    	$list = Db::table('tz_banner')->where('type=1')->select();
-        $this->assign('list',$list);    
+       $xinshoulist = Db::table('tz_webpage')->where('type=4')->select();
+        $this->assign('xinshoulist',$xinshoulist); 
 
     	$this->assign('title','新手指南');
 		return $this->fetch();		
 	}
+
+	public function personnel(){   
+		 $info = Db::table('tz_webpage')->where("id=34")->find();
+		 $this->assign('info',$info);
+    	$this->assign('title','人才选拔');
+		return $this->fetch();		
+	}
+
+
 }

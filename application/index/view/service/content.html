@@ -1,4 +1,4 @@
-		{include file="public/header" /}
+		{include file="public/header1" /}
         <div class="index-banner">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                 <div class="item">
@@ -9,151 +9,26 @@
         
 		<div class="fuwuneirong">
 			<div class="container">
-
-
                 <div class="fw-content">
                     <ul>
-                        
-                        <li>
-                            <div>
-                                <a href="{:url('index/webpage/service_fxpm')}"><img src="__STATIC__/index/images/fu1.png" width="100"></a>
-                                <p>数据分析排名</p>
-                                <p class="fucontent">
-                                    数据分析排名介绍
-                                </p>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <a href="{:url('index/webpage/service_sjyj')}"><img src="__STATIC__/index/images/fu2.png" width="100"></a>
-                                <p>数据研究</p>
-                            </div>
-                            <p class="fucontent">
-                                数据分析排名介绍
-                            </p>
+                            {foreach name="fuwulist" item="item"}
+                                <li>
+                                    <div style="width: 30%;height: 130px;float: left;text-align: center;">
+                                        <a href="{:url($item.pageurl)}"><img src="__STATIC__/images/fuwu/{$key+1}.png" width="100"></a>
+                                        <a href="{:url($item.pageurl)}"><p style="text-align: center;font-size: 23px;line-height: 25px;padding-top: 20px;color: #000">{$item.title}</p></a>
+                                    </div>
 
-                        </li>
-                        <li>
-                            <div>
-                                <a href="{:url('index/webpage/service_dyfw')}"><img src="__STATIC__/index/images/fu3.png" width="100"></a>
-                                <p>订阅服务</p>
-                                <p class="fucontent">
-                                    数据分析排名介绍
-                                </p>
-
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <a href="{:url('index/webpage/service_zsfw')}"><img src="__STATIC__/index/images/fu4.png" width="100"></a>
-                                <p>展示服务</p>
-                                <p class="fucontent">
-                                    数据分析排名介绍
-                                </p>
-
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <a href="{:url('index/webpage/service_psfw')}"><img src="__STATIC__/index/images/fu5.png" width="100"></a>
-                                <p>盘手服务</p>
-                                <p class="fucontent">
-                                    数据分析排名介绍
-                                </p>
-
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <a href="{:url('index/webpage/service_djfw')}"><img src="__STATIC__/index/images/fu6.png" width="100"></a>
-                                <p>对接服务</p>
-                                <p class="fucontent">
-                                    数据分析排名介绍
-                                </p>
-
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <a href="{:url('index/webpage/service_dzfw')}"><img src="__STATIC__/index/images/fu7.png" width="100"></a>
-                                <p>定制服务</p>
-                                <p class="fucontent">
-                                    数据分析排名介绍
-                                </p>
-
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <a href="{:url('index/webpage/service_qtfw')}"><img src="__STATIC__/index/images/fu8.png" width="100"></a>
-                                <p>其他服务</p>
-                                <p class="fucontent">
-                                    数据分析排名介绍数据分析排名介绍数据分析排名介绍</p>
-
-                            </div>
-                        </li>
-
+                                    <div style="width: 70%;height: 130px;float: left;">
+                                        <a href="{:url($item.pageurl)}"><div class="fucontent" style="font-size: 17px">
+                                            {$item.desc}
+                                        </div>
+                                        </a>
+                                    </div>
+                                </li>
+                            {/foreach}
                     </ul>
-                </div>
-                <script type="text/javascript">
-
-                    $('.fw-content ul li div').mouseover(function(){
-                        var index = $(this).parent('li').index()+1;
-
-                        var src = $(this).find('img').attr('src');
-
-                        var z = "fu"+index+".png";
-                        var nz = "fuzx"+index+".png";
-                        if(src.indexOf(z) >= 0 ) { 
-                            var newsrc =  src.replace(z,nz)
-                            $(this).find('img').attr('src',newsrc);
-                           
-                        }
-                    })
-                    $('.fw-content ul li div').mouseout(function(){
-                        var index = $(this).parent('li').index()+1;
-
-                        var src = $(this).find('img').attr('src');
-
-                        var nz = "fuzx"+index+".png";
-                        var z = "fu"+index+".png";
-                        if(src.indexOf(nz) >= 0 ) { 
-                            var newsrc =  src.replace(nz,z)
-                            $(this).find('img').attr('src',newsrc);
-                           
-                        }
-                    })
-                </script>
-				<script type="text/javascript">
-
-					$('.fw-content ul li div').mouseover(function(){
-						var index = $(this).parent('li').index()+1;
-
-						var src = $(this).find('img').attr('src');
-
-						var z = "fu"+index+".png";
-						var nz = "fuzx"+index+".png";
-						if(src.indexOf(z) >= 0 ) { 
-						    var newsrc =  src.replace(z,nz)
-						    $(this).find('img').attr('src',newsrc);
-						   
-						}
-					})
-					$('.fw-content ul li div').mouseout(function(){
-						var index = $(this).parent('li').index()+1;
-
-						var src = $(this).find('img').attr('src');
-
-						var nz = "fuzx"+index+".png";
-						var z = "fu"+index+".png";
-						if(src.indexOf(nz) >= 0 ) { 
-						    var newsrc =  src.replace(nz,z)
-						    $(this).find('img').attr('src',newsrc);
-						   
-						}
-					})
-				</script>
-			</div>
+    			</div>
+            </div>
 		</div>
 		{include file="public/footer" /}
 

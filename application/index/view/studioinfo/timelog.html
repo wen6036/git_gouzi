@@ -64,8 +64,6 @@
 
 					var studioname = "{$info.studioname}";
 					var bro_user = "{$futures_company}"+'_'+{$userID};
-					console.log(bro_user);
-
 					ws = new WebSocket("ws://www.51dewen.com:2345");
 					ws.onopen = function() {
 					    console.log("连接成功");
@@ -94,7 +92,7 @@
 				                '<td>'+arr[i].OC+'</td>'+
 				                '<td>'+arr[i].lot+'手</td>'+
 				                '<td>'+arr[i].price+'</td>'+
-				                '<td>'+arr[i].posRatio+'</td>'+
+				                '<td>'+(arr[i].posRatio*100).toFixed(2)+'%</td>'+
 				                '<td>'+arr[i].profit+'</td>'+
 				            '</tr>';
 						}

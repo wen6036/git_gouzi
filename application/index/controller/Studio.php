@@ -49,7 +49,7 @@ class Studio extends Controller
 
 		$userinfo = session('userinfo');
 		$con['uid'] = $userinfo['id'];
-		$info = Db::table('tz_studio')->field("*,LPAD(id,6,'0') as id")->where($con)->find();
+		$info = Db::table('tz_studio')->field("*")->where($con)->find();
 		$this->assign('futures_company',$futures_company);
 		$this->assign('info',$info);
 		$this->assign('id',$info['id']);
@@ -78,7 +78,7 @@ class Studio extends Controller
 
 
 		$res = Db::table('tz_studio')->where("uid=".$uid)->find();
-		if($res)  return json(['code'=>0,'msg'=>'已创建了']);
+		// if($res)  return json(['code'=>0,'msg'=>'已创建了']);
 
 		
 		$param['uid'] = $userinfo['id'];
@@ -91,16 +91,22 @@ class Studio extends Controller
 		// $url = 'http://49.235.36.29/WebFunctions.asmx/qry';
 		$url = 'http://49.235.36.29/WebFunctions.asmx/cmd';
 		// $data = 'input=qryPerformance 6050 81331531 20190101';
-		$data = "app tradeAccount {'isOp':true,'brokerID':'$futures_company','userID':$futures_account,'password':'$pwd'}";
+		$data = "input=app tradeAccount {'isOp':true,'brokerName':'$futures_company','userID':$futures_account,'password':'$pwd'}";
 		$a = sendCurlPost($url,$data); 
 		
+		$param['status'] = 0;
 		$param['create_time'] = time();
 		$param['futures_password'] = $pwd;
-		$status = Db::table('tz_studio')->insert($param);
+
+		if($res){
+			$status = Db::table('tz_studio')->where("uid=".$uid)->update($param);
+		}else{
+			$status = Db::table('tz_studio')->insert($param);
+		}
         if($status){
-            return json(['code'=>1,'msg'=>'创建成功']);
+            return json(['code'=>1,'msg'=>'操作成功']);
         }else{
-            return json(['code'=>0,'msg'=>'创建失败']);
+            return json(['code'=>0,'msg'=>'操作失败']);
         }
 	}
 
@@ -138,14 +144,14 @@ class Studio extends Controller
 		$pwd = $param['new_pwd'];
 		$brokerID = $param['BrokerId'];
 		$url = 'http://49.235.36.29/WebFunctions.asmx/cmd';
-		$input = "input=app tradeAccount {'isOp':true,'brokerID':'$futures_company','userID':'$futures_account','password':'$pwd'}";
+		$input = "input=app tradeAccount {'isOp':true,'brokerName':'$futures_company','userID':'$futures_account','password':'$pwd'}";
 		$info = sendCurlPost($url,$input); 
 		$a = explode('#', $info);
 		$b = str_replace('</string>','', $a[2]);
 
 		$arr = json_decode($b,true);
 		foreach ($arr as $key => $value) {
-			if($value['userID']==$futures_account && $value['brokerID']== $brokerID){
+			if($value['userID']==$futures_account && $value['brokerName']== $futures_company){
 				$o = $value['password'];
 			} 
 		}

@@ -8,7 +8,7 @@ namespace app\admin\controller;
 
 use Parsedown;
 use tools\Sysinfo;
-
+use think\Db;
 class Index extends Base
 {
     public function index()
@@ -22,6 +22,9 @@ class Index extends Base
             'os'      => $sysinfo->getOS(),
             'date'    => date('Y-m-d')
         ];
+
+        $time = strtotime("-0 year -6 month -0 day");
+        Db::table('bear_admin_logs')->where("create_time < $time")->delete();
 
         $Parsedown = new Parsedown();
 

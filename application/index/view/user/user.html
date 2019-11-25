@@ -10,33 +10,44 @@
                
 
 			<script type="text/javascript">
+
+			$.ajax({
+				url:"{:url('index/user/userinfo')}",
+				success:function(res){
+					$('.user-edit-info').html(res)
+				}
+			})
+
+			$('.sr-header div').click(function(){
+				$(this).addClass('active').siblings().removeClass('active');
+				let index = $(this).index();
+				console.log(index)
+				if(index==0){
 					$.ajax({
 						url:"{:url('index/user/userinfo')}",
 						success:function(res){
 							$('.user-edit-info').html(res)
 						}
 					})
-
-					$('.sr-header div').click(function(){
-						$(this).addClass('active').siblings().removeClass('active');
-						let index = $(this).index();
-						console.log(index)
-						if(index==0){
-							$.ajax({
-								url:"{:url('index/user/userinfo')}",
-								success:function(res){
-									$('.user-edit-info').html(res)
-								}
-							})
-						}else if(index==1){
-							$.ajax({
-								url:"{:url('index/user/usersafe')}",
-								success:function(res){
-									$('.user-edit-info').html(res)
-								}
-							})
+				}else if(index==1){
+					$.ajax({
+						url:"{:url('index/user/usersafe')}",
+						success:function(res){
+							$('.user-edit-info').html(res)
 						}
 					})
+				}
+			})
+
+	        function agreementfuwu(obj){
+	            $('#Service').modal('show')
+	            $.ajax({
+	                url:"{:url('user/ajax_agreement')}",
+	                success:function(res){
+	                    $('#content').html(res.content)
+	                }
+	            })	
+	        }
 
 
 			function edit_pwd(){
@@ -122,7 +133,7 @@
 				html='<div class="bankinfo">'+
 							 '<div class="form-group">'+
 								'<span>开户人：</span>'+
-								'<input type="text" name="" placeholder="请输入开户人" class="name">'+
+								'<input type="text" name="" placeholder="请输入开户人" class="username">'+
 							 '</div>'+
 
 							 '<div class="form-group">'+
@@ -133,7 +144,7 @@
 							 '<div class="form-group">'+
 								'<span>开户银行：</span>'+
 								'<input type="text" name="" placeholder="请输入开户银行" class="bankname">'+
-								'<button class="btn btn-xs">绑定</button>'+
+								'<button class="btn btn-xs"  onclick="binkcard(this)">绑定</button>'+
 								'<button class="btn btn-xs add_card" onclick="add_card(this)">添加银行卡</button>'+
 							 '</div>'+
 						'</div>';
@@ -146,59 +157,57 @@
 
 			//绑定银行卡
 			function binkcard(obj){
-				var id = $(obj).parents('.bankinfo').attr('data-id');
-				var username = $(obj).parents('.bankinfo').find('.username').val();
-				var cardnum = $(obj).parents('.bankinfo').find('.cardnum').val();
-				var bankname = $(obj).parents('.bankinfo').find('.bankname').val();
+				var length = $('.bankinfo').length;
+				var array =new Array();
+				var name,cardnum,bankname;
+				for (var i = 0; i < length; i++) {
+					array[i]=new Array();
+					name = $('.bankinfo').eq(i).find('.username').val();
+					array[i].push(name);
+
+					cardnum = $('.bankinfo').eq(i).find('.cardnum').val();
+					array[i].push(cardnum);
+
+					bankname = $('.bankinfo').eq(i).find('.bankname').val();
+					array[i].push(bankname);
+				}
 
 				$.ajax({
 					url:"{:url('user/binkcard')}",
 					type:'post',
-					data:{id:id,username:username,cardnum:cardnum,bankname:bankname},
+					data:{array:array},
 					success:function(res){
 						// console.log(res)
 						layer.msg(res.msg)
-
-						$.ajax({
-							url:"{:url('index/user/usersafe')}",
-							success:function(res){
-								$('.user-edit-info').html(res)
-							}
-						})
-
-						
 					}
 				})
 
 
 			}
 
-			//删除银行卡
-			function del_card(obj){
-				var id = $(obj).parents('.bankinfo').attr('data-id');
-				var username = $(obj).parents('.bankinfo').find('.username').val();
-				var cardnum = $(obj).parents('.bankinfo').find('.cardnum').val();
-				var bankname = $(obj).parents('.bankinfo').find('.bankname').val();
+			// //删除银行卡
+			// function del_card(obj){
+			// 	var username = $(obj).parents('.bankinfo').find('.username').val();
+			// 	var cardnum = $(obj).parents('.bankinfo').find('.cardnum').val();
+			// 	var bankname = $(obj).parents('.bankinfo').find('.bankname').val();
 
-				$.ajax({
-					url:"{:url('user/del_binkcard')}",
-					type:'post',
-					data:{id:id,username:username,cardnum:cardnum,bankname:bankname},
-					success:function(res){
-						layer.msg(res.msg)
-						$(obj).parents('.bankinfo').remove();
-						$.ajax({
-							url:"{:url('index/user/usersafe')}",
-							success:function(res){
-								$('.user-edit-info').html(res)
-							}
-						})
+			// 	$.ajax({
+			// 		url:"{:url('user/del_binkcard')}",
+			// 		type:'post',
+			// 		data:{id:id,username:username,cardnum:cardnum,bankname:bankname},
+			// 		success:function(res){
+			// 			layer.msg(res.msg)
+			// 			$(obj).parents('.bankinfo').remove();
+			// 			$.ajax({
+			// 				url:"{:url('index/user/usersafe')}",
+			// 				success:function(res){
+			// 					$('.user-edit-info').html(res)
+			// 				}
+			// 			})
 
-					}
-				})
-
-
-			}
+			// 		}
+			// 	})
+			// }
 
 
 
@@ -226,15 +235,15 @@
 				}
 				var truename = $('input[name=truename]').val();
 				var shenfenzheng = $('input[name=shenfenzheng]').val();
+				if(shenfenzheng.length>19){
+					 layer.msg('请输入正确的身份证号') 
+					 return false;
+				}
 				var length = $('.bankinfo').length;
 				var array =new Array();
 				var name,cardnum,bankname;
 				for (var i = 0; i < length; i++) {
 					array[i]=new Array();
-
-					idarr = $('.bankinfo').eq(i).attr('data-id');
-					array[i].push(idarr);
-
 					name = $('.bankinfo').eq(i).find('.username').val();
 					array[i].push(name);
 
@@ -250,7 +259,6 @@
 					type:'post',
 					data:{truename:truename,shenfenzheng:shenfenzheng,array:array},
 					success:function(res){
-						// console.log(res)
 						layer.msg(res.msg)
 					}
 				})

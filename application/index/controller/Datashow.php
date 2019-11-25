@@ -31,9 +31,9 @@ class Datashow extends Controller
  		$size = 10;
  		$pagestart = ($pagenum-1)*$size;
  		// dump($pages);
- 		$count = Db::table('tz_studio')->alias('a')->field("a.id")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1 and is_sub = 1 and studiotype=2')->order('c.score desc')->count();
+ 		$count = Db::table('tz_studio')->alias('a')->field("a.id")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1  and studiotype=2')->order('c.score desc')->count();
 
- 		$list = Db::table('tz_studio')->alias('a')->field("c.*,LPAD(b.id,6,'0') as uid,a.id,a.studioname,a.price,b.username,a.ranking")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1 and is_sub = 1 and studiotype=2')->order("c.$type desc")->limit($pagestart,$size)->select();
+ 		$list = Db::table('tz_studio')->alias('a')->field("c.*,b.id as uid,a.id,a.studioname,a.price,b.username,a.ranking")->join(['tz_userinfo'=>'b'],'a.uid = b.id')->join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where('a.ranking=1 and a.status =1  and studiotype=2')->order("c.$type desc")->limit($pagestart,$size)->select();
 		$arr=[];
  		foreach ($list as $key => $value) {
  			if($value['netValue_json']){

@@ -5,7 +5,7 @@
                 <form class="form-inline" name="searchForm" id="searchForm" action="" method="GET">
                     <div class="form-group">
                         <input value="{$keywords ? $keywords : '' ;}"
-                               name="keywords" id="keywords" class="form-control input-sm" placeholder="工作室名称">
+                               name="keywords" id="keywords" class="form-control input-sm" placeholder="工作室名称/工作室UID">
                     </div>
 
 
@@ -39,39 +39,41 @@
                 <table class="table table-hover table-bordered datatable" width="100%">
                     <thead>
                     <tr>
-                        <th>排名序号ID</th>
+                        <th>排名序号</th>
                         <th>工作室名称</th>
+                        <th>工作室UID</th>
                         <th>综合积分</th>
                         <th>净值</th>
-                        <th>净利润</th>
-                        <th>交易次数</th>
-                        <th>盈亏效率</th>
-                        <th>交易天数</th>
+                        <th>年化收益率</th>
                         <th>胜率</th>
-                        <th>卡玛比率</th>
-                        <th>夏普比率</th>
-                        <th>每日权益</th>
                         <th>最大回撤率</th>
+                        <th>盈亏比</th>
+                        <th>夏普比率</th>
+                        <th>盈亏效率</th>
+                        <th>累计收益率</th>
+                        <th>净利润</th>
+                        <th>资金规模</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     {foreach name="list" item="item"}
                     <tr>
-
-                        <td>{$item.id}</td>
+                        <td>{$startnumber+$key+1}</td>
                         <td>{$item.studioname}</td>
+                        <td>{$item.id}</td>
+                        
                         <td>{$item.score}</td>
                         <td>{$item.netValue}</td>
-                        <td>{$item.netProfit}</td>
-                        <td>{$item.lot}</td>
-                        <td>{$item.efficiency}</td>
-                        <td>{$item.dealDays}</td>
+                        <td>{$item.mulProfitRatioPerYear}</td>
                         <td>{$item.winRate}</td>
-                        <td>{$item.kamaRatio}</td>
-                        <td>{$item.sharpRatio}</td>
-                        <td>{$item.equity}</td>
                         <td>{$item.maxReduceRatio}</td>
+                        <td>{$item.winLossRatio}</td>
+                        <td>{$item.sharpRatio}</td>
+                        <td>{$item.efficiency}</td>
+                        <td>{$item.mulProfitRatio}</td>
+                        <td>{$item.netProfit}</td>
+                        <td>{$item.initialFund}</td>
 
                         <td class="td-do">
                             {if $item.ranking == 1}

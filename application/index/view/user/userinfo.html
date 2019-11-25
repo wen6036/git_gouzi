@@ -103,7 +103,7 @@
 		<input type="text" name="address_detail" value="{$info.address_detail|default=''}">
 	 </div>
 		<div class="sub-button">
-		<button class="btn">修改</button>
+		<button class="btn">保存</button>
 	</div>
 </form>
 
@@ -112,6 +112,10 @@
 
 
 <script type="text/javascript">
+
+
+
+
 $('.sub-button button').click(function(){
 	$.ajax({
 		url:"{:url('index/user/ajax_userinfo')}",

@@ -360,6 +360,7 @@ class Base extends Controller
             // Excel 表格头
             foreach ($head as $key => $val) {
                 $sheetPHPExcel->setCellValue("{$char_index[$key]}1", $val);
+                $spreadsheet->getActiveSheet()->getColumnDimension("{$char_index[$key]}")->setWidth(15);
             }
 
             $spreadsheet->getActiveSheet()->setTitle($title);

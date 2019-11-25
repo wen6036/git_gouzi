@@ -108,7 +108,7 @@ function chart1(element,arr,title,title2,unit){
                                 y2: 1
                             },
                             stops: [
-                                [0, Highcharts.getOptions().colors[0]],
+                                // [0, Highcharts.getOptions().colors[0]],
                                 [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
                             ],
                             color: '#FF0000'
@@ -131,7 +131,8 @@ function chart1(element,arr,title,title2,unit){
                     data: data,
                     // lineWidth:2,
                     // lineColor: '#FF0000',//线颜色
-                    color: '#666666',//点颜色线颜色
+                    color: '#4679bd',//点颜色线颜色
+                    // color: '#666666',//点颜色线颜色
                     // cursor: 'pointer',
                 }],
 

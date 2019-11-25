@@ -1,7 +1,7 @@
 @media screen and (max-width: 1350px) {
 	header .container{width: 100%}
 	.descript    {display: none}
-	.nav {min-width: 600px;float: left;margin-left: 25px;}
+	.nav {min-width: 600px;float: left;margin-left: 5px;}
 
 	.index .container{width: 100%;}
 	.index-link .container{width: 100%;}
@@ -26,7 +26,14 @@
 @media (max-width: 950px){
 	.web_logo{display:block;}
 	.nav{display:none;}
-
+	.login-user {
+	    width: 140px;
+	    float: left;
+	    height: 60px;
+	    text-align: center;
+	    padding: 14px 0;
+	    margin-left: 20px;
+	}
 }
 
 
@@ -34,11 +41,9 @@
 	header{height: 60px}
 	.web_logo{height: 60px}
 	.title {
-	    margin-top: 10px;
-	    padding: 0;
-	    font-size: 26px;
+	    margin-top: 7.5px;
 	    text-align: center;
-	    line-height: inherit;
+	    height: 45px;
 	}
 	.index-link{display: none}
 	.index .container{padding: 0}

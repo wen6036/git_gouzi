@@ -60,7 +60,7 @@
 					<div class="pay-time ticket ticket">
 						<ul>
 							{foreach name="titck_list" item="item"}
-								<li style="width: 150px" ><button data="{$item.id}">免费试用<span>{$item.number}</span>天</button></li>
+								<li style="width: 150px" ><button data="{$item.type}">免费试用15天<br>有效期{$item.datetime}</button></li>
 							{/foreach}
 						</ul>
 					</div>
@@ -69,6 +69,7 @@
 				<script type="text/javascript">
 					$('.ticket ul li').eq(0).find('button').addClass('active')
 					let act_id = $('.ticket ul li').eq(0).find('button').attr('data');
+
 					console.log($('.ticket ul li').length)
 
 					var paytype = 1;
@@ -146,16 +147,22 @@
 					})
 
 					$('.payorder').click(function(){
+
+
 						var index = $('.select_time li .active').parents('li').index()+1;
 						if(paytype==3){
-							var day =  $('.ticket li .active span').text();
+							if(!act_id){
+								layer.msg('无优惠券使用');
+								return false;
+							}
 						}else{
 							var day = 0;
 						}
+						if(!act_id) act_id=0;
 						// console.log(paytype)
 						$.ajax({
 							url:"{:url('index/datasub/payorder')}",
-							data:{id:{$info['id']},index:index,paytype:paytype,day:day,act_id:act_id},
+							data:{id:{$info['id']},index:index,paytype:paytype,act_id:act_id},
 							success:function(res){
 								// console.log(res)
 								layer.msg(res.msg)

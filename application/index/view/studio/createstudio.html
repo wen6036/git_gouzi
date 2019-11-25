@@ -23,18 +23,18 @@
 								{else /}
 								<img src="__STATIC__/index/images/no-check.png" class="shipan">
 								{/if}
-								{else /}
+							{else /}
 								<img src="__STATIC__/index/images/no-check.png" class="shipan">
 							{/if}
 							 期货实盘
-							<input type="hidden" name="shipan">
+							<input type="hidden" name="shipan" value="{$info.shipan|default=''}">
 						 </div>
 
 						 <div class="form-group">
 							<span>交易方式：</span>
 							<img src="__STATIC__/index/images/no-check.png" class="fangshi" data-id='1'> 主观
 							<img src="__STATIC__/index/images/no-check.png" class="fangshi" data-id='2'> 量化	
-							<input type="hidden" name="fangshi">		
+							<input type="hidden" name="fangshi" value="{$info.fangshi|default=''}">		
 							<script type="text/javascript">
 								fangshinum = {$info.fangshi|default='0'};
 								if(fangshinum){
@@ -46,7 +46,7 @@
 							<span>交易策略：</span>
 							<img src="__STATIC__/index/images/no-check.png" class="celue" data-id='1'>趋势
 							<img src="__STATIC__/index/images/no-check.png" class="celue" data-id='2'>套利对冲
-							<input type="hidden" name="celue">	
+							<input type="hidden" name="celue" value="{$info.celue|default=''}}">	
 						 </div>
 
 
@@ -64,7 +64,7 @@
 							<img src="__STATIC__/index/images/no-check.png" class="zhouqi" data-id='3'>中短线
 							<img src="__STATIC__/index/images/no-check.png" class="zhouqi" data-id='4'>中长线
 							<img src="__STATIC__/index/images/no-check.png" class="zhouqi" data-id='5'>长线
-							<input type="hidden" name="zhouqi">	
+							<input type="hidden" name="zhouqi"  value="{$info.zhouqi|default=''}}">	
 						 </div>
 							<script type="text/javascript">
 								zhouqinum = {$info.zhouqi|default='0'};
@@ -74,7 +74,7 @@
 							</script>
 						<div class="form-group">
 							 <span>收费价格：</span>
-							 <div class="sub-money"><input type="number" name="price" value="{$info.price|default=''}"> /30天</div>
+							 <div class="sub-money"><input type="number" name="price" value="{$info.price|default=''}" min="200" max="10000" step="100"> /30天</div>
 							 <span class="sub-notice">范围:200-10000元/30天，取100的整数倍，展示区不需要填写</span>
 						</div>
 
@@ -82,9 +82,9 @@
 							<span>工作室区分：</span>
 							<img src="__STATIC__/index/images/no-check.png" class="studiotype" data-id='1'>订阅区
 							<img src="__STATIC__/index/images/no-check.png" class="studiotype" data-id='2'>展示区
-							<input type="hidden" name="studiotype">	
+							<input type="hidden" name="studiotype" value="{$info.studiotype|default=''}}">	
 							<script type="text/javascript">
-								studiotypenum = {$info.zhouqi|default='0'};
+								studiotypenum = {$info.studiotype|default='0'};
 								if(studiotypenum){
 									$('.studiotype').eq(studiotypenum-1).attr("src",'__STATIC__/index/images/check.png')
 								}
@@ -111,7 +111,7 @@
 						<div class="form-group">
 							 <span>期货交易密码 ：</span>
 							<div class="sub-zhanghao">
-								<input type="password" name="futures_password" value="{$info.futures_password|default=''}">
+								<input type="text" name="futures_password" value="{$info.futures_password|default=''}">
 							</div>
 						</div>
 
@@ -120,28 +120,30 @@
 							<div class="selected futures_company" >
 								<select name="BrokerId">
 									{foreach name="futures_company" item="item"}
-										<option value="{$item.BrokerId}" data-name="{$item.BrokerName}">{$item.BrokerName}</option>
+										<option value="{$item.BrokerId}" data-name="{$item.BrokerName}"  {if isset($info)}{if $item.BrokerName == $info.futures_company}selected="selected"{/if}{/if}>{$item.BrokerName}</option>
 									{/foreach}
 								</select>
 								<input type="hidden" name="futures_company">
 							</div>
 						</div>
 						<div class="sub-agreement">
-							{if isset($info)}  
+							<img src="__STATIC__/index/images/no-check.png" class="agreement">
+<!-- 							{if isset($info)}  
 							<img src="__STATIC__/index/images/check.png" class="agreement">
 							{else /}
 							<img src="__STATIC__/index/images/no-check.png" class="agreement">
-							{/if}
+							{/if} -->
 							<span> &nbsp;我已阅读并同意<a id="agreement" style="color: #337ab7;cursor: pointer;">《投资界工作室创建协议》</a></span>
 							<input type="hidden" name="agreement">	
 						</div>
 
 						<div class="sub-button">
-							{if isset($info)}  
+						<!-- 	{if isset($info)}  
 							<button class="btn savestudio" disabled="disabled">已创建</button>
-							{else /}
-							<button class="btn savestudio">提交</button>
-							{/if}
+							{else /} -->
+							<!-- <button class="btn savestudio">创建</button> -->
+							<!-- {/if} -->
+							<button class="btn savestudio">创建</button>
 						</div>
 					</form>
 					</div>
@@ -282,16 +284,19 @@
 
 			var futures_company=$('.futures_company option:selected').attr('data-name'); 
 			$('input[name=futures_company]').val(futures_company);
-
-			// console.log(studioname+'--'+shipan+'--'+fangshi+'--'+celue+'--'+zhouqi+'--'+studiotype+'--'+description+'--'+futures_account+'-'+options+'-'+futures_password+'--'+futures_company)
+			// console.log(BrokerId)
+			// console.log(studioname+'--'+shipan+'--'+fangshi+'--'+celue+'--'+zhouqi+'--'+studiotype+'--'+description+'--'+futures_account+'-'+futures_password+'--'+futures_company+BrokerId)
 			var agreement = $('input[name=agreement]').val()
-			console.log(agreement)
 			if(!agreement){
 				layer.msg('请先同意工作室创建协议');
 				return false;
 			}
 
-			if(!studioname || !shipan || !fangshi || !celue || !zhouqi || !studiotype || !description || !futures_account || !futures_password || !futures_company){
+			if(!BrokerId){
+				layer.msg('请选择正确的期货公司');
+				return false;
+			}
+			if(!studioname || !shipan || !fangshi || !celue || !zhouqi || !studiotype || !description || !futures_account || !futures_company){
 				layer.msg('请确定信息是否完整');
 				return false;
 			}

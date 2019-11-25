@@ -1,4 +1,4 @@
-        {include file="public/header" /}
+        {include file="public/header1" /}
 
         <div class="index-banner">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -121,15 +121,30 @@
         </div>
 
         <div class="indexproduct">
-             <p>产品与服务</p>
+             <p style="font-weight: bold">产品与服务</p>
         </div>
 
         <div class="fuwuneirong">
             <div class="container">
                 <div class="fw-content">
                     <ul>
+                            {foreach name="fuwulist" item="item"}
+                                <li>
+                                    <div style="width: 30%;height: 130px;float: left;text-align: center;">
+                                        <a href="{:url($item.pageurl)}"><img src="__STATIC__/images/fuwu/{$key+1}.png" width="100"></a>
+                                        <a href="{:url($item.pageurl)}"><p style="text-align: center;font-size: 23px;line-height: 25px;padding-top: 20px;color: #000">{$item.title}</p></a>
+                                    </div>
+
+                                    <div style="width: 70%;height: 130px;float: left;">
+                                        <a href="{:url($item.pageurl)}"><div class="fucontent" style="font-size: 17px">
+                                            {$item.desc}
+                                        </div>
+                                        </a>
+                                    </div>
+                                </li>
+                            {/foreach}
                         
-                        <li>
+<!--                         <li>
                             <div>
                                 <a href="{:url('index/webpage/service_fxpm')}"><img src="__STATIC__/index/images/fu1.png" width="100"></a>
                                 <p>数据分析排名</p>
@@ -206,11 +221,11 @@
                                     数据分析排名介绍数据分析排名介绍数据分析排名介绍</p>
 
                             </div>
-                        </li>
+                        </li> -->
 
                     </ul>
                 </div>
-                <script type="text/javascript">
+<!--                 <script type="text/javascript">
 
                     $('.fw-content ul li div').mouseover(function(){
                         var index = $(this).parent('li').index()+1;
@@ -237,7 +252,7 @@
                             $(this).find('img').attr('src',newsrc);                           
                         }
                     })
-                </script>
+                </script> -->
             </div>
         </div>
 

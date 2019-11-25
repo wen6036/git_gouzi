@@ -11,144 +11,188 @@
                         <input id="id" name="id" value="{$info.id}" hidden placeholder="请勿修改">
                         {/if}
 
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">帐号：</label>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none">{$info.username|default=''}</span>
+                        <div  class="col-md-6">
+                            <div class="form-group">
+                                <label for="name" class="col-sm-5 control-label">用户名称：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                        <span class="form-control" style="border: none">{$info.username|default=''}</span>
 
-                                </div>
-                            </div>
-                            <label for="nickname" class="col-sm-2 control-label">昵称：</label>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                     <span class="form-control" style="border: none">{$info.nickname|default=''}</span>
+                                    </div>
                                 </div>
                             </div>
 
+
+                            <div class="form-group">
+                                <label for="id" class="col-sm-5 control-label">用户UID：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                        <span class="form-control" style="border: none">{$info.id|default=''}</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="nickname" class="col-sm-5 control-label">用户昵称：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                        <span class="form-control" style="border: none">{$info.nickname|default=''}</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="usertel" class="col-sm-5 control-label">手机号码：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                         <span class="form-control" style="border: none">{$info.usertel|default=''}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="other_phone" class="col-sm-5 control-label">其他电话：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                         <span class="form-control" style="border: none">{$info.other_phone|default=''}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="wx_num" class="col-sm-5 control-label">微信号：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                        <span class="form-control" style="border: none">{$info.wx_num|default=''}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="email" class="col-sm-5 control-label">邮箱：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                        <span class="form-control" style="border: none">{$info.email|default=''}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="col-sm-5 control-label">性别：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                        <span class="form-control" style="border: none">
+                                        ·   {if condition="$info.sex eq 1"}
+                                                男
+                                            {else /}
+                                                女
+                                            {/if}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address" class="col-sm-5 control-label">地址：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                        <span class="form-control" style="border: none">{$info.address_detail|default=''}</span>
+                                    </div>
+                                </div>
+                            </div>       
                         </div>
 
 
+                        <div  class="col-md-6">
+                            <div class="form-group">
+                                <label for="create_time" class="col-sm-5 control-label">注册时间：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                        <span class="form-control" style="border: none">{$info.create_time|default=''}</span>
 
-                        <div class="form-group">
-                            <label for="usertel" class="col-sm-2 control-label">手机号：</label>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                     <span class="form-control" style="border: none">{$info.usertel|default=''}</span>
-                                </div>
-                            </div>
-                            <label for="email" class="col-sm-2 control-label">邮箱：</label>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none">{$info.email|default=''}</span>
+                                    </div>
                                 </div>
                             </div>
 
-                        </div>
 
+                            <div class="form-group">
+                                <label for="last_login_time" class="col-sm-5 control-label">最后登录时间：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                        <span class="form-control" style="border: none">{$info.last_login_time|default=''}</span>
 
-
-                        <div class="form-group">
-                            <label for="email" class="col-sm-2 control-label">注册时间：</label>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none">{$info.create_time|default=''}</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <label for="email" class="col-sm-2 control-label">其他电话：</label>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none">{$info.other_phone|default=''}</span>
-                                </div>
-                            </div>
-                        </div>
+                            <div class="form-group">
+                                <label for="truename" class="col-sm-5 control-label">姓名：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                        <span class="form-control" style="border: none">{$info.truename|default=''}</span>
 
-                        <div class="form-group">
-                            <label for="email" class="col-sm-2 control-label">最后登入时间：</label>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none">{$info.create_time|default=''}</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <label for="email" class="col-sm-2 control-label">地址：</label>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none">{$info.address_detail|default=''}</span>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="email" class="col-sm-2 control-label">真实姓名：</label>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none">{$info.truename|default=''}</span>
+                            <div class="form-group">
+                                <label for="shenfenzheng" class="col-sm-5 control-label">身份证号：</label>
+                                <div class="col-sm-7 col-md-7">
+                                    <div class="input-group">
+                                         <span class="form-control" style="border: none">{$info.shenfenzheng|default=''}</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <label for="email" class="col-sm-2 control-label">身份证：</label>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none">{$info.shenfenzheng|default=''}</span>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="email" class="col-sm-2 control-label">性别：</label>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none">
-                                    ·   {if condition="$info.sex eq 1"}
-                                            男
-                                        {else /}
-                                            女
-                                        {/if}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <label for="email" class="col-sm-2 control-label">微信号：</label>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none">{$info.wx_num|default=''}</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="headimg" class="col-sm-2 control-label">头像：</label>
-
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group file-caption-main">
-                                    <img id="image-preview-headimg" src="{$info.headimg|default=''}"
-                                         style="max-width: 150px;max-height: 150px">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email" class="col-sm-2 control-label">银行卡信息：</label>
+                            
                             {foreach name="$info.bankinfo" item="item"}
-                            <div class="col-sm-4 col-md-4">
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none"><i style="padding-right: 15px">姓名: </i>{$item.username}</span>
-                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-5 control-label">银行卡信息：</label>
+                                    <div class="col-sm-7 col-md-7">
+                                        <div class="input-group">
+                                            <span class="form-control" style="border: none"><i style="padding-right: 15px">开户人: </i>{$item[0]}</span>
+                                        </div>
 
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none"><i style="padding-right: 15px">银行卡号: </i>{$item.banknum}</span>
+                                        <div class="input-group">
+                                            <span class="form-control" style="border: none"><i style="padding-right: 15px">银行卡号: </i>{$item[1]}</span>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="form-control" style="border: none"><i style="padding-right: 15px">银行名称: </i>{$item[2]}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="input-group">
-                                    <span class="form-control" style="border: none"><i style="padding-right: 15px">银行名称: </i>{$item.bankname}</span>
-                                </div>
-                            </div>
                             {/foreach}
 
 
+                            {if !$info.bankinfo}
+
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-5 control-label">银行卡信息：</label>
+                                    <div class="col-sm-7 col-md-7">
+                                        <div class="input-group">
+                                            <span class="form-control" style="border: none"><i style="padding-right: 15px">开户人: </i></span>
+                                        </div>
+
+                                        <div class="input-group">
+                                            <span class="form-control" style="border: none"><i style="padding-right: 15px">银行卡号: </i></span>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="form-control" style="border: none"><i style="padding-right: 15px">银行名称: </i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {/if}
                         </div>
+
+
+
+
                     </div>
                 </div>
             </form>

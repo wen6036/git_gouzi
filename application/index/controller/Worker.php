@@ -60,6 +60,10 @@ class Worker extends Server
         // 定时，每10秒一次
         Timer::add(2, function()use($worker)
         {
+                $list = Db::table('tz_varieties')->select();
+                foreach ($list as $key => $value) {
+                    $varieties_arr[$value['code']] = $value['v_name'];
+                }
 
                 $time = date('Ymd');
                 $list = Db::table('tz_time_info')->where("type='newTrade' and FROM_UNIXTIME(create_time,  '%Y%m%d' ) = $time and status=0")->select();
@@ -84,8 +88,12 @@ class Worker extends Server
                         }else{
                             $data[$k]['OC'] = '平仓';
                         }
-                        $posRatio = isset($v['posRatio'])?$v['posRatio']:0;
-                        $arr[$k]['posRatio'] = round($posRatio * 100,2)."%";
+
+                        if(isset($data[$k]['insID'])){
+                            $str = preg_replace( '/[^a-z]/i', '', $data[$k]['insID']);
+                            $varieties = isset($varieties_arr[$str])?$varieties_arr[$str]:'';
+                            $data[$k]['insID'] =  $varieties . "(".$data[$k]['insID']. ")";
+                        }
                         
                     }
                     // 遍历当前进程所有的客户端连接，发送当前服务器的时间

@@ -22,7 +22,7 @@ class Studioinfo extends Controller
 
 
 		$id = $param['id'];
-		$info = Db::table('tz_studio')->alias('a')->field("c.*,LPAD(a.id,6,'0') as id,b.id as uid,b.headimg,b.nickname,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') as create_time,a.studioname,a.shipan,a.celue,a.fangshi,a.zhouqi,a.price,a.futures_account,a.futures_password,a.description,a.studiotype")->Join(['tz_userinfo'=>'b'],'b.id=a.uid','left')->Join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where("a.id = $id")->find();
+		$info = Db::table('tz_studio')->alias('a')->field("c.*,a.id,b.id as uid,b.headimg,b.nickname,FROM_UNIXTIME(a.create_time, '%Y-%m-%d') as create_time,a.studioname,a.shipan,a.celue,a.fangshi,a.zhouqi,a.price,a.futures_account,a.futures_password,a.description,a.studiotype")->Join(['tz_userinfo'=>'b'],'b.id=a.uid','left')->Join(['tz_futures_info'=>'c'],'a.id=c.studio_id','left')->where("a.id = $id")->find();
 		// dump($info);
 		if(!$info){
 			return '';
@@ -803,8 +803,12 @@ class Studioinfo extends Controller
 		foreach ($list as $key => $value) {
 			$data[$key] = json_decode($value['info'],true);
             $posRatio = isset($data[$key]['posRatio'] )?$data[$key]['posRatio'] :0;
-            // $data[$key]['posRatio'] = round($posRatio * 100,2)."%";
             $data[$key]['posRatio'] = round($posRatio  * 100,2)."%";
+
+            $str = preg_replace( '/[^a-z]/i', '', $data[$key]['insID']);
+            $varieties = isset($varieties_arr[$str])?$varieties_arr[$str]:'';
+            $data[$key]['insID'] =  $varieties . "(".$data[$key]['insID']. ")";
+            
 		}
 
 		$this->assign([
@@ -819,6 +823,12 @@ class Studioinfo extends Controller
 
 	// 实时持仓
 	public function timehold(){
+
+        $list = Db::table('tz_varieties')->select();
+        foreach ($list as $key => $value) {
+            $varieties_arr[$value['code']] = $value['v_name'];
+        }
+
 		$this->init('实时持仓');
 		$param = $this->request->param();
 		$id = $param['id'];
@@ -832,6 +842,9 @@ class Studioinfo extends Controller
 		foreach ($list as $key => $value) {
 			$data[$key] = json_decode($value['info'],true);
             $data[$key]['posRatio'] = round($data[$key]['posRatio'] * 100,2)."%";
+            $str = preg_replace( '/[^a-z]/i', '', $data[$key]['insID']);
+            $varieties = isset($varieties_arr[$str])?$varieties_arr[$str]:'';
+            $data[$key]['insID'] =  $varieties . "(".$data[$key]['insID']. ")";
 
 		}
 		$this->assign([

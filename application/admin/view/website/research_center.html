@@ -16,20 +16,28 @@
                 <table class="table table-hover table-bordered datatable" width="100%">
                     <thead>
                     <tr>
-                        <th>用户ID</th>
+                      <th>用户ID</th>
                         <th>标题</th>
                         <th>创建时间</th>
-                        <th>页面rl</th>
+                        <th>页面url</th>
+                        <th>是否启用</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {foreach name="list" item="item"}
+                     {foreach name="list" item="item"}
                     <tr>
                         <td>{$item.id}</td>
                         <td>{$item.title}</td>
                         <td>{$item.create_time}</td>
                         <td>{$item.pageurl}</td>
+                        <td>
+                        {if $item.status==1}
+                            <a class="label label-success AjaxButton" data-toggle="tooltip" title="点击禁用" data-id="{$item.id}" data-confirm="1">正常</a>
+                                                    {else/}
+                            <a class="label label-danger AjaxButton" data-toggle="tooltip" title="点击启用" data-id="{$item.id}" data-confirm="1">禁用</a>
+                        {/if} 
+                        </td>
                         <td class="td-do">
                             <a href="web_content.html?id={$item.id}"
                                class="btn btn-primary btn-xs" title="修改" data-toggle="tooltip">

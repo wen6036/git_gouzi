@@ -3,7 +3,7 @@
 include "Mysql.php";
 use \Workerman\Worker;
 use \Workerman\Connection\AsyncTcpConnection;
-require_once __DIR__ . '/../vendor/Workerman/Workerman/Autoloader.php';
+require_once __DIR__ . '/../vendor/workerman/workerman/Autoloader.php';
 // require __DIR__ . '/../thinkphp/start.php';
 
 $task = new Worker();

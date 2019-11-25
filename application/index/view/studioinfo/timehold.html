@@ -22,8 +22,14 @@
 					        	{foreach name="list" item="item"}
 						            <tr>
 						                <td>{$item.insID}</td>
+						                {if $item.vol > 0}
+						                <td>多仓</td>
+						                {elseif $item.vol < 0 /}
+						                <td>空仓</td>
+						                {elseif $item.vol == 0 /}
+						                <td>无仓</td>
+						                {/if}
 						                <td>{$item.vol}</td>
-						                <td>{$item.pri}</td>
 						                <td>{$item.pri}</td>
 						                <td>{$item.posRatio}</td>
 						                <td>{$item.day}</td>
@@ -41,7 +47,6 @@
 				<script type="text/javascript">
 					$('.studio-type ul li .studion-main').eq(2).css({'background':'#4679bd','color':'#fff'}).find('img').attr('src','__STATIC__/index/images/zs1.png')
 					var bro_user = "{$futures_company}"+'_'+{$userID};
-					console.log(bro_user);
 
 					ws = new WebSocket("ws://www.51dewen.com:2366");
 					ws.onopen = function() {
@@ -55,7 +60,6 @@
 						var a;
 						var obj = JSON.parse(data)
 						var arr = [];
-						console.log(data)
 						for (var i = 0; i < obj.length; i++) {
 							if(bro_user==obj[i].name){
 								arr.push(obj[i]);
@@ -66,8 +70,8 @@
 						for (var i = 0; i < arr.length; i++) {
 								html+='<tr>'+
 					                '<td>'+arr[i].insID+'</td>'+
-					                '<td>'+arr[i].vol+'</td>'+
-					                '<td>'+parseInt(arr[i].pri)+'</td>'+
+					                '<td>'+arr[i].vol1+'</td>'+
+					                '<td>'+parseInt(arr[i].vol)+'</td>'+
 					                '<td>'+parseInt(arr[i].pri)+'</td>'+
 					                '<td>'+(arr[i].posRatio*100).toFixed(2)+'%</td>'+
 					                '<td>'+arr[i].day+'</td>'+

@@ -4,11 +4,12 @@
 			<div class="container">
 				<div class="content" style="padding: 0">
 					<div class="content-left">
-						<h1>投资界</h1>
+						<!-- <h1>投资界</h1>
 						<div class="des">
 							<p>Investment</p> 
 							<p>community</p>
-						</div>
+						</div> -->
+						<div style="width: 100%;"><img src="__STATIC__/images/logo2.png"> </div>
 					</div>
 					<div class="content-right">
 						<div class="title">用户注册</div>
@@ -51,7 +52,7 @@
 								<div class="reg-input-icon">
 								</div>
 								<div>
-									<div class="yzmnum" style="width: 50%;float: left;"><img src="{:captcha_src()}" alt="captcha" onclick="this.src='{:captcha_src()}?'+Math.random();" style="width: 100%;" /></div>
+									<div class="yzmnum" style="width: 50%;float: left;"><img src="{:captcha_src()}" alt="captcha" onclick="this.src='{:captcha_src()}?'+Math.random();" style="width: 130%;" /></div>
 								</div>
 							</div>
 
@@ -78,15 +79,68 @@
 								</div>
 							</div>
 							<input type="hidden" name="yzmtoken">
-							<div class="agreement-check" style="text-align: center;margin-top: 30px"><img src="__STATIC__/index/images/no-check.png"> 我已阅读并同意<span>投资界用户服务协议</span></div>
+							<div class="agreement-check" style="text-align: center;margin-top: 30px"><img src="__STATIC__/index/images/no-check.png" class="agreement">  &nbsp;我已阅读并同意<a id="agreement" style="color: #337ab7;cursor: pointer;">《投资界用户注册协议》</div>
 							<div class="register"><button>注册</button></div>
+
 						</form>
 
 					</div>
 				</div>
 			</div>
 		</div>
+
+<div class="modal fade" id="Service" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="margin-top: 200px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">用户注册协议</h4>
+      </div>
+      <div class="modal-body">
+		<div id="content"></div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 		<script>
+		let agreement = 0;
+
+		$('#agreement').click(function(){
+			$('#Service').modal('show')
+			$.ajax({
+				url:"{:url('ajax_agreement')}",
+				success:function(res){
+					$('#content').html(res.content)
+				}
+			})
+		})
+
+
+		$('.agreement').click(function(){
+		 	var src = $(this).attr('src');
+			if(src.indexOf("no-check.png") >= 0 ) { 
+			    var newsrc =  src.replace('/no-check.png','/check.png')
+			    $(this).attr('src',newsrc);
+			    $(this).siblings('img').attr('src',src);
+			    agreement = 1;
+			    // $('input[name=agreement]').val(1)
+
+			}else{
+			    var newsrc =  src.replace('/check.png','/no-check.png')
+			    $(this).attr('src',newsrc);
+			    $(this).siblings('img').attr('src',src);
+			    agreement = 0;
+			    // $('input[name=agreement]').val(0)
+			}
+
+		})
+
 
 			$("input[name=username]").blur(function(){
 				var info = $(this).val();
@@ -133,7 +187,6 @@
 
 
 		
-			let agreement = 0;
 			$('.yzmtext').click(function(){
 				$('.yzmnum img').attr('src','{:captcha_src()}?'+Math.random());
 
@@ -189,6 +242,7 @@
 			}
 
 			$('.register').click(function(){
+							console.log(agreement)
 				if(!agreement){
 					layer.msg('请确定投资协议 ！');
 					return false;
@@ -215,7 +269,7 @@
 						layer.msg(res.msg,{
                             time:1000,
                             end:function () {
-                            	window.location.href = "{:url('index/index/index')}";
+                            	window.location.href = "{:url('index/login/login')}";
                              	// window.history.go(-1);
                             }
                         })

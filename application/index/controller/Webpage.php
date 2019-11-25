@@ -14,6 +14,10 @@ class Webpage extends Controller
 		$action = $this->request->action();
 		$url = $controller.'/'.$action;
 		$info = Db::table('tz_webpage')->where("pageurl like '%$url'")->find();
+
+    	$list = Db::table('tz_banner')->where('type=1')->select();
+        $this->assign('list',$list);    
+		
 		$this->assign('title',$info['title']);
 		$this->assign('info',$info);
 	}

@@ -32,7 +32,7 @@
 						<li data="kamaRatio" data-name="卡玛比率">卡玛比率(图):{$info.kamaRatio}</li>
 						<li data="prdID_trdRatio" data-name="品种成交偏好">品种成交偏好(图)</li>
 						<li data="prdID_netProfit" data-name="品种净利润">品种净利润(图)</li>
-						<li data="prdID_winRate" data-name="品种胜率图">品种胜率(图)</li>
+						<li data="prdID_winRate" data-name="品种胜率">品种胜率(图)</li>
 						<li data="dealDays" data-name="总交易天数" data-unit="天">总交易天数(图):{$info.dealDays}天</li>
 						<li data="deals" data-name="总交易次数" data-unit="次">总交易次数(图):{$info.deals}次</li>
 						<li data="dealFrequency" data-name="交易频率" data-unit="次/每日">交易频率(图):{$info.dealFrequency}次/日</li>
@@ -58,11 +58,10 @@
 					</div>
 				</div>
 				<script type="text/javascript">
-					var id = {$info.studio_id},type='score',title='综合积分',title2='累计收益率',time='all',time2='all',unit='';
-
+					var id = {$info.studio_id},type='score',type2='mulProfitRatio',title='综合积分',title2='累计收益率',time='all',time2='all',unit='',unit2='';
 					function func(obj){
 						time= $(obj).val()
-						get_info(type,time);
+						get_info(type);
 					}
 
 					$('.jy-type ul li').click(function(){
@@ -77,7 +76,7 @@
 							return false;
 						}
 						$(this).addClass('active').siblings().removeClass('active')
-						get_info(type,time);
+						get_info(type);
 					})
 
 					get_info('score');
@@ -123,7 +122,7 @@
 						<button class="btn">盈亏分析(图)</button>
 						<button class="btn">交易分析(图)</button>
 						<button class="btn">品种分析(图)</button>
-						<button class="btn">原始数据(图)</button>
+						<button class="btn">原始数据</button>
 						<!-- <button class="btn">其他分析</button> -->
 					</div>
 					<div class="jy-fb-type">
@@ -165,7 +164,7 @@
 
 					<div class="jy-fb-type">
 						<span class="active" data="prdID_netProfit" data-name="品种净利润" data-unit="元">品种净利润(图)</span>
-						<span data="prdID_winRate" data-name="品种胜率图">品种胜率-排序表（从大到小）</span>
+						<span data="prdID_winRate" data-name="品种胜率">品种胜率-排序表（从大到小）</span>
 						<span data="prdID_winLossRatio" data-name="品种盈亏比">品种盈亏比-排序表（从大到小）</span>
 						<span data="prdID_deals" data-name="品种交易次数">品种交易次数-排序表（从大到小）</span>
 						<span data="prdID_fee" data-name="品种手续费">品种手续费-排序表（从大到小）</span>
@@ -270,7 +269,7 @@
 
 	function func2(obj){
 		time= $(obj).val()
-		get_info2(unit);
+		get_info2(unit2);
 	}
 
 	$('.jy-fb-type').eq(0).show()
@@ -280,14 +279,11 @@
 		$(this).addClass('active').siblings().removeClass('active');
 		$('.jy-fb-type').eq(index).show().siblings('.jy-fb-type').hide();
 
-		type = $('.jy-fb-type').eq(index).find('.active').attr('data')
+		type2 = $('.jy-fb-type').eq(index).find('.active').attr('data')
 		title2 = $('.jy-fb-type').eq(index).find('.active').attr('data-name')
-		unit = $('.jy-fb-type').eq(index).find('.active').attr('data-unit')
-		console.log(unit)
-		if(unit){
-			unit = $(this).attr('data-unit');
-		}else{
-			unit = '';
+		unit2 = $('.jy-fb-type').eq(index).find('.active').attr('data-unit')
+		if(!unit2){
+			unit2 = '';
 		}
 		if(index == 6){
 			$('#chart-composite-2').hide();
@@ -295,51 +291,51 @@
 			$('.yssj').show();
 			return false;
 		}
-		get_info2(unit)
+		get_info2(unit2)
 	})
 
 	$('.jy-fb .jy-fb-type span').click(function(){
-		type = $(this).attr('data');
+		type2 = $(this).attr('data');
 
 		if($(this).attr('data-unit')){
-			unit = $(this).attr('data-unit');
+			unit2 = $(this).attr('data-unit');
 		}else{
-			unit = '';
+			unit2 = '';
 		}
 
 		$(this).addClass('active').siblings().removeClass('active');
 		title2 = $(this).attr('data-name')
-		get_info2(unit)
+		get_info2(unit2)
 	})
 
-	get_info2(unit='%');
-	function get_info2(unit){
+	get_info2(unit2='%');
+	function get_info2(unit2){
 		$('.js-shaixuan').show();
 		$('#chart-composite-2').show();
 		$('.yssj').hide();
 		$.ajax({
 			url:"{:url('Studioinfo/get_info2')}",
-			data:{type:type,id:id,time:time},
+			data:{type:type2,id:id,time:time},
 			success:function(res){
 				$('.loading2').hide();
 				if(res.code==0){
 					$('#chart-composite-2').html("<div class='nomsg'><img src='__STATIC__/index/images/nomsg.png'></div>")
 					return false;
 				}
-				if(type=='prdID_trdRatio'||type=="prdID_posTimeRatio" || type == 'dayinDealDays'){
+				if(type2=='prdID_trdRatio'||type2=="prdID_posTimeRatio" || type2 == 'dayinDealDays'){
 					$('.js-shaixuan').css('display','none')
 					chartbing("chart-composite-2",res,title2);
-				}else if(type=="prdID_netProfit"){
+				}else if(type2=="prdID_netProfit"){
 					$('.js-shaixuan').css('display','none')
 					chartzhu("chart-composite-2",res,title2,'品种','元')
-				}else if(type=="prdID_winRate" || type=='prdID_winLossRatio' ||type=="prdID_fee" ||type=="prdID_deals"){
+				}else if(type2=="prdID_winRate" || type2=='prdID_winLossRatio' ||type2=="prdID_fee" ||type2=="prdID_deals"){
 					$('.js-shaixuan').css('display','none')
 					$('#chart-composite-2').html(res)
-				}else if(type=="monthProfit"){
+				}else if(type2=="monthProfit"){
 					$('.js-shaixuan').css('display','none')
 					chartzhu("chart-composite-2",res,title2,'时间');
 				}else{
-					chart1("chart-composite-2",res,title2,'时间',unit);
+					chart1("chart-composite-2",res,title2,'时间',unit2);
 					$('.js-shaixuan').css('display','block')
 				}
 				// if(type=='prdID_netProfit'){
